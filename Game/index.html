@@ -4,106 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
-    <!-- 8-Bit Font -->
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Mode (GBC Classic) */
-            --bg-body: #8bac0f;
-            --bg-container: #e0f8d0;
-            --text-color: #0f380f;
-            --border-color: #0f380f;
-            --btn-bg: #8bac0f;
-            --btn-text: #0f380f;
-            --btn-hover: #9bbc0f;
-            --success: #306230;
-            --danger: #0f380f; 
-            --heart: #e74c3c; /* Keep heart red for visibility */
+            /* Light Theme: Professional & Clean */
+            --bg-body: #f4f1ea;          /* Warm off-white */
+            --bg-container: #ffffff;     
+            --text-main: #3e2f2f;        /* Soft Dark Brown */
+            --royal-blue: #002366;       /* Königsblau */
+            --dark-brown: #4b3621;       /* Dark Brown */
+            --dark-green: #1a4314;       /* Dark Green */
+            --border-color: #dcd6cb;
+            --heart-color: #b22222;
         }
 
         [data-theme="dark"] {
-            /* Dark Mode (Retro Synth) */
-            --bg-body: #1a1a24;
-            --bg-container: #2b2b36;
-            --text-color: #e0e0ff;
-            --border-color: #ff007a;
-            --btn-bg: #4a148c;
-            --btn-text: #fff;
-            --btn-hover: #6a1b9a;
-            --success: #00e676;
-            --danger: #ff1744;
-            --heart: #ff1744;
+            /* Dark Theme: Elegant Evening */
+            --bg-body: #0d1117;
+            --bg-container: #161b22;
+            --text-main: #e6e1d8;
+            --royal-blue: #4169e1;       /* Brighter Royal Blue for contrast */
+            --dark-brown: #a07a58;
+            --dark-green: #3cb371;
+            --border-color: #30363d;
+            --heart-color: #ff4444;
         }
 
         body {
-            background-color: var(--bg-body); color: var(--text-color);
-            font-family: 'VT323', monospace; margin: 0; padding: 20px;
+            background-color: var(--bg-body); color: var(--text-main);
+            font-family: 'Inter', sans-serif; margin: 0; padding: 20px;
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; text-align: center;
-            transition: 0.3s; font-size: 1.2rem;
+            min-height: 100vh; text-align: center; transition: 0.3s;
         }
 
         .container {
-            width: 100%; max-width: 750px; background: var(--bg-container);
-            padding: 30px; border-radius: 0px; 
-            border: 6px solid var(--border-color);
-            box-shadow: 10px 10px 0 rgba(0,0,0,0.3);
+            width: 100%; max-width: 800px; background: var(--bg-container);
+            padding: 40px; border-radius: 12px; 
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             position: relative;
         }
 
         .hidden { display: none !important; }
 
-        h1 { margin-top: 0; font-size: 2.8rem; text-transform: uppercase; }
-        h2 { font-size: 2rem; margin-bottom: 10px; }
-        p { font-size: 1.3rem; line-height: 1.4; }
-        a { color: var(--border-color); text-decoration: underline; font-weight: bold; }
-        a:hover { color: var(--text-color); }
+        h1, h2 { font-family: 'Merriweather', serif; color: var(--royal-blue); }
+        h1 { margin-top: 0; font-size: 2.5rem; }
+        h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        p { font-size: 1.1rem; line-height: 1.6; }
+        a { color: var(--royal-blue); text-decoration: none; font-weight: 600; }
+        a:hover { text-decoration: underline; }
 
-        .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase;}
-        .study-abstract { text-align: left; background: rgba(0,0,0,0.05); padding: 15px; border: 3px dashed var(--border-color); font-size: 1.2rem; margin-bottom: 20px; max-height: 300px; overflow-y: auto;}
-        .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
+        .study-title { font-family: 'Merriweather', serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 15px; color: var(--text-main); }
+        .study-abstract { text-align: justify; background: rgba(0,0,0,0.02); padding: 20px; border-left: 4px solid var(--royal-blue); font-size: 1.1rem; margin-bottom: 25px; max-height: 350px; overflow-y: auto; border-radius: 4px;}
+        .journal-box { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; color: var(--royal-blue); }
 
         /* Form elements */
         input, select {
-            width: 100%; max-width: 300px; padding: 10px;
-            margin: 10px 0 20px; border: 3px solid var(--border-color); border-radius: 0; font-size: 1.2rem;
-            background: var(--bg-body); color: var(--text-color); font-family: 'VT323', monospace;
+            width: 100%; max-width: 350px; padding: 12px;
+            margin: 10px 0 20px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1.1rem;
+            background: var(--bg-body); color: var(--text-main); font-family: 'Inter', sans-serif;
         }
 
-        /* 8-bit Buttons */
+        /* Buttons */
         button {
-            padding: 12px 24px; font-size: 1.4rem; border: 4px solid var(--border-color); border-radius: 0;
-            cursor: pointer; font-family: 'VT323', monospace; text-transform: uppercase;
-            background: var(--btn-bg); color: var(--btn-text); box-shadow: 4px 4px 0 var(--border-color); transition: 0.1s;
+            padding: 14px 28px; font-size: 1.2rem; border: none; border-radius: 6px;
+            cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;
+            background: var(--royal-blue); color: #fff; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(4px, 4px); }
-        .btn-large { width: 160px; height: 80px; margin: 10px; }
-        .btn-success-retro { background: var(--success); color: #fff; }
-        .btn-danger-retro { background: var(--danger); color: #fff; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
         
-        .social-btn { display: inline-block; padding: 10px 20px; margin: 5px; border: 3px solid var(--border-color); background: #fff; color: #000; text-decoration: none; cursor: pointer;}
+        .btn-large { width: 180px; height: 75px; margin: 10px; font-size: 1.3rem; }
+        .btn-success-pro { background: var(--dark-green); }
+        .btn-danger-pro { background: var(--dark-brown); }
+        .social-btn { display: inline-block; padding: 12px 24px; margin: 5px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); border-radius: 6px; }
 
         /* HUD */
         .hud {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 4px solid var(--border-color);
-            font-size: 1.5rem; text-transform: uppercase;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color);
+            font-size: 1.1rem; font-weight: 600; color: var(--text-main);
         }
-        .hearts { color: var(--heart); font-size: 2rem; letter-spacing: 2px; }
+        .hearts { color: var(--heart-color); font-size: 1.5rem; letter-spacing: 2px; }
         
-        @keyframes break { 0% {transform: scale(1);} 50% {transform: scale(1.5) rotate(-10deg); opacity: 0.5;} 100% {transform: scale(0); opacity: 0;} }
-        .heart-lost { animation: break 0.5s forwards; display: inline-block; }
+        @keyframes fadeOut { 0% {transform: scale(1);} 100% {transform: scale(0); opacity: 0;} }
+        .heart-lost { animation: fadeOut 0.5s forwards; display: inline-block; }
 
         /* Outcomes */
-        .big-result { font-size: 4rem; font-weight: bold; margin: 20px 0; text-transform: uppercase; }
-        .correct-text { color: var(--success); }
-        .wrong-text { color: var(--danger); }
-        .quote { font-style: italic; background: rgba(0,0,0,0.1); padding: 15px; border-left: 5px solid var(--border-color); text-align: left;}
+        .big-result { font-size: 3rem; font-weight: 800; margin: 15px 0; font-family: 'Merriweather', serif; }
+        .correct-text { color: var(--dark-green); }
+        .wrong-text { color: var(--dark-brown); }
+        .quote { font-family: 'Merriweather', serif; font-style: italic; background: rgba(0,0,0,0.03); padding: 20px; border-radius: 6px; text-align: left; border-left: 4px solid var(--dark-brown);}
         
-        /* Toggle */
-        .theme-toggle { position: absolute; top: 10px; right: 10px; font-size: 1rem; padding: 5px 10px; }
-
-        .doi-links { font-size: 1.1rem; text-align: left; margin-top: 15px; background: rgba(0,0,0,0.05); padding: 10px;}
+        .doi-links { font-size: 1rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.03); padding: 15px; border-radius: 6px;}
+        
+        /* Layout Utilities */
+        .theme-toggle { position: absolute; top: 15px; right: 15px; font-size: 0.9rem; padding: 8px 12px; background: transparent; color: var(--text-main); border: 1px solid var(--border-color); box-shadow: none;}
+        .forrt-logo { max-width: 220px; margin-bottom: 15px; }
         
         canvas { display: none; }
     </style>
@@ -111,26 +108,33 @@
 <body>
 
 <div class="container" id="app">
-    <button class="theme-toggle" onclick="toggleTheme()">🌙/☀️ Mode</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
 
     <!-- INFO SCREEN -->
     <div id="info-screen" class="hidden">
-        <h1>About the Game</h1>
+        <h2>About the Game</h2>
+        <a href="https://forrt.org/replication-hub/" target="_blank">
+            <img src="https://forrt.org/assets/images/FORRT_logo.png" alt="FORRT Replication Hub" onerror="this.src=''; this.alt='FORRT Replication Hub';" class="forrt-logo">
+        </a>
         <p>This project is part of the <strong>FORRT Replication Hub</strong>.</p>
-        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT). <br><small><i>Placeholder Citation: FORRT Community (2024).</i></small></p>
-        <p>Your gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide.</p>
+        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT). <br><small><i>Citation: FORRT Community (2024).</i></small></p>
+        <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide.</p>
+        <br>
         <button onclick="showScreen('start-screen')">Back to Start</button>
     </div>
 
     <!-- START SCREEN -->
     <div id="start-screen">
+        <a href="https://forrt.org/replication-hub/" target="_blank">
+            <img src="https://forrt.org/assets/images/FORRT_logo.png" alt="FORRT Logo" onerror="this.src=''; this.alt='FORRT Logo';" class="forrt-logo" style="max-width:180px;">
+        </a>
         <h1>Guess the Replication</h1>
-        <p>Can you predict which studies replicate?</p>
+        <p>Can you predict which scientific studies replicate?</p>
         
-        <label for="nickname">Nickname:</label><br>
-        <input type="text" id="nickname" placeholder="PLAYER1" required><br>
+        <label for="nickname" style="font-weight: 600;">Nickname:</label><br>
+        <input type="text" id="nickname" placeholder="Enter your alias" required><br>
 
-        <label for="career">Career Level:</label><br>
+        <label for="career" style="font-weight: 600;">Career Level:</label><br>
         <select id="career">
             <option value="" disabled selected>-- Please specify --</option>
             <option value="No university degree / Apprenticeship">No university degree / Apprenticeship</option>
@@ -143,34 +147,32 @@
         </select><br><br>
 
         <button onclick="startGame()">Start Game</button><br><br>
-        <a href="#" onclick="showScreen('info-screen')">ℹ️ What is this?</a>
+        <a href="#" onclick="showScreen('info-screen')" style="font-size: 0.9rem;">ℹ️ Data & Privacy Info</a>
     </div>
 
     <!-- GAME SCREEN -->
     <div id="game-screen" class="hidden">
-        <div class="hud">
-            <div>Score: <span id="score-display">0</span></div>
-            <div>Level: <span id="level-display">Lvl 1</span></div>
-            <div class="hearts" id="lives-display"></div>
-        </div>
+        <div class="hud" id="game-hud"></div>
 
         <div class="study-title" id="study-title"></div>
         <div class="journal-box hidden" id="journal-box">Journal: <span id="study-journal"></span></div>
         <div class="study-abstract" id="study-abstract"></div>
 
         <div>
-            <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small>(Press 1)</small></button>
-            <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small>(Press 2)</small></button>
+            <button class="btn-success-pro btn-large" onclick="makeGuess('success')">Replicates<br><small>(Press 1)</small></button>
+            <button class="btn-danger-pro btn-large" onclick="makeGuess('failure')">Fails<br><small>(Press 2)</small></button>
         </div>
     </div>
 
     <!-- FEEDBACK SCREEN -->
     <div id="feedback-screen" class="hidden">
-        <h2>Replication Result</h2>
-        <div id="feedback-comparison" style="font-size: 1.5rem; margin-bottom: 10px;"></div>
+        <div class="hud" id="feedback-hud"></div>
+
+        <h2>Result</h2>
+        <div id="feedback-comparison" style="font-size: 1.2rem; margin-bottom: 5px;"></div>
         <div class="big-result" id="big-result-text"></div>
         
-        <p style="font-weight: bold; text-align: left; margin-bottom: 5px;">Quote from the replication authors:</p>
+        <p style="font-weight: 600; text-align: left; margin-bottom: 8px;">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
         <div class="doi-links" id="doi-links"></div>
@@ -183,7 +185,7 @@
     <div id="levelup-screen" class="hidden">
         <h1>LEVEL UP!</h1>
         <h2 id="new-level-name"></h2>
-        <p style="color: var(--success); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! ♥</p>
+        <p style="color: var(--dark-green); font-size: 1.4rem; font-weight: bold;">+1 LIFE AWARDED! ♥</p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
         <button onclick="continueFromLevelUp()">Continue</button>
     </div>
@@ -195,8 +197,8 @@
         <p>Accuracy: <strong id="go-score"></strong> out of <strong id="go-rounds"></strong> trials correct</p>
         <p>Final Rank: <strong id="go-level"></strong></p>
         
-        <div style="margin: 20px 0; border: 3px dashed var(--border-color); padding: 10px;">
-            <p><strong>Want to learn more?</strong></p>
+        <div style="margin: 30px 0; background: rgba(0,0,0,0.03); border-radius: 8px; padding: 20px;">
+            <p style="font-family: 'Merriweather', serif; font-weight: 700; color: var(--royal-blue); margin-top:0;">Want to learn more?</p>
             <a href="https://forrt.org/flora_zotero/" target="_blank">Never miss a replication: Get the Zotero Plugin</a><br><br>
             <a href="https://forrt.org/replication_handbook/" target="_blank">Learn how to conduct a replication (Handbook)</a>
         </div>
@@ -210,8 +212,8 @@
         </div>
 
         <br><br>
-        <button onclick="playAgain()">Play Again</button><br><br>
-        <a href="#" onclick="showScreen('info-screen')">ℹ️ Data & Privacy Info</a>
+        <button onclick="playAgain()" style="background: var(--dark-green);">Play Again</button><br><br>
+        <a href="#" onclick="showScreen('info-screen')" style="font-size: 0.9rem;">ℹ️ Data & Privacy Info</a>
     </div>
     
     <canvas id="share-canvas" width="600" height="350"></canvas>
@@ -230,7 +232,6 @@
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
-    // Audio definitions
     const sfx = {
         correct: new Audio('Sounds/dragon-studio-correct-472358.mp3'),
         wrong: new Audio('Sounds/floraphonic-classic-game-action-negative-18-224576.mp3'),
@@ -245,7 +246,6 @@
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
-        // Auto-fill nickname if played before
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
 
@@ -254,255 +254,3 @@
             dataset = await res.json();
             dataset.sort(() => Math.random() - 0.5); 
         } catch (e) {
-            document.getElementById('app').innerHTML = "<h2>Error: Please run convert_dataset.R first to generate dataset.json</h2>";
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (!document.getElementById('game-screen').classList.contains('hidden')) {
-            if (e.key === '1') makeGuess('success');
-            if (e.key === '2') makeGuess('failure');
-        }
-    });
-
-    function toggleTheme() {
-        const body = document.body;
-        if (body.getAttribute("data-theme") === "dark") {
-            body.removeAttribute("data-theme");
-        } else {
-            body.setAttribute("data-theme", "dark");
-        }
-    }
-
-    function showScreen(id) {
-        ['start-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
-            document.getElementById(s).classList.add('hidden');
-        });
-        document.getElementById(id).classList.remove('hidden');
-    }
-
-    function getLevelName(pts) {
-        let name = LEVELS[0].name;
-        for (let l of LEVELS) if (pts >= l.min) name = l.name;
-        return name;
-    }
-
-    function renderHUD(lostLife = false) {
-        document.getElementById('score-display').innerText = score;
-        document.getElementById('level-display').innerText = currentLevel;
-        
-        let heartsHTML = '';
-        for(let i=0; i<lives; i++) heartsHTML += '♥ ';
-        if (lostLife) heartsHTML += '<span class="heart-lost">♥</span>';
-        
-        document.getElementById('lives-display').innerHTML = heartsHTML.trim() || 'DEAD';
-    }
-
-    function startGame() {
-        nickname = document.getElementById('nickname').value.trim();
-        career = document.getElementById('career').value;
-        if (!nickname) return alert("Please enter a nickname");
-        if (!career) return alert("Please specify your career level");
-        
-        localStorage.setItem('gtr_nickname', nickname);
-        playCount++;
-        localStorage.setItem('gtr_play_count', playCount);
-
-        score = 0; lives = 3; roundNumber = 0; currentLevel = 'Junior Reviewer';
-        gameStartTime = Date.now(); totalTabSwitches = 0;
-        
-        nextRound();
-    }
-
-    function nextRound() {
-        if (dataset.length === 0) return endGame();
-        
-        currentStudy = dataset.pop();
-        roundNumber++;
-        trialTabSwitches = 0;
-        
-        document.getElementById('study-title').innerText = currentStudy.ref_o; 
-        document.getElementById('study-abstract').innerText = currentStudy.abstract;
-        
-        const journalVisible = Math.random() >= 0.5;
-        currentStudy.journal_visible = journalVisible; // Store for DB
-
-        const journalBox = document.getElementById('journal-box');
-        if (journalVisible && currentStudy.journal) {
-            document.getElementById('study-journal').innerText = currentStudy.journal;
-            journalBox.classList.remove('hidden');
-        } else {
-            journalBox.classList.add('hidden');
-        }
-
-        renderHUD();
-        showScreen('game-screen');
-        roundStartTime = Date.now();
-    }
-
-    async function makeGuess(guess) {
-        const rt = Date.now() - roundStartTime;
-        const actualOutcome = currentStudy.outcome;
-        const isCorrect = guess === actualOutcome;
-        let triggeredLevelUp = false;
-        let isGameOver = false;
-
-        if (isCorrect) {
-            try { sfx.correct.play(); } catch(e){}
-            score++;
-            const newLevel = getLevelName(score);
-            if (newLevel !== currentLevel) {
-                currentLevel = newLevel;
-                lives = Math.min(lives + 1, 3); // Add a life, cap at 3
-                triggeredLevelUp = true;
-                try { sfx.levelUp.play(); } catch(e){}
-            }
-            renderHUD();
-        } else {
-            lives--;
-            renderHUD(true); // pass true to trigger lost life animation
-            if (lives <= 0) {
-                isGameOver = true;
-                try { sfx.gameOver.play(); } catch(e){}
-            } else {
-                try { sfx.wrong.play(); } catch(e){}
-            }
-        }
-
-        // Setup Feedback Screen
-        document.getElementById('feedback-comparison').innerHTML = 
-            `You predicted: <strong>${guess.toUpperCase()}</strong>.<br>Actual outcome: <strong>${actualOutcome.toUpperCase()}</strong>.`;
-        
-        const bigRes = document.getElementById('big-result-text');
-        if (isCorrect) {
-            bigRes.innerText = "RIGHT!"; bigRes.className = "big-result correct-text";
-        } else {
-            bigRes.innerText = "WRONG!"; bigRes.className = "big-result wrong-text";
-        }
-
-        document.getElementById('outcome-quote').innerText = `"${currentStudy.outcome_quote}"`;
-        
-        document.getElementById('doi-links').innerHTML = `
-            <strong>Original:</strong> <a href="https://doi.org/${currentStudy.doi_o}" target="_blank">${currentStudy.doi_o}</a><br>
-            <strong>Replication:</strong> <a href="https://doi.org/${currentStudy.doi_r}" target="_blank">${currentStudy.doi_r}</a>
-        `;
-        
-        const nextBtn = document.getElementById('next-btn');
-        nextBtn.innerText = isGameOver ? "See Final Results" : "Next Round";
-        nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
-
-        showScreen('feedback-screen');
-        saveTrialToDB(guess, actualOutcome, isCorrect, rt);
-    }
-
-    function handleNext() {
-        const state = document.getElementById('next-btn').dataset.state;
-        if (state === "gameover") endGame();
-        else if (state === "levelup") showLevelUp();
-        else nextRound();
-    }
-
-    function showLevelUp() {
-        document.getElementById('new-level-name').innerText = `Current Rank: ${currentLevel}`;
-        if (currentLevel === 'Editor-in-Chief') document.getElementById('eic-message').classList.remove('hidden');
-        showScreen('levelup-screen');
-    }
-    function continueFromLevelUp() { nextRound(); }
-
-    async function endGame() {
-        showScreen('gameover-screen');
-        document.getElementById('go-nickname').innerText = nickname;
-        document.getElementById('go-score').innerText = score;
-        document.getElementById('go-rounds').innerText = roundNumber;
-        document.getElementById('go-level').innerText = currentLevel;
-
-        generateCanvas();
-        prepareSocialLinks();
-        await saveScoreToDB();
-    }
-
-    function playAgain() { location.reload(); }
-
-    // ==========================================
-    // DB AND API INTEGRATION
-    // ==========================================
-    function getHeaders() {
-        return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
-    }
-
-    async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
-        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
-        const payload = {
-            session_id: sessionId, play_count: playCount,
-            nickname, career, round_number: roundNumber,
-            ref_o: currentStudy.ref_o, ref_r: currentStudy.ref_r,
-            journal: currentStudy.journal || '', journal_visible: currentStudy.journal_visible,
-            player_guess: guess, true_outcome: actualOutcome,
-            correct: isCorrect, lives_remaining: lives, reaction_time: rt,
-            tab_switches: trialTabSwitches, level: currentLevel, timestamp: new Date().toISOString()
-        };
-        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
-    }
-
-    async function saveScoreToDB() {
-        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
-        const payload = { 
-            session_id: sessionId, play_count: playCount,
-            nickname, career, final_score: score, final_level: currentLevel, 
-            rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
-            tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
-        };
-        fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
-    }
-
-    // ==========================================
-    // SOCIAL SHARING & CANVAS
-    // ==========================================
-    function generateCanvas() {
-        const canvas = document.getElementById('share-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        ctx.fillStyle = '#e0f8d0'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#0f380f'; ctx.lineWidth = 8; ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
-        
-        ctx.fillStyle = '#0f380f'; ctx.textAlign = 'left';
-        ctx.font = 'bold 36px "Courier New", monospace'; 
-        ctx.fillText('GUESS THE REPLICATION', 30, 60);
-        
-        ctx.font = '24px "Courier New", monospace';
-        ctx.fillText(`Player: ${nickname}`, 30, 130);
-        ctx.fillText(`Accuracy: ${score} out of ${roundNumber} correct`, 30, 170);
-        ctx.fillText(`Rank: ${currentLevel}`, 30, 210);
-
-        ctx.font = '20px "Courier New", monospace'; 
-        ctx.fillText('Play at: lukasroeseler.github.io/GuessTheReplication', 30, 310);
-
-        // Draw a simple pixel DNA logo on the right side
-        ctx.fillStyle = '#8bac0f';
-        const startX = 480, startY = 100, size = 15;
-        const dnaPattern = [ [0,4], [1,3], [2,2], [3,1], [4,0], [4,4], [3,3], [2,2], [1,1], [0,0] ];
-        for(let i=0; i<3; i++){
-            dnaPattern.forEach(pt => {
-                ctx.fillRect(startX + pt[0]*size, startY + pt[1]*size + (i*60), size, size);
-            });
-        }
-    }
-
-    function downloadImage() {
-        const canvas = document.getElementById('share-canvas');
-        const link = document.createElement('a');
-        link.download = `GuessTheReplication-${nickname}.png`;
-        link.href = canvas.toDataURL(); link.click();
-    }
-
-    function prepareSocialLinks() {
-        const url = "https://lukasroeseler.github.io/GuessTheReplication/";
-        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
-        
-        document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
-        document.getElementById('twitter-btn').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-        document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
-    }
-</script>
-</body>
-</html>
