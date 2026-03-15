@@ -163,15 +163,30 @@
     const SUPABASE_KEY = 'YOUR_ANON_KEY';
     
     // ==========================================
-    // GAME STATE
+    // GAME STATE & TRACKING
     // ==========================================
     let dataset = [], currentStudy = null;
     let nickname = '', career = '';
     let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
-    let isGameOver = false, roundStartTime = 0, journalVisible = false;
+    let isGameOver = false, journalVisible = false;
 
-    const audioCorrect = new Audio('correct.mp3');
-    const audioWrong = new Audio('wrong.mp3');
+    // Trackers
+    let gameStartTime = 0;
+    let roundStartTime = 0;
+    let totalTabSwitches = 0;
+    let trialTabSwitches = 0;
+
+    // Monitor if the player opens a new tab to cheat/look up answers
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            totalTabSwitches++;
+            trialTabSwitches++;
+        }
+    });
+
+    const audioCorrect = new Audio('Sounds/dragon-studio-correct-472358.mp3');
+    const audioWrong = new Audio('Sounds/floraphonic-classic-game-action-negative-18-224576.mp3');
+    const audioGameOver = new Audio('Sounds/alphix-game-over-417465.mp3');
 
     const LEVELS = [
         { min: 0, name: 'Junior Reviewer' },
@@ -222,6 +237,9 @@
         nickname = document.getElementById('nickname').value.trim();
         career = document.getElementById('career').value;
         if (!nickname) return alert("Please enter a nickname");
+        
+        gameStartTime = Date.now();
+        totalTabSwitches = 0;
         nextRound();
     }
 
@@ -230,6 +248,7 @@
         
         currentStudy = dataset.pop();
         roundNumber++;
+        trialTabSwitches = 0; // Reset for new trial
         journalVisible = Math.random() >= 0.5; // Experimental manipulation
         
         document.getElementById('study-title').innerText = currentStudy.ref_o; 
@@ -252,11 +271,10 @@
         const rt = Date.now() - roundStartTime;
         const actualOutcome = currentStudy.outcome;
         const isCorrect = guess === actualOutcome;
-
-        try { isCorrect ? audioCorrect.play() : audioWrong.play(); } catch (e) {} 
-
         let triggeredLevelUp = false;
+
         if (isCorrect) {
+            try { audioCorrect.play(); } catch(e) {}
             score++;
             const newLevel = getLevelName(score);
             if (newLevel !== currentLevel) {
@@ -264,7 +282,13 @@
                 triggeredLevelUp = true;
             }
         } else {
-            lives > 0 ? lives-- : isGameOver = true;
+            if (lives > 0) {
+                lives--;
+                try { audioWrong.play(); } catch(e) {}
+            } else {
+                isGameOver = true;
+                try { audioGameOver.play(); } catch(e) {}
+            }
         }
 
         renderHUD();
@@ -280,7 +304,7 @@
         nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
-        saveTrialToDB(guess, actualOutcome, isCorrect, rt);
+        saveTrialToDB(guess, actualOutcome, isCorrect, rt, trialTabSwitches);
     }
 
     function handleNext() {
@@ -318,7 +342,7 @@
         return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
     }
 
-    async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
+    async function saveTrialToDB(guess, actualOutcome, isCorrect, rt, trialSwitches) {
         if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
         const payload = {
             nickname, career, round_number: roundNumber,
@@ -326,6 +350,7 @@
             journal: currentStudy.journal || '', journal_visible: journalVisible,
             player_guess: guess, true_outcome: actualOutcome,
             correct: isCorrect, lives_remaining: lives, reaction_time: rt,
+            tab_switches: trialSwitches, // Tracking cheating/distraction per trial
             level: currentLevel, timestamp: new Date().toISOString()
         };
         fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(console.error);
@@ -333,7 +358,13 @@
 
     async function saveScoreToDB() {
         if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
-        const payload = { nickname, career, final_score: score, final_level: currentLevel, rounds_played: roundNumber, timestamp: new Date().toISOString() };
+        const payload = { 
+            nickname, career, final_score: score, final_level: currentLevel, 
+            rounds_played: roundNumber, 
+            total_time_ms: Date.now() - gameStartTime, // Track total game duration
+            tab_switches: totalTabSwitches,           // Track total tab switches 
+            timestamp: new Date().toISOString() 
+        };
         await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(console.error);
     }
 

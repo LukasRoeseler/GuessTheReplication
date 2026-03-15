@@ -32,7 +32,23 @@ clean_data <- data %>%
   # Remove rows with missing crucial data
   filter(!is.na(ref_o) & !is.na(outcome))
 
-output_path <- "../Game/dataset.json"
+# --- FIX: Smart path resolution ---
+# Check if we are in the 'Study' folder (so 'Game' is in the parent dir)
+# or if we are in the root folder (so 'Game' is in the current dir)
+if (dir.exists("../Game")) {
+  out_dir <- "../Game"
+} else if (dir.exists("Game")) {
+  out_dir <- "Game"
+} else {
+  # If it doesn't exist at all, create it in the current directory
+  cat("Game folder not found. Creating 'Game' directory...\n")
+  dir.create("Game", showWarnings = FALSE)
+  out_dir <- "Game"
+}
+
+output_path <- file.path(out_dir, "dataset.json")
+# ----------------------------------
+
 cat("Writing JSON to", output_path, "...\n")
 write_json(clean_data, output_path, pretty = TRUE)
 
