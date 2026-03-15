@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Replication</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #2d2d2d;
+            --primary: #4a90e2;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --border: #e0e0e0;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            font-family: var(--font-main); margin: 0; padding: 20px;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; text-align: center;
+        }
+
+        .container {
+            width: 100%; max-width: 700px; background: #fff;
+            padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border);
+        }
+
+        .hidden { display: none !important; }
+
+        h1 { margin-top: 0; font-size: 2rem; }
+        h2 { font-size: 1.5rem; color: #555; }
+        p { font-size: 1.1rem; line-height: 1.6; }
+        
+        .study-title { font-weight: bold; font-size: 1.3rem; margin-bottom: 10px; }
+        .study-abstract { text-align: left; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--primary); font-size: 1rem; margin-bottom: 20px;}
+        .journal-box { font-weight: bold; color: var(--primary); margin-bottom: 20px; }
+
+        input, select {
+            width: 100%; max-width: 300px; padding: 10px;
+            margin: 10px 0 20px; border: 1px solid var(--border); border-radius: 4px; font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 24px; font-size: 1.1rem; border: none; border-radius: 4px;
+            cursor: pointer; font-weight: bold; transition: 0.2s; background: var(--border);
+        }
+        button:hover { opacity: 0.8; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-large { width: 140px; height: 60px; font-size: 1.2rem; margin: 10px; }
+        .btn-bsky { background: #0085ff; color: white; text-decoration: none; display: inline-block; padding: 12px 24px; border-radius: 4px; font-weight: bold;}
+
+        .hud {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+            font-size: 1.1rem; font-weight: bold;
+        }
+        .hearts { color: var(--danger); font-size: 1.5rem; letter-spacing: 2px;}
+
+        .outcome-icon { font-size: 4rem; margin: 20px 0; }
+        .quote { font-style: italic; background: #f0f0f0; padding: 15px; margin-bottom: 20px; }
+
+        .leaderboard { text-align: left; width: 100%; border-collapse: collapse; margin-top: 20px;}
+        .leaderboard th, .leaderboard td { padding: 8px; border-bottom: 1px solid var(--border); }
+        
+        canvas { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <!-- START SCREEN -->
+    <div id="start-screen">
+        <h1>Guess the Replication</h1>
+        <p>Can you predict which scientific studies replicate and which ones fail?</p>
+        
+        <label for="nickname">Nickname:</label><br>
+        <input type="text" id="nickname" placeholder="Enter nickname" required><br>
+
+        <label for="career">Career Level:</label><br>
+        <select id="career">
+            <option value="Citizen">Citizen</option>
+            <option value="Undergraduate student">Undergraduate student</option>
+            <option value="Graduate student">Graduate student</option>
+            <option value="PhD">PhD</option>
+            <option value="Postdoc">Postdoc</option>
+            <option value="Professor">Professor</option>
+            <option value="Other">Other</option>
+        </select><br>
+
+        <button class="btn-primary" onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="game-screen" class="hidden">
+        <div class="hud">
+            <div>Score: <span id="score-display">0</span></div>
+            <div>Level: <span id="level-display">Junior Reviewer</span></div>
+            <div class="hearts" id="lives-display">♥ ♥ ♥</div>
+        </div>
+
+        <div class="study-title" id="study-title"></div>
+        <div class="journal-box hidden" id="journal-box">Journal: <span id="study-journal"></span></div>
+        <div class="study-abstract"><strong>Original Citation context:</strong><br><span id="study-abstract"></span></div>
+
+        <div style="margin-top: 20px;">
+            <button class="btn-success btn-large" onclick="makeGuess('success')">Replicates<br><small>(Press 1)</small></button>
+            <button class="btn-danger btn-large" onclick="makeGuess('failure')">Fails<br><small>(Press 2)</small></button>
+        </div>
+    </div>
+
+    <!-- FEEDBACK SCREEN -->
+    <div id="feedback-screen" class="hidden">
+        <h2>Replication Result</h2>
+        <p id="feedback-refs"></p>
+        <div class="outcome-icon" id="outcome-icon"></div>
+        <div class="quote" id="outcome-quote"></div>
+        <button class="btn-primary" id="next-btn" onclick="handleNext()">Next</button>
+    </div>
+
+    <!-- LEVEL UP SCREEN -->
+    <div id="levelup-screen" class="hidden">
+        <h1>LEVEL UP!</h1>
+        <h2 id="new-level-name"></h2>
+        <p id="eic-message" class="hidden">Congratulations, you have unlocked the highest level.</p>
+        <button class="btn-primary" onclick="continueFromLevelUp()">Continue</button>
+    </div>
+
+    <!-- GAME OVER SCREEN -->
+    <div id="gameover-screen" class="hidden">
+        <h1>Game Over</h1>
+        <p>Player: <strong id="go-nickname"></strong></p>
+        <p>Score: <strong id="go-score"></strong></p>
+        <p>Level: <strong id="go-level"></strong></p>
+        <p>Rounds Played: <strong id="go-rounds"></strong></p>
+        
+        <div style="margin: 30px 0;">
+            <button class="btn-primary" onclick="downloadImage()">Download Image</button>
+            <a href="#" target="_blank" class="btn-bsky" id="bsky-btn">Share on Bluesky</a>
+        </div>
+
+        <h2>Top 10 Leaderboard</h2>
+        <table class="leaderboard">
+            <thead><tr><th>Rank</th><th>Player</th><th>Score</th><th>Level</th></tr></thead>
+            <tbody id="leaderboard-body"><tr><td colspan="4">Loading leaderboard...</td></tr></tbody>
+        </table>
+        <br>
+        <button onclick="location.reload()">Play Again</button>
+    </div>
+    
+    <canvas id="share-canvas" width="600" height="300"></canvas>
+</div>
+
+<script>
+    // ==========================================
+    // SUPABASE CONFIGURATION
+    // ==========================================
+    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    const SUPABASE_KEY = 'YOUR_ANON_KEY';
+    
+    // ==========================================
+    // GAME STATE
+    // ==========================================
+    let dataset = [], currentStudy = null;
+    let nickname = '', career = '';
+    let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
+    let isGameOver = false, roundStartTime = 0, journalVisible = false;
+
+    const audioCorrect = new Audio('correct.mp3');
+    const audioWrong = new Audio('wrong.mp3');
+
+    const LEVELS = [
+        { min: 0, name: 'Junior Reviewer' },
+        { min: 5, name: 'Reviewer 1' },
+        { min: 10, name: 'Reviewer 2' },
+        { min: 15, name: 'Associate Editor' },
+        { min: 20, name: 'Senior Editor' },
+        { min: 25, name: 'Editor-in-Chief' }
+    ];
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const res = await fetch('dataset.json');
+            dataset = await res.json();
+            dataset.sort(() => Math.random() - 0.5); // Shuffle
+        } catch (e) {
+            document.getElementById('app').innerHTML = "<h2>Error: Please run convert_dataset.R first to generate dataset.json</h2>";
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('game-screen').classList.contains('hidden')) {
+            if (e.key === '1') makeGuess('success');
+            if (e.key === '2') makeGuess('failure');
+        }
+    });
+
+    function showScreen(id) {
+        ['start-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen'].forEach(s => {
+            document.getElementById(s).classList.add('hidden');
+        });
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function getLevelName(pts) {
+        let name = LEVELS[0].name;
+        for (let l of LEVELS) if (pts >= l.min) name = l.name;
+        return name;
+    }
+
+    function renderHUD() {
+        document.getElementById('score-display').innerText = score;
+        document.getElementById('level-display').innerText = currentLevel;
+        document.getElementById('lives-display').innerHTML = '♥ '.repeat(lives).trim() || 'DEAD';
+    }
+
+    function startGame() {
+        nickname = document.getElementById('nickname').value.trim();
+        career = document.getElementById('career').value;
+        if (!nickname) return alert("Please enter a nickname");
+        nextRound();
+    }
+
+    function nextRound() {
+        if (dataset.length === 0) return endGame();
+        
+        currentStudy = dataset.pop();
+        roundNumber++;
+        journalVisible = Math.random() >= 0.5; // Experimental manipulation
+        
+        document.getElementById('study-title').innerText = currentStudy.ref_o; 
+        document.getElementById('study-abstract').innerText = currentStudy.abstract;
+        
+        const journalBox = document.getElementById('journal-box');
+        if (journalVisible && currentStudy.journal) {
+            document.getElementById('study-journal').innerText = currentStudy.journal;
+            journalBox.classList.remove('hidden');
+        } else {
+            journalBox.classList.add('hidden');
+        }
+
+        renderHUD();
+        showScreen('game-screen');
+        roundStartTime = Date.now();
+    }
+
+    async function makeGuess(guess) {
+        const rt = Date.now() - roundStartTime;
+        const actualOutcome = currentStudy.outcome;
+        const isCorrect = guess === actualOutcome;
+
+        try { isCorrect ? audioCorrect.play() : audioWrong.play(); } catch (e) {} 
+
+        let triggeredLevelUp = false;
+        if (isCorrect) {
+            score++;
+            const newLevel = getLevelName(score);
+            if (newLevel !== currentLevel) {
+                currentLevel = newLevel;
+                triggeredLevelUp = true;
+            }
+        } else {
+            lives > 0 ? lives-- : isGameOver = true;
+        }
+
+        renderHUD();
+
+        document.getElementById('feedback-refs').innerHTML = `<strong>${currentStudy.ref_r}</strong><br>tried to replicate<br><strong>${currentStudy.ref_o}</strong>`;
+        document.getElementById('outcome-quote').innerText = `"${currentStudy.outcome_quote}"`;
+        document.getElementById('outcome-icon').innerHTML = actualOutcome === 'success' 
+            ? '<span style="color:var(--success)">✔ Success</span>' 
+            : '<span style="color:var(--danger)">✖ Failure</span>';
+        
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.innerText = isGameOver ? "See Results" : "Next";
+        nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
+
+        showScreen('feedback-screen');
+        saveTrialToDB(guess, actualOutcome, isCorrect, rt);
+    }
+
+    function handleNext() {
+        const state = document.getElementById('next-btn').dataset.state;
+        if (state === "gameover") endGame();
+        else if (state === "levelup") showLevelUp();
+        else nextRound();
+    }
+
+    function showLevelUp() {
+        document.getElementById('new-level-name').innerText = `You are now: ${currentLevel}`;
+        if (currentLevel === 'Editor-in-Chief') document.getElementById('eic-message').classList.remove('hidden');
+        showScreen('levelup-screen');
+    }
+    function continueFromLevelUp() { nextRound(); }
+
+    async function endGame() {
+        showScreen('gameover-screen');
+        document.getElementById('go-nickname').innerText = nickname;
+        document.getElementById('go-score').innerText = score;
+        document.getElementById('go-level').innerText = currentLevel;
+        document.getElementById('go-rounds').innerText = roundNumber;
+
+        generateCanvas();
+        prepareBlueskyLink();
+        
+        await saveScoreToDB();
+        await loadLeaderboard();
+    }
+
+    // ==========================================
+    // DB AND API INTEGRATION
+    // ==========================================
+    function getHeaders() {
+        return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+    }
+
+    async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
+        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
+        const payload = {
+            nickname, career, round_number: roundNumber,
+            ref_o: currentStudy.ref_o, ref_r: currentStudy.ref_r,
+            journal: currentStudy.journal || '', journal_visible: journalVisible,
+            player_guess: guess, true_outcome: actualOutcome,
+            correct: isCorrect, lives_remaining: lives, reaction_time: rt,
+            level: currentLevel, timestamp: new Date().toISOString()
+        };
+        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(console.error);
+    }
+
+    async function saveScoreToDB() {
+        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
+        const payload = { nickname, career, final_score: score, final_level: currentLevel, rounds_played: roundNumber, timestamp: new Date().toISOString() };
+        await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(console.error);
+    }
+
+    async function loadLeaderboard() {
+        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
+        try {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`, { headers: getHeaders() });
+            const data = await res.json();
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '';
+            data.forEach((row, i) => { tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`; });
+        } catch(e) { console.error("Leaderboard fetch error:", e); }
+    }
+
+    // ==========================================
+    // SOCIAL SHARING
+    // ==========================================
+    function generateCanvas() {
+        const canvas = document.getElementById('share-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fcfcfc'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 4; ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+        ctx.fillStyle = '#2d2d2d'; ctx.textAlign = 'center';
+        ctx.font = 'bold 32px sans-serif'; ctx.fillText('Guess the Replication', 300, 60);
+        ctx.font = '22px sans-serif';
+        ctx.fillText(`Player: ${nickname}`, 300, 110);
+        ctx.fillText(`Score: ${score}`, 300, 150);
+        ctx.fillText(`Level: ${currentLevel}`, 300, 190);
+        ctx.font = 'italic 18px sans-serif'; ctx.fillStyle = '#555';
+        ctx.fillText('Can you predict which studies replicate?', 300, 240);
+        ctx.fillText('Play the game!', 300, 270);
+    }
+
+    function downloadImage() {
+        const canvas = document.getElementById('share-canvas');
+        const link = document.createElement('a');
+        link.download = `GuessTheReplication-${nickname}.png`;
+        link.href = canvas.toDataURL(); link.click();
+    }
+
+    function prepareBlueskyLink() {
+        const text = `I reached the level "${currentLevel}" with ${score} correct predictions in Guess the Replication.\n\nCan you do better?\n\nPlay here:\n${window.location.href}`;
+        document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
+    }
+</script>
+</body>
+</html>
