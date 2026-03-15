@@ -56,8 +56,6 @@ clean_data <- data %>%
   select(ref_o, ref_r, journal, doi_o, doi_r, fallback_abstract, outcome, outcome_quote) %>%
   filter(!is.na(ref_o) & !is.na(outcome))
 
-# Sample down for speed during prototype phase, or run on all (can take ~5 mins for 300+ DOIs)
-# To run on the whole dataset, leave the code as is.
 cat(sprintf("Fetching abstracts via Crossref for %d studies. This may take a few minutes...\n", nrow(clean_data)))
 
 # Fetch abstracts with a progress bar
@@ -74,10 +72,16 @@ close(pb)
 # Final cleanup
 final_data <- clean_data %>% select(ref_o, ref_r, journal, abstract, outcome, outcome_quote, doi_o, doi_r)
 
-# --- Smart path resolution ---
-if (dir.exists("../Game")) { out_dir <- "../Game" } 
-else if (dir.exists("Game")) { out_dir <- "Game" } 
-else { dir.create("Game", showWarnings = FALSE); out_dir <- "Game" }
+# --- FIX: R requires "else" to be on the same line as the closing brace "}" ---
+if (dir.exists("../Game")) { 
+  out_dir <- "../Game" 
+} else if (dir.exists("Game")) { 
+  out_dir <- "Game" 
+} else { 
+  dir.create("Game", showWarnings = FALSE)
+  out_dir <- "Game" 
+}
+# -----------------------------------------------------------------------------
 
 json_path <- file.path(out_dir, "dataset.json")
 csv_path <- file.path(out_dir, "dataset.csv")
