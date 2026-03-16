@@ -111,21 +111,27 @@
 <div class="container" id="app">
 
     <!-- INFO SCREEN -->
-    <div id="info-screen" class="hidden">
-        <h2>About the Game</h2>
+    <div id="info-screen" class="hidden" style="text-align: left;">
+        <h2 style="text-align: center;">About the Game</h2>
+        <p>Replications are a crucial part of research. Scientific claims are meant to be verifiable and falsifiable by independent researchers. Yet, they often receive little attention. With this game, we want to draw attention to replications in an educational way.</p>
         <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
-        <p>Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</p>
-        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <br>
-           <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</p>
-        <p>Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</p>
-        <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide.</p>
+        <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide. We use this game to learn more about how researchers predict replication outcomes. Resulting research articles will all be published in Diamond Open Access journals - that is, we will not pay commercial publishers to disseminate them and the articles will be openly accessible for free for everybody.</p>
+
+        <h2 style="text-align: center; margin-top: 40px;">Credits</h2>
+        <ul style="font-size: 1.3rem; line-height: 1.4; color: var(--text-main);">
+            <li style="margin-bottom: 10px;">Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</li>
+            <li style="margin-bottom: 10px;">The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</li>
+            <li style="margin-bottom: 10px;">Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</li>
+        </ul>
         
-        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 15px;">
+        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 25px;">
             <strong>Recommended Citation:</strong><br>
             Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
         </div>
-        <br>
-        <button onclick="showScreen('start-screen')">Back to Start</button>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="showScreen('start-screen')">Back to Start</button>
+        </div>
     </div>
 
     <!-- START SCREEN -->
