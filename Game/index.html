@@ -108,7 +108,9 @@
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
         .leaderboard th { background: var(--royal-blue); color: #fff; }
 
-        .forrt-logo { max-width: 200px; margin-bottom: 15px; }
+        /* Logos */
+        .logo-container { display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 20px; }
+        .forrt-logo, .game-logo { height: 50px; width: auto; object-fit: contain; }
         
         canvas { display: none; }
     </style>
@@ -120,9 +122,12 @@
     <!-- INFO SCREEN -->
     <div id="info-screen" class="hidden">
         <h2>About the Game</h2>
-        <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/forrt_black.png" alt="FORRT Replication Hub" class="forrt-logo dynamic-logo">
-        </a>
+        <div class="logo-container">
+            <img src="Images/logo.png" alt="Game Logo" class="game-logo">
+            <a href="https://forrt.org/replication-hub/" target="_blank">
+                <img src="Images/forrt_black.png" alt="FORRT Replication Hub" class="forrt-logo dynamic-logo">
+            </a>
+        </div>
         <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
         <p>Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</p>
         <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT): <br>
@@ -139,9 +144,12 @@
 
     <!-- START SCREEN -->
     <div id="start-screen">
-        <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/forrt_black.png" alt="FORRT Logo" class="forrt-logo dynamic-logo">
-        </a>
+        <div class="logo-container">
+            <img src="Images/logo.png" alt="Game Logo" class="game-logo">
+            <a href="https://forrt.org/replication-hub/" target="_blank">
+                <img src="Images/forrt_black.png" alt="FORRT Logo" class="forrt-logo dynamic-logo">
+            </a>
+        </div>
         <h1>Guess the Replication</h1>
         <p>Can you predict which scientific studies replicate?</p>
         
@@ -230,7 +238,6 @@
         <div>
             <a href="#" target="_blank" class="social-btn" id="bsky-btn">Bluesky</a>
             <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Mastodon</a>
-            <a href="#" target="_blank" class="social-btn" id="twitter-btn">X / Twitter</a>
         </div>
 
         <br><br>
@@ -248,8 +255,8 @@
     // ==========================================
     // SUPABASE CONFIGURATION
     // ==========================================
-    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-    const SUPABASE_KEY = 'YOUR_ANON_KEY';
+    const SUPABASE_URL = 'https://oahaowlrxgntoyhthuhr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let dataset = [], currentStudy = null;
     let nickname = '', career = '', sessionId = Date.now();
@@ -458,10 +465,9 @@
         document.getElementById('go-rounds').innerText = roundNumber;
         document.getElementById('go-level').innerText = currentLevel;
 
-        generateCanvas();
+        await generateCanvas();
         prepareSocialLinks();
         
-        // Ensure Database syncs BEFORE we load the leaderboard so the player sees themselves
         await saveScoreToDB();
         await loadLeaderboard();
     }
@@ -505,7 +511,6 @@
         }
         
         try {
-            // Fetch top 10 scores, ordered by score descending. 
             const res = await fetch(`${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`, { headers: getHeaders() });
             const data = await res.json();
             
@@ -527,13 +532,24 @@
     // ==========================================
     // SOCIAL SHARING & CANVAS
     // ==========================================
-    function generateCanvas() {
+    
+    // Helper to safely load images for the canvas
+    const loadImg = (src) => new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null); // Return null on error so it doesn't crash
+        img.src = src;
+    });
+
+    async function generateCanvas() {
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
         
+        // Background and Border
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
+        // Text
         ctx.fillStyle = '#002366'; ctx.textAlign = 'left';
         ctx.font = 'bold 38px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', 40, 60);
@@ -547,6 +563,28 @@
         ctx.fillStyle = '#1a4314';
         ctx.font = '24px "VT323", monospace'; 
         ctx.fillText('Play at: lukasroeseler.github.io/GuessTheReplication', 40, 310);
+
+        // Load and Draw Logos 
+        const gameLogoImg = await loadImg('Images/logo.png');
+        const forrtImg = await loadImg('Images/forrt_black.png');
+        
+        // Draw the logos in the bottom right corner if they loaded successfully
+        let currentX = 400; // Start X position for logos
+        const logoY = 250;  // Y position for logos
+        const targetHeight = 50;
+
+        if (gameLogoImg) {
+            const ratio = targetHeight / gameLogoImg.height;
+            const targetWidth = gameLogoImg.width * ratio;
+            ctx.drawImage(gameLogoImg, currentX, logoY, targetWidth, targetHeight);
+            currentX += targetWidth + 20; // add gap
+        }
+
+        if (forrtImg) {
+            const ratio = targetHeight / forrtImg.height;
+            const targetWidth = forrtImg.width * ratio;
+            ctx.drawImage(forrtImg, currentX, logoY, targetWidth, targetHeight);
+        }
     }
 
     function downloadImage() {
@@ -561,7 +599,6 @@
         const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
         
         document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
-        document.getElementById('twitter-btn').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
         document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
     }
 </script>
