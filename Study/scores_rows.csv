@@ -1,0 +1,8 @@
+id,session_id,play_count,nickname,career,final_score,final_level,rounds_played,total_time_ms,tab_switches,timestamp
+1,1773661329731,6,Test7,Postdoc,3,Junior Reviewer,6,35957,1,2026-03-16 11:43:06.64+00
+2,1773661396207,7,Luke,Postdoc,2,Junior Reviewer,5,12988,0,2026-03-16 11:43:34.455+00
+3,1773661455199,8,Luke,Postdoc,0,Junior Reviewer,3,47210,0,2026-03-16 11:45:04.944+00
+4,1773661511046,9,Luke,Postdoc,1,Junior Reviewer,4,46767,0,2026-03-16 11:47:37.562+00
+5,1773662309859,10,Luke,Postdoc,3,Junior Reviewer,6,38037,0,2026-03-16 11:59:23.669+00
+6,1773662457705,11,Luke,Postdoc,2,Junior Reviewer,5,7101,0,2026-03-16 12:01:07.501+00
+7,1773662471741,12,Luke,Postdoc,11,Reviewer 2,16,20199,0,2026-03-16 12:01:35.315+00

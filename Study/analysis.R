@@ -9,11 +9,11 @@ library(ggplot2)
 
 # Load the data collected from the Game (Exported from Supabase)
 # Assumes you downloaded your Supabase 'trials' table as 'trials_data.csv'
-if(!file.exists("trials_data.csv")) {
+if(!file.exists("Study/trials_rows.csv")) {
   stop("Please place the 'trials_data.csv' file in the Study folder before running.")
 }
 
-trials <- read_csv("trials_data.csv", show_col_types = FALSE)
+trials <- read_csv("Study/trials_rows.csv", show_col_types = FALSE)
 
 cat("=== OVERALL BEHAVIORAL PERFORMANCE ===\n")
 overall_acc <- mean(trials$correct, na.rm = TRUE)
