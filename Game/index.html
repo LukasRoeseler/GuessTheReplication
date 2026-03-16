@@ -355,11 +355,26 @@
         document.getElementById('study-title').innerText = currentStudy.ref_o; 
         document.getElementById('study-abstract').innerText = currentStudy.abstract;
         
+        // 50/50 Chance independently for Journal and IF visibility
         currentStudy.journal_visible = Math.random() >= 0.5; 
+        currentStudy.if_visible = Math.random() >= 0.5;
+
         const journalBox = document.getElementById('journal-box');
-        if (currentStudy.journal_visible && currentStudy.journal) {
-            const ifText = currentStudy.impact_factor ? ` (IF: ${currentStudy.impact_factor})` : '';
-            journalBox.innerText = `Journal: ${currentStudy.journal}${ifText}`;
+        let boxText = "";
+
+        let jText = (currentStudy.journal_visible && currentStudy.journal) ? currentStudy.journal : "";
+        let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Impact Factor: ${currentStudy.impact_factor}` : "";
+
+        if (jText && ifText) {
+            boxText = `Journal: ${jText} (${ifText})`;
+        } else if (jText) {
+            boxText = `Journal: ${jText}`;
+        } else if (ifText) {
+            boxText = ifText;
+        }
+
+        if (boxText !== "") {
+            journalBox.innerText = boxText;
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -417,7 +432,6 @@
 
         document.getElementById('outcome-quote').innerText = `"${currentStudy.outcome_quote}"`;
         
-        // Render full citations if available, fallback to title.
         const textO = currentStudy.apa_ref_o || currentStudy.ref_o;
         const textR = currentStudy.apa_ref_r || currentStudy.ref_r;
         document.getElementById('citation-links').innerHTML = `
@@ -471,7 +485,8 @@
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, career, round_number: roundNumber,
             ref_o: currentStudy.ref_o, ref_r: currentStudy.ref_r, journal: currentStudy.journal || '', 
-            journal_visible: currentStudy.journal_visible, player_guess: guess, true_outcome: actualOutcome,
+            journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
+            impact_factor: currentStudy.impact_factor, player_guess: guess, true_outcome: actualOutcome,
             correct: isCorrect, lives_remaining: lives, reaction_time: rt, tab_switches: trialTabSwitches, 
             level: currentLevel, timestamp: new Date().toISOString()
         };
