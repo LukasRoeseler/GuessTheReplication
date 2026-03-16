@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
-    <!-- Retro Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme: Retro GBA + Beautiful Colors */
             --bg-body: #f4f1ea;          
             --bg-container: #ffffff;     
             --text-main: #4b3621;        
@@ -20,7 +18,6 @@
         }
 
         [data-theme="dark"] {
-            /* Dark Theme: Retro Backlit */
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
@@ -41,26 +38,24 @@
 
         .container {
             width: 100%; max-width: 750px; background: var(--bg-container);
-            padding: 30px; border-radius: 0; 
+            padding: 40px 30px 80px; border-radius: 0; 
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
-            position: relative;
+            position: relative; min-height: 500px;
         }
 
         .hidden { display: none !important; }
 
         h1 { margin-top: 0; font-size: 3rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--royal-blue); text-transform: uppercase;}
-        h3 { font-size: 1.8rem; margin: 15px 0 5px; color: var(--royal-blue); text-transform: uppercase;}
         p { font-size: 1.4rem; line-height: 1.3; }
-        a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; }
+        a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
         a:hover { color: var(--text-main); }
 
         .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase;}
         .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
-        /* Form elements */
         input, select {
             width: 100%; max-width: 350px; padding: 10px;
             margin: 10px 0 20px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
@@ -68,7 +63,6 @@
             text-transform: uppercase;
         }
 
-        /* Buttons */
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
             cursor: pointer; font-family: 'VT323', monospace; text-transform: uppercase;
@@ -77,38 +71,37 @@
         button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(6px, 6px); }
         
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
-        .btn-secondary { background: var(--bg-body); color: var(--text-main); }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
         
         .social-btn { display: inline-block; padding: 10px 20px; margin: 5px; border: 4px solid var(--border-color); background: var(--bg-container); color: var(--text-main); text-decoration: none; cursor: pointer; box-shadow: 4px 4px 0 var(--border-color); transition: 0.1s; text-transform: uppercase;}
         .social-btn:active { box-shadow: 0 0 0 var(--border-color); transform: translate(4px, 4px); }
 
-        /* HUD */
         .hud {
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
             margin-bottom: 20px; padding-bottom: 10px; border-bottom: 4px solid var(--border-color);
             font-size: 1.5rem; text-transform: uppercase; color: var(--text-main);
         }
         .hearts { color: var(--heart-color); font-size: 2rem; letter-spacing: 2px; }
-        
         @keyframes fadeOut { 0% {transform: scale(1);} 100% {transform: scale(0); opacity: 0;} }
         .heart-lost { animation: fadeOut 0.5s forwards; display: inline-block; }
 
-        /* Outcomes */
         .big-result { font-size: 4rem; font-weight: bold; margin: 15px 0; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         .correct-text { color: var(--dark-green); }
         .wrong-text { color: var(--dark-brown); }
         .quote { font-style: italic; background: rgba(0,0,0,0.05); padding: 15px; text-align: left; border-left: 6px solid var(--dark-brown);}
         
-        .doi-links { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
+        .citation-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
         
-        /* Leaderboard */
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
         .leaderboard th { background: var(--royal-blue); color: #fff; }
 
-        .forrt-logo { max-width: 200px; margin-bottom: 15px; }
+        /* Logos Setup */
+        .corner-logo { position: absolute; bottom: 15px; height: 50px; width: auto; object-fit: contain; }
+        .muecos-corner { left: 15px; }
+        .forrt-corner { right: 15px; }
+        .main-game-logo { height: 80px; display: block; margin: 0 auto 10px; }
         
         canvas { display: none; }
     </style>
@@ -120,13 +113,11 @@
     <!-- INFO SCREEN -->
     <div id="info-screen" class="hidden">
         <h2>About the Game</h2>
-        <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/forrt_black.png" alt="FORRT Replication Hub" class="forrt-logo dynamic-logo">
-        </a>
         <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
         <p>Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</p>
-        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT): <br>
+        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <br>
            <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</p>
+        <p>Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</p>
         <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide.</p>
         
         <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 15px;">
@@ -139,11 +130,7 @@
 
     <!-- START SCREEN -->
     <div id="start-screen">
-        <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/forrt_black.png" alt="FORRT Logo" class="forrt-logo dynamic-logo">
-        </a>
-        <h1>Guess the Replication</h1>
-        <p>Can you predict which scientific studies replicate?</p>
+        <img src="Images/logo.png" alt="Guess The Replication Logo" class="main-game-logo">
         
         <label for="nickname">Nickname:</label><br>
         <input type="text" id="nickname" placeholder="PLAYER 1" required><br>
@@ -161,9 +148,17 @@
         </select><br><br>
 
         <button onclick="startGame()">Start Game</button><br>
-        <button class="btn-secondary" onclick="toggleTheme()" style="font-size: 1.2rem; padding: 8px 16px;">🌙 Toggle Dark Mode</button>
-        <br><br>
-        <a href="#" onclick="showScreen('info-screen')">ℹ️ About & Privacy</a>
+        <br>
+        <a onclick="toggleTheme()">[ ☼ / ☾ ] TOGGLE THEME</a><br><br>
+        <a onclick="showScreen('info-screen')">ℹ️ About & Privacy</a>
+
+        <!-- Corner Logos -->
+        <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank">
+            <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-logo muecos-corner">
+        </a>
+        <a href="https://forrt.org/replication-hub/" target="_blank">
+            <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-logo forrt-corner dynamic-logo">
+        </a>
     </div>
 
     <!-- GAME SCREEN -->
@@ -171,7 +166,7 @@
         <div class="hud" id="game-hud"></div>
 
         <div class="study-title" id="study-title"></div>
-        <div class="journal-box hidden" id="journal-box">Journal: <span id="study-journal"></span></div>
+        <div class="journal-box hidden" id="journal-box"></div>
         <div class="study-abstract" id="study-abstract"></div>
 
         <div>
@@ -184,17 +179,16 @@
     <div id="feedback-screen" class="hidden">
         <div class="hud" id="feedback-hud"></div>
 
-        <h2>Result</h2>
         <div id="feedback-comparison" style="font-size: 1.5rem; margin-bottom: 5px;"></div>
         <div class="big-result" id="big-result-text"></div>
         
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="doi-links" id="doi-links"></div>
+        <div class="citation-box" id="citation-links"></div>
 
         <br>
-        <button id="next-btn" onclick="handleNext()">Next Round</button>
+        <button id="next-btn" onclick="handleNext()">Next Round (Space)</button>
     </div>
 
     <!-- LEVEL UP SCREEN -->
@@ -203,7 +197,7 @@
         <h2 id="new-level-name"></h2>
         <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! ♥</p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
-        <button onclick="continueFromLevelUp()">Continue</button>
+        <button onclick="continueFromLevelUp()">Continue (Space)</button>
     </div>
 
     <!-- GAME OVER SCREEN -->
@@ -226,11 +220,12 @@
         </table>
 
         <br>
-        <button onclick="downloadImage()">Download Image</button><br>
-        <div>
-            <a href="#" target="_blank" class="social-btn" id="bsky-btn">Bluesky</a>
-            <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Mastodon</a>
-            <a href="#" target="_blank" class="social-btn" id="twitter-btn">X / Twitter</a>
+        <button onclick="shareScore()">Share Score (Image)</button><br>
+        
+        <div id="social-fallback" class="hidden" style="margin-top: 10px;">
+            <p style="font-size: 1rem; color: var(--dark-brown);">Image downloaded! Attach it to your post:</p>
+            <a href="#" target="_blank" class="social-btn" id="bsky-btn">Post on Bluesky</a>
+            <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Post on Mastodon</a>
         </div>
 
         <br><br>
@@ -241,15 +236,12 @@
         </a>
     </div>
     
-    <canvas id="share-canvas" width="600" height="350"></canvas>
+    <canvas id="share-canvas" width="600" height="420"></canvas>
 </div>
 
 <script>
-    // ==========================================
-    // SUPABASE CONFIGURATION
-    // ==========================================
-    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-    const SUPABASE_KEY = 'YOUR_ANON_KEY';
+    const SUPABASE_URL = 'https://oahaowlrxgntoyhthuhr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let dataset = [], currentStudy = null;
     let nickname = '', career = '', sessionId = Date.now();
@@ -286,10 +278,15 @@
         }
     });
 
+    // Spacebar and Number key controls
     document.addEventListener('keydown', (e) => {
         if (!document.getElementById('game-screen').classList.contains('hidden')) {
             if (e.key === '1') makeGuess('success');
             if (e.key === '2') makeGuess('failure');
+        } else if (!document.getElementById('feedback-screen').classList.contains('hidden')) {
+            if (e.code === 'Space') { e.preventDefault(); handleNext(); }
+        } else if (!document.getElementById('levelup-screen').classList.contains('hidden')) {
+            if (e.code === 'Space') { e.preventDefault(); continueFromLevelUp(); }
         }
     });
 
@@ -337,7 +334,6 @@
     function startGame() {
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
-        
         career = document.getElementById('career').value;
         if (!career) return alert("Please specify your career level");
         
@@ -361,12 +357,11 @@
         document.getElementById('study-title').innerText = currentStudy.ref_o; 
         document.getElementById('study-abstract').innerText = currentStudy.abstract;
         
-        const journalVisible = Math.random() >= 0.5;
-        currentStudy.journal_visible = journalVisible; 
-
+        currentStudy.journal_visible = Math.random() >= 0.5; 
         const journalBox = document.getElementById('journal-box');
-        if (journalVisible && currentStudy.journal) {
-            document.getElementById('study-journal').innerText = currentStudy.journal;
+        if (currentStudy.journal_visible && currentStudy.journal) {
+            const ifText = currentStudy.impact_factor ? ` (IF: ${currentStudy.impact_factor})` : '';
+            journalBox.innerText = `Journal: ${currentStudy.journal}${ifText}`;
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -378,9 +373,9 @@
     }
 
     function buildDoiLink(doi) {
-        if (!doi || doi === "NA" || doi === "") return "N/A";
-        if (doi.startsWith("http")) return `<a href="${doi}" target="_blank">${doi}</a>`;
-        return `<a href="https://doi.org/${doi}" target="_blank">https://doi.org/${doi}</a>`;
+        if (!doi || doi === "NA" || doi === "") return "";
+        const url = doi.startsWith("http") ? doi : `https://doi.org/${doi}`;
+        return `<a href="${url}" target="_blank">${url}</a>`;
     }
 
     async function makeGuess(guess) {
@@ -424,13 +419,16 @@
 
         document.getElementById('outcome-quote').innerText = `"${currentStudy.outcome_quote}"`;
         
-        document.getElementById('doi-links').innerHTML = `
-            <strong>Original Study:</strong> <br>${buildDoiLink(currentStudy.doi_o)}<br><br>
-            <strong>Replication Study:</strong> <br>${buildDoiLink(currentStudy.doi_r)}
+        // Render full citations if available, fallback to title.
+        const textO = currentStudy.apa_ref_o || currentStudy.ref_o;
+        const textR = currentStudy.apa_ref_r || currentStudy.ref_r;
+        document.getElementById('citation-links').innerHTML = `
+            <strong>Original Study:</strong> <br>${textO} <br>${buildDoiLink(currentStudy.doi_o)}<br><br>
+            <strong>Replication Study:</strong> <br>${textR} <br>${buildDoiLink(currentStudy.doi_r)}
         `;
         
         const nextBtn = document.getElementById('next-btn');
-        nextBtn.innerText = isGameOver ? "See Final Results" : "Next Round";
+        nextBtn.innerText = isGameOver ? "See Final Results (Space)" : "Next Round (Space)";
         nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
@@ -458,25 +456,20 @@
         document.getElementById('go-rounds').innerText = roundNumber;
         document.getElementById('go-level').innerText = currentLevel;
 
-        generateCanvas();
+        await generateCanvas();
         prepareSocialLinks();
         
-        // Ensure Database syncs BEFORE we load the leaderboard so the player sees themselves
         await saveScoreToDB();
         await loadLeaderboard();
     }
 
     function playAgain() { location.reload(); }
 
-    // ==========================================
-    // DB AND API INTEGRATION
-    // ==========================================
     function getHeaders() { 
         return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }; 
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
-        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, career, round_number: roundNumber,
             ref_o: currentStudy.ref_o, ref_r: currentStudy.ref_r, journal: currentStudy.journal || '', 
@@ -484,50 +477,39 @@
             correct: isCorrect, lives_remaining: lives, reaction_time: rt, tab_switches: trialTabSwitches, 
             level: currentLevel, timestamp: new Date().toISOString()
         };
-        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error", e));
+        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error"));
     }
 
     async function saveScoreToDB() {
-        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
         const payload = { 
             session_id: sessionId, play_count: playCount, nickname, career, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
         };
-        await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error", e));
+        await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error"));
     }
 
     async function loadLeaderboard() {
         const tbody = document.getElementById('leaderboard-body');
-        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) {
-            tbody.innerHTML = `<tr><td colspan="4">Supabase API Key missing. Add to script to view leaderboard!</td></tr>`;
-            return;
-        }
-        
         try {
-            // Fetch top 10 scores, ordered by score descending. 
             const res = await fetch(`${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`, { headers: getHeaders() });
             const data = await res.json();
-            
             tbody.innerHTML = '';
-            if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`;
-                return;
-            }
-
-            data.forEach((row, i) => { 
-                tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`; 
-            });
+            if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`; return; }
+            data.forEach((row, i) => { tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`; });
         } catch(e) { 
-            console.error("Leaderboard fetch error:", e); 
-            tbody.innerHTML = `<tr><td colspan="4">Could not load leaderboard. Check your Row Level Security (RLS) policies.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4">Could not load leaderboard.</td></tr>`;
         }
     }
 
-    // ==========================================
-    // SOCIAL SHARING & CANVAS
-    // ==========================================
-    function generateCanvas() {
+    const loadImg = (src) => new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+    });
+
+    async function generateCanvas() {
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -536,17 +518,60 @@
         
         ctx.fillStyle = '#002366'; ctx.textAlign = 'left';
         ctx.font = 'bold 38px "VT323", monospace'; 
-        ctx.fillText('GUESS THE REPLICATION', 40, 60);
+        ctx.fillText('GUESS THE REPLICATION', 40, 70);
         
         ctx.fillStyle = '#4b3621';
-        ctx.font = '28px "VT323", monospace';
-        ctx.fillText(`Player: ${nickname}`, 40, 130);
-        ctx.fillText(`Accuracy: ${score} out of ${roundNumber} correct`, 40, 170);
-        ctx.fillText(`Rank: ${currentLevel}`, 40, 210);
+        ctx.font = '32px "VT323", monospace';
+        ctx.fillText(`Player: ${nickname}`, 40, 140);
+        ctx.fillText(`Accuracy: ${score} out of ${roundNumber} correct`, 40, 190);
+        ctx.fillText(`Rank: ${currentLevel}`, 40, 240);
 
         ctx.fillStyle = '#1a4314';
-        ctx.font = '24px "VT323", monospace'; 
+        ctx.font = '26px "VT323", monospace'; 
         ctx.fillText('Play at: lukasroeseler.github.io/GuessTheReplication', 40, 310);
+
+        // Logos
+        const gameLogoImg = await loadImg('Images/logo.png');
+        const muecosImg = await loadImg('Images/muecos_logo.png');
+        const forrtImg = await loadImg('Images/forrt_black.png');
+        
+        // Game logo top right
+        if (gameLogoImg) {
+            const h = 60; const w = gameLogoImg.width * (h / gameLogoImg.height);
+            ctx.drawImage(gameLogoImg, canvas.width - w - 25, 25, w, h);
+        }
+        
+        // Bottom logos spacing (y=340)
+        if (muecosImg) {
+            const h = 50; const w = muecosImg.width * (h / muecosImg.height);
+            ctx.drawImage(muecosImg, 40, 340, w, h);
+        }
+        if (forrtImg) {
+            const h = 50; const w = forrtImg.width * (h / forrtImg.height);
+            ctx.drawImage(forrtImg, canvas.width - w - 40, 340, w, h);
+        }
+    }
+
+    async function shareScore() {
+        const canvas = document.getElementById('share-canvas');
+        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: https://lukasroeseler.github.io/GuessTheReplication/`;
+        
+        if (navigator.canShare) {
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'GuessTheReplication.png', { type: 'image/png' });
+                if (navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({ title: 'Guess the Replication', text: text, files: [file] });
+                        return; // Success, stop execution
+                    } catch (err) { console.log("Share canceled", err); }
+                } else { doFallback(); }
+            });
+        } else { doFallback(); }
+    }
+
+    function doFallback() {
+        downloadImage();
+        document.getElementById('social-fallback').classList.remove('hidden');
     }
 
     function downloadImage() {
@@ -561,7 +586,6 @@
         const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
         
         document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
-        document.getElementById('twitter-btn').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
         document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
     }
 </script>
