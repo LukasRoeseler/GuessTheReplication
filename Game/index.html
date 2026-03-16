@@ -9,13 +9,13 @@
     <style>
         :root {
             /* Light Theme: Retro GBA + Beautiful Colors */
-            --bg-body: #f4f1ea;          /* Warm off-white / Gameboy Shell */
-            --bg-container: #ffffff;     /* Screen background */
-            --text-main: #4b3621;        /* Dark Brown text */
-            --royal-blue: #002366;       /* Königsblau */
-            --dark-brown: #4b3621;       /* Dark Brown */
-            --dark-green: #1a4314;       /* Dark Green */
-            --border-color: #002366;     /* Royal Blue borders */
+            --bg-body: #f4f1ea;          
+            --bg-container: #ffffff;     
+            --text-main: #4b3621;        
+            --royal-blue: #002366;       
+            --dark-brown: #4b3621;       
+            --dark-green: #1a4314;       
+            --border-color: #002366;     
             --heart-color: #b22222;
         }
 
@@ -24,7 +24,7 @@
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
-            --royal-blue: #4169e1;       /* Brighter Royal Blue for contrast */
+            --royal-blue: #4169e1;       
             --dark-brown: #a07a58;
             --dark-green: #3cb371;
             --border-color: #4169e1;
@@ -51,6 +51,7 @@
 
         h1 { margin-top: 0; font-size: 3rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--royal-blue); text-transform: uppercase;}
+        h3 { font-size: 1.8rem; margin: 15px 0 5px; color: var(--royal-blue); text-transform: uppercase;}
         p { font-size: 1.4rem; line-height: 1.3; }
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; }
         a:hover { color: var(--text-main); }
@@ -59,7 +60,7 @@
         .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
-        /* Form elements (Retro Style) */
+        /* Form elements */
         input, select {
             width: 100%; max-width: 350px; padding: 10px;
             margin: 10px 0 20px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
@@ -67,17 +68,19 @@
             text-transform: uppercase;
         }
 
-        /* 8-bit Buttons */
+        /* Buttons */
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
             cursor: pointer; font-family: 'VT323', monospace; text-transform: uppercase;
-            background: var(--royal-blue); color: #fff; box-shadow: 6px 6px 0 var(--border-color); transition: 0.1s;
+            background: var(--royal-blue); color: #fff; box-shadow: 6px 6px 0 var(--border-color); transition: 0.1s; margin: 5px;
         }
         button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(6px, 6px); }
         
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
+        .btn-secondary { background: var(--bg-body); color: var(--text-main); }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
+        
         .social-btn { display: inline-block; padding: 10px 20px; margin: 5px; border: 4px solid var(--border-color); background: var(--bg-container); color: var(--text-main); text-decoration: none; cursor: pointer; box-shadow: 4px 4px 0 var(--border-color); transition: 0.1s; text-transform: uppercase;}
         .social-btn:active { box-shadow: 0 0 0 var(--border-color); transform: translate(4px, 4px); }
 
@@ -100,9 +103,12 @@
         
         .doi-links { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
         
-        /* Layout Utilities */
-        .theme-toggle { position: absolute; top: 10px; right: 10px; font-size: 1rem; padding: 5px 10px; background: transparent; color: var(--text-main); border: 2px solid var(--border-color); box-shadow: none;}
-        .forrt-logo { max-width: 220px; margin-bottom: 15px; }
+        /* Leaderboard */
+        .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
+        .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
+        .leaderboard th { background: var(--royal-blue); color: #fff; }
+
+        .forrt-logo { max-width: 200px; margin-bottom: 15px; }
         
         canvas { display: none; }
     </style>
@@ -110,17 +116,23 @@
 <body>
 
 <div class="container" id="app">
-    <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
 
     <!-- INFO SCREEN -->
     <div id="info-screen" class="hidden">
         <h2>About the Game</h2>
         <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/FORRT.svg" alt="FORRT Replication Hub" onerror="this.src=''; this.alt='FORRT Replication Hub';" class="forrt-logo">
+            <img src="Images/forrt_black.png" alt="FORRT Replication Hub" class="forrt-logo dynamic-logo">
         </a>
-        <p>This project is part of the <strong>FORRT Replication Hub</strong>.</p>
-        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT). <br><small><i>Citation: FORRT Community (2024).</i></small></p>
+        <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
+        <p>Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</p>
+        <p>The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training (FORRT): <br>
+           <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</p>
         <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide.</p>
+        
+        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 15px;">
+            <strong>Recommended Citation:</strong><br>
+            Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
+        </div>
         <br>
         <button onclick="showScreen('start-screen')">Back to Start</button>
     </div>
@@ -128,7 +140,7 @@
     <!-- START SCREEN -->
     <div id="start-screen">
         <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/FORRT.svg" alt="FORRT Logo" onerror="this.src=''; this.alt='FORRT Logo';" class="forrt-logo" style="max-width:180px;">
+            <img src="Images/forrt_black.png" alt="FORRT Logo" class="forrt-logo dynamic-logo">
         </a>
         <h1>Guess the Replication</h1>
         <p>Can you predict which scientific studies replicate?</p>
@@ -148,8 +160,10 @@
             <option value="Other">Other</option>
         </select><br><br>
 
-        <button onclick="startGame()">Start Game</button><br><br>
-        <a href="#" onclick="showScreen('info-screen')">ℹ️ What is this?</a>
+        <button onclick="startGame()">Start Game</button><br>
+        <button class="btn-secondary" onclick="toggleTheme()" style="font-size: 1.2rem; padding: 8px 16px;">🌙 Toggle Dark Mode</button>
+        <br><br>
+        <a href="#" onclick="showScreen('info-screen')">ℹ️ About & Privacy</a>
     </div>
 
     <!-- GAME SCREEN -->
@@ -199,14 +213,20 @@
         <p>Accuracy: <strong id="go-score"></strong> out of <strong id="go-rounds"></strong> correct</p>
         <p>Final Rank: <strong id="go-level"></strong></p>
         
-        <div style="margin: 30px 0; background: rgba(0,0,0,0.05); border: 4px dashed var(--border-color); padding: 15px;">
+        <div style="margin: 20px 0; background: rgba(0,0,0,0.05); border: 4px dashed var(--border-color); padding: 15px;">
             <p style="font-weight: bold; color: var(--royal-blue); margin-top:0;">Want to learn more?</p>
             <a href="https://forrt.org/flora_zotero/" target="_blank">Never miss a replication: Get the Zotero Plugin</a><br><br>
             <a href="https://forrt.org/replication_handbook/" target="_blank">Learn how to conduct a replication (Handbook)</a>
         </div>
 
-        <h2>Share your score!</h2>
-        <button onclick="downloadImage()">Download Image</button><br><br>
+        <h3>Leaderboard (Top 10)</h3>
+        <table class="leaderboard">
+            <thead><tr><th>Rank</th><th>Player</th><th>Score</th><th>Level</th></tr></thead>
+            <tbody id="leaderboard-body"><tr><td colspan="4">Loading leaderboard...</td></tr></tbody>
+        </table>
+
+        <br>
+        <button onclick="downloadImage()">Download Image</button><br>
         <div>
             <a href="#" target="_blank" class="social-btn" id="bsky-btn">Bluesky</a>
             <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Mastodon</a>
@@ -215,13 +235,19 @@
 
         <br><br>
         <button onclick="playAgain()" style="background: var(--dark-green);">Play Again</button><br><br>
-        <a href="#" onclick="showScreen('info-screen')">ℹ️ What is this?</a>
+        
+        <a href="https://github.com/LukasRoeseler/GuessTheReplication/issues/new" target="_blank" style="display:inline-block; font-size: 1.2rem; margin-bottom: 20px;">
+            🐛 Report an Issue on GitHub
+        </a>
     </div>
     
     <canvas id="share-canvas" width="600" height="350"></canvas>
 </div>
 
 <script>
+    // ==========================================
+    // SUPABASE CONFIGURATION
+    // ==========================================
     const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
     const SUPABASE_KEY = 'YOUR_ANON_KEY';
     
@@ -269,7 +295,14 @@
 
     function toggleTheme() {
         const body = document.body;
-        body.getAttribute("data-theme") === "dark" ? body.removeAttribute("data-theme") : body.setAttribute("data-theme", "dark");
+        const logos = document.querySelectorAll('.dynamic-logo');
+        if (body.getAttribute("data-theme") === "dark") {
+            body.removeAttribute("data-theme");
+            logos.forEach(img => img.src = "Images/forrt_black.png");
+        } else {
+            body.setAttribute("data-theme", "dark");
+            logos.forEach(img => img.src = "Images/forrt_grey.png");
+        }
     }
 
     function showScreen(id) {
@@ -302,7 +335,6 @@
     }
 
     function startGame() {
-        // Fallback to placeholder if left completely blank
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
         
@@ -428,12 +460,20 @@
 
         generateCanvas();
         prepareSocialLinks();
+        
+        // Ensure Database syncs BEFORE we load the leaderboard so the player sees themselves
         await saveScoreToDB();
+        await loadLeaderboard();
     }
 
     function playAgain() { location.reload(); }
 
-    function getHeaders() { return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }; }
+    // ==========================================
+    // DB AND API INTEGRATION
+    // ==========================================
+    function getHeaders() { 
+        return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }; 
+    }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
         if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) return;
@@ -444,7 +484,7 @@
             correct: isCorrect, lives_remaining: lives, reaction_time: rt, tab_switches: trialTabSwitches, 
             level: currentLevel, timestamp: new Date().toISOString()
         };
-        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
+        fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error", e));
     }
 
     async function saveScoreToDB() {
@@ -454,9 +494,39 @@
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
         };
-        fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
+        await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error", e));
     }
 
+    async function loadLeaderboard() {
+        const tbody = document.getElementById('leaderboard-body');
+        if(SUPABASE_KEY.includes('YOUR_ANON_KEY')) {
+            tbody.innerHTML = `<tr><td colspan="4">Supabase API Key missing. Add to script to view leaderboard!</td></tr>`;
+            return;
+        }
+        
+        try {
+            // Fetch top 10 scores, ordered by score descending. 
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`, { headers: getHeaders() });
+            const data = await res.json();
+            
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`;
+                return;
+            }
+
+            data.forEach((row, i) => { 
+                tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`; 
+            });
+        } catch(e) { 
+            console.error("Leaderboard fetch error:", e); 
+            tbody.innerHTML = `<tr><td colspan="4">Could not load leaderboard. Check your Row Level Security (RLS) policies.</td></tr>`;
+        }
+    }
+
+    // ==========================================
+    // SOCIAL SHARING & CANVAS
+    // ==========================================
     function generateCanvas() {
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
