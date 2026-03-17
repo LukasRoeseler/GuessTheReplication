@@ -37,7 +37,33 @@ get_crossref_abstract <- function(doi) {
         clean_abs <- str_squish(clean_abs)
         # Remove the word "Abstract" if it is the very first word
         clean_abs <- str_replace(clean_abs, "^(?i)abstract\\s*[:\\.\\-]?\\s*", "")
+        return(clean_abs)
+      }
+    }
+    return(NA)
+  }, error = function(e) { return(NA) })
+}
+
+# Fallback function to fetch abstract from OpenAlex if Crossref fails
+get_openalex_abstract <- function(doi) {
+  if (is.na(doi) || doi == "") return(NA)
+  api_url <- paste0("https://api.openalex.org/works/https://doi.org/", URLencode(doi))
+  
+  tryCatch({
+    res <- GET(api_url, user_agent("GuessTheReplication/1.0 (mailto:your-email@example.com)"), timeout(5))
+    if (status_code(res) == 200) {
+      content <- content(res, as = "parsed", type = "application/json")
+      inv_idx <- content$abstract_inverted_index
+      if (!is.null(inv_idx) && length(inv_idx) > 0) {
+        word_positions <- unlist(inv_idx)
+        words <- rep(names(inv_idx), lengths(inv_idx))
         
+        reconstructed <- words[order(word_positions)]
+        abs_text <- paste(reconstructed, collapse = " ")
+        
+        clean_abs <- str_replace_all(abs_text, "[\r\n]+", " ")
+        clean_abs <- str_squish(clean_abs)
+        clean_abs <- str_replace(clean_abs, "^(?i)abstract\\s*[:\\.\\-]?\\s*", "")
         return(clean_abs)
       }
     }
@@ -48,7 +74,6 @@ get_crossref_abstract <- function(doi) {
 # Helper function to fetch Impact Factor equivalent from OpenAlex
 get_openalex_jif <- function(journal_name) {
   if (is.na(journal_name) || journal_name == "") return(NA)
-  
   api_url <- paste0("https://api.openalex.org/sources?search=", URLencode(journal_name))
   
   tryCatch({
@@ -56,7 +81,6 @@ get_openalex_jif <- function(journal_name) {
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
       if (length(content$results) > 0) {
-        # 2yr_mean_citedness is the exact formula for the traditional Impact Factor
         jif <- content$results[[1]]$summary_stats$`2yr_mean_citedness`
         if (!is.null(jif)) return(round(as.numeric(jif), 2))
       }
@@ -67,7 +91,7 @@ get_openalex_jif <- function(journal_name) {
 
 cat("Filtering dataset...\n")
 
-# List of exact (or partial) bad quotes to remove entirely
+# Exact or partial match bad quotes to drop
 bad_quotes <- c(
   "no", 
   "no.",
@@ -80,7 +104,14 @@ bad_quotes <- c(
   "subjective replication success rating 1",
   "replicationsuccess marked as yes",
   "crossed in replication outcome column in supplementary table 2.",
-  "ticked in replication outcome column in supplementary table 2."
+  "ticked in replication outcome column in supplementary table 2.",
+  "yes in replicationsuccess column",
+  "yes stated in the rep. s1 column",
+  "no in replicationsuccess column",
+  "no marked in replicate (r) column",
+  "no stated in the rep. s1+s2 column",
+  "subjective replication success: 0",
+  "table 2 null hypothesis significance tests <.001"
 )
 
 clean_data <- data %>%
@@ -95,16 +126,14 @@ clean_data <- data %>%
   
   # 3. Clean and filter the outcome_quote
   mutate(
-    # Remove the lengthy subjective replication rating note completely from quotes
+    # Remove the lengthy subjective replication rating notes
     outcome_quote = str_remove_all(outcome_quote, fixed("0 [In figure 2, authors quantified subjective success on a more nuanced scale from 0, 0.25, 0.5, 0.75 and 1. I am coding 0 as 'failed', 1 as 'success' and anything inbetween as 'mixed'].")),
-    outcome_quote = str_remove_all(outcome_quote, "(?i)subjective replication success = [01]"),
+    outcome_quote = str_remove_all(outcome_quote, fixed("1 [In figure 2, authors quantified subjective success on a more nuanced scale from 0, 0.25, 0.5, 0.75 and 1. I am coding 0 as 'failed', 1 as 'success' and anything inbetween as 'mixed'].")),
+    outcome_quote = str_remove_all(outcome_quote, "(?i)subjective replication success( rating)?:?\\s?[01]"),
     outcome_quote = str_squish(outcome_quote)
   ) %>%
-  # Remove if the remaining string exactly matches (ignoring case) our bad quotes list
   filter(!tolower(outcome_quote) %in% bad_quotes) %>%
-  # Remove if it contains 'sub_rep' anywhere inside it
   filter(!grepl("sub_rep", outcome_quote, ignore.case = TRUE)) %>%
-  # Remove if it's completely empty after cleaning
   filter(outcome_quote != "") %>%
   
   # 4. Map the final variables for the game
@@ -140,13 +169,22 @@ close(pb_jif)
 clean_data <- clean_data %>% left_join(journal_jifs, by = "journal")
 
 # --- Fetch Abstracts ---
-cat(sprintf("\nFetching abstracts via Crossref for %d studies. This may take a few minutes...\n", nrow(clean_data)))
+cat(sprintf("\nFetching abstracts via Crossref (and OpenAlex fallback) for %d studies. This may take a few minutes...\n", nrow(clean_data)))
 
 clean_data$abstract <- NA
 pb_abs <- txtProgressBar(min = 0, max = nrow(clean_data), style = 3)
 for (i in seq_len(nrow(clean_data))) {
   Sys.sleep(0.1) # Polite delay
-  clean_data$abstract[i] <- get_crossref_abstract(clean_data$doi_o[i])
+  
+  # Try Crossref first
+  abs_text <- get_crossref_abstract(clean_data$doi_o[i])
+  
+  # If Crossref fails, try OpenAlex
+  if (is.na(abs_text) || str_length(abs_text) < 30) {
+    abs_text <- get_openalex_abstract(clean_data$doi_o[i])
+  }
+  
+  clean_data$abstract[i] <- abs_text
   setTxtProgressBar(pb_abs, i)
 }
 close(pb_abs)
