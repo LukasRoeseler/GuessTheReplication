@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
-    <!-- Retro Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme */
             --bg-body: #f4f1ea;          
             --bg-container: #ffffff;     
             --text-main: #4b3621;        
@@ -22,7 +20,6 @@
         }
 
         [data-theme="dark"] {
-            /* Dark Theme */
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
@@ -115,7 +112,6 @@
         .forrt-corner { right: 20px; }
         .corner-img { height: 50px; width: auto; }
         
-        /* Font styles for corner logos */
         .muecos-text { font-family: 'Calibri', sans-serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
         .forrt-text { font-family: 'Century Schoolbook', serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
 
@@ -123,7 +119,7 @@
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
         /* Badges */
-        .badge { display: inline-block; width: 60px; height: 60px; line-height: 50px; font-size: 2.5rem; background: #fff; border: 4px solid var(--border-color); border-radius: 50%; box-shadow: 4px 4px 0 var(--border-color); margin-top: 10px; background: radial-gradient(circle, #fff 40%, #e0e0e0 100%); }
+        .badge-img { width: 80px; height: 80px; object-fit: contain; margin-top: 10px; display: inline-block; filter: drop-shadow(4px 4px 0 var(--border-color)); }
 
         canvas { display: none; }
     </style>
@@ -176,8 +172,8 @@
             <span class="muecos-text">MüCOS</span>
         </a>
         <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
-            <span class="forrt-text">FORRT</span>
             <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
+            <span class="forrt-text">FORRT</span>
         </a>
     </div>
 
@@ -255,7 +251,7 @@
     <!-- LEVEL UP SCREEN -->
     <div id="levelup-screen" class="hidden">
         <h1>LEVEL UP!</h1>
-        <div id="levelup-badge" class="badge"></div>
+        <img id="levelup-badge" class="badge-img" src="" alt="Level Badge">
         <h2 id="new-level-name"></h2>
         <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! <span class="hearts">❤️</span></p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
@@ -265,7 +261,7 @@
     <!-- GAME OVER SCREEN -->
     <div id="gameover-screen" class="hidden">
         <h1>GAME OVER</h1>
-        <div id="final-badge" class="badge" style="margin-bottom:10px;"></div>
+        <img id="final-badge" class="badge-img" src="" alt="Final Badge" style="margin-bottom:10px;">
         <p>PLAYER: <strong id="go-nickname"></strong></p>
         <p>Accuracy: <strong id="go-score"></strong> out of <strong id="go-rounds"></strong> correct</p>
         <p>Final Rank: <strong id="go-level"></strong></p>
@@ -313,7 +309,6 @@
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
-    // Audio setup (using HTMLAudioElement to prevent overlap/failures)
     const sfx = {
         correct: new Audio('Sounds/dragon-studio-correct-472358.mp3'),
         wrong: new Audio('Sounds/floraphonic-classic-game-action-negative-18-224576.mp3'),
@@ -329,12 +324,12 @@
     }
 
     const LEVELS = [
-        { min: 0, name: 'Junior Reviewer', emoji: '🥉' }, 
-        { min: 5, name: 'Reviewer 1', emoji: '🥈' },
-        { min: 10, name: 'Reviewer 2', emoji: '🥇' }, 
-        { min: 15, name: 'Associate Editor', emoji: '🎖️' },
-        { min: 20, name: 'Senior Editor', emoji: '🏆' }, 
-        { min: 25, name: 'Editor-in-Chief', emoji: '👑' }
+        { min: 0, name: 'Junior Reviewer', badge: 'Images/badge_1.png' }, 
+        { min: 5, name: 'Reviewer 1', badge: 'Images/badge_2.png' },
+        { min: 10, name: 'Reviewer 2', badge: 'Images/badge_3.png' }, 
+        { min: 15, name: 'Associate Editor', badge: 'Images/badge_4.png' },
+        { min: 20, name: 'Senior Editor', badge: 'Images/badge_5.png' }, 
+        { min: 25, name: 'Editor-in-Chief', badge: 'Images/badge_6.png' }
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -402,7 +397,6 @@
         career = document.getElementById('career').value;
         if (!career) return alert("Please specify your career level");
         
-        // Collect checked experience boxes
         const expBoxes = document.querySelectorAll('#experience-checks input:checked');
         let expArray = [];
         expBoxes.forEach(box => expArray.push(box.value));
@@ -415,17 +409,14 @@
         score = 0; lives = 3; roundNumber = 0; currentLevel = 'Junior Reviewer';
         gameStartTime = Date.now(); totalTabSwitches = 0;
         
-        // Prep dataset for this specific user (no repeats)
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
         
         activeDataset = fullDataset.filter(s => !seen.includes(s.doi_o));
         if(activeDataset.length === 0) {
-            seen = []; // Reset if they played every single study
+            seen = []; 
             activeDataset = [...fullDataset];
         }
-        
-        // Shuffle active
         activeDataset.sort(() => Math.random() - 0.5);
 
         nextRound();
@@ -436,7 +427,6 @@
         
         currentStudy = activeDataset.pop();
         
-        // Save to seen
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
         seen.push(currentStudy.doi_o);
@@ -446,7 +436,13 @@
         trialTabSwitches = 0;
         
         document.getElementById('study-title').innerText = currentStudy.ref_o; 
-        document.getElementById('study-abstract').innerText = currentStudy.abstract;
+        
+        // Present study number alongside abstract if it exists and contains a number
+        let abstractHTML = currentStudy.abstract;
+        if (currentStudy.study_o && /\d/.test(currentStudy.study_o)) {
+            abstractHTML = `<strong>Study ${currentStudy.study_o}</strong><br><br>${abstractHTML}`;
+        }
+        document.getElementById('study-abstract').innerHTML = abstractHTML;
         
         currentStudy.journal_visible = Math.random() >= 0.5; 
         currentStudy.if_visible = Math.random() >= 0.5;
@@ -456,13 +452,9 @@
         let jText = (currentStudy.journal_visible && currentStudy.journal) ? currentStudy.journal : "";
         let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Journal's Impact Factor: ${currentStudy.impact_factor}` : "";
 
-        if (jText && ifText) {
-            boxText = `Journal: ${jText} (${ifText})`;
-        } else if (jText) {
-            boxText = `Journal: ${jText}`;
-        } else if (ifText) {
-            boxText = ifText;
-        }
+        if (jText && ifText) boxText = `Journal: ${jText} (${ifText})`;
+        else if (jText) boxText = `Journal: ${jText}`;
+        else if (ifText) boxText = ifText;
 
         if (boxText !== "") {
             journalBox.innerText = boxText;
@@ -494,10 +486,10 @@
             const levelInfo = getLevelInfo(score);
             if (levelInfo.name !== currentLevel) {
                 currentLevel = levelInfo.name;
-                lives++; // Unlimited max lives now
+                lives++; 
                 triggeredLevelUp = true;
-                document.getElementById('levelup-badge').innerText = levelInfo.emoji;
-                playAudio(sfx.levelUp); // Prioritize level up sound
+                document.getElementById('levelup-badge').src = levelInfo.badge;
+                playAudio(sfx.levelUp); 
             } else {
                 playAudio(sfx.correct);
             }
@@ -559,7 +551,7 @@
         document.getElementById('go-score').innerText = score;
         document.getElementById('go-rounds').innerText = roundNumber;
         document.getElementById('go-level').innerText = currentLevel;
-        document.getElementById('final-badge').innerText = getLevelInfo(score).emoji;
+        document.getElementById('final-badge').src = getLevelInfo(score).badge;
 
         await generateCanvas();
         prepareSocialLinks();
@@ -629,10 +621,6 @@
         ctx.fillText(`Accuracy: ${score} out of ${roundNumber} correct`, 40, 190);
         ctx.fillText(`Rank: ${currentLevel}`, 40, 240);
 
-        // Draw Emoji Badge
-        ctx.font = '40px sans-serif';
-        ctx.fillText(getLevelInfo(score).emoji, 350, 245);
-
         ctx.fillStyle = '#1a4314';
         ctx.font = '26px "VT323", monospace'; 
         ctx.fillText('Play at: lukasroeseler.github.io/GuessTheReplication', 40, 310);
@@ -641,19 +629,30 @@
         const gameLogoImg = await loadImg('Images/logo.png');
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
+        const badgeImg = await loadImg(getLevelInfo(score).badge);
         
         if (gameLogoImg) {
             const h = 60; const w = gameLogoImg.width * (h / gameLogoImg.height);
             ctx.drawImage(gameLogoImg, canvas.width - w - 25, 25, w, h);
         }
+
+        if (badgeImg) {
+            ctx.drawImage(badgeImg, 350, 195, 60, 60);
+        }
         
         if (muecosImg) {
-            const h = 50; const w = muecosImg.width * (h / muecosImg.height);
-            ctx.drawImage(muecosImg, 40, 340, w, h);
+            const h = 40; const w = muecosImg.width * (h / muecosImg.height);
+            ctx.drawImage(muecosImg, 40, 350, w, h);
+            ctx.fillStyle = '#4b3621'; ctx.font = 'bold 28px Calibri, sans-serif';
+            ctx.fillText('MüCOS', 40 + w + 10, 380);
         }
+        
         if (forrtImg) {
-            const h = 50; const w = forrtImg.width * (h / forrtImg.height);
-            ctx.drawImage(forrtImg, canvas.width - w - 40, 340, w, h);
+            const h = 40; const w = forrtImg.width * (h / forrtImg.height);
+            const forrtX = canvas.width - w - 120; // Room for logo + text
+            ctx.drawImage(forrtImg, forrtX, 350, w, h);
+            ctx.fillStyle = '#4b3621'; ctx.font = 'bold 28px "Century Schoolbook", serif';
+            ctx.fillText('FORRT', forrtX + w + 10, 380);
         }
     }
 
@@ -666,7 +665,7 @@
 
     function prepareSocialLinks() {
         const url = "https://lukasroeseler.github.io/GuessTheReplication/";
-        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}" ${getLevelInfo(score).emoji}!\n\nCan you do better?\nPlay here: ${url}`;
+        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
         
         document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
         document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
