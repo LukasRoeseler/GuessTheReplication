@@ -111,16 +111,19 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
         .main-game-logo { height: 70px; width: auto; object-fit: contain; }
         
-        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 12px; text-decoration: none;}
+        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .muecos-corner { left: 20px; }
         .forrt-corner { right: 20px; }
-        .corner-img { height: 60px; width: auto; }
+        .corner-img { height: 45px; width: auto; object-fit: contain; }
         
         /* Font styles for corner logos */
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
-        .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.6rem; color: var(--text-main); }
-        .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 1rem; color: var(--text-main); margin-top: 2px;}
-        .forrt-text { font-family: 'Century Schoolbook', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); }
+        .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--text-main); }
+        .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.8rem; color: var(--text-main); margin-top: 2px;}
+        
+        .forrt-long-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-size: 0.8rem; text-align: right; line-height: 1.1; color: var(--text-main); }
+        .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
+        .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
         .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
@@ -191,8 +194,10 @@
             </div>
         </a>
         <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
-            <span class="forrt-text">FORRT</span>
+            <div class="forrt-long-text">Framework for<br>Open and<br>Reproducible<br>Research<br>Training</div>
+            <div class="forrt-divider"></div>
             <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
+            <span class="forrt-text">FORRT</span>
         </a>
     </div>
 
@@ -270,7 +275,7 @@
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="info-box" id="citation-links"></div>
+        <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
 
         <br>
         <button id="next-btn" onclick="handleNext()">Next Round (Space)</button>
@@ -353,6 +358,13 @@
 
     function playAudio(snd) {
         try { snd.currentTime = 0; snd.play().catch(e => {}); } catch(e) {}
+    }
+
+    // Helper function to decode HTML entities like &amp; to &
+    function decodeHTML(html) {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     }
 
     const LEVELS = [
@@ -469,9 +481,9 @@
         roundNumber++;
         trialTabSwitches = 0;
         
-        document.getElementById('study-title').innerText = currentStudy.ref_o; 
+        document.getElementById('study-title').innerText = decodeHTML(currentStudy.ref_o); 
         
-        let abstractHTML = currentStudy.abstract;
+        let abstractHTML = decodeHTML(currentStudy.abstract);
         if (currentStudy.study_o && /\d/.test(currentStudy.study_o)) {
             abstractHTML = `<strong>Study ${currentStudy.study_o}</strong><br><br>${abstractHTML}`;
         }
@@ -482,7 +494,7 @@
 
         const journalBox = document.getElementById('journal-box');
         let boxText = "";
-        let jText = (currentStudy.journal_visible && currentStudy.journal) ? currentStudy.journal : "";
+        let jText = (currentStudy.journal_visible && currentStudy.journal) ? decodeHTML(currentStudy.journal) : "";
         let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Journal's Impact Factor: ${currentStudy.impact_factor}` : "";
 
         if (jText && ifText) boxText = `Journal: ${jText} (${ifText})`;
@@ -490,7 +502,7 @@
         else if (ifText) boxText = ifText;
 
         if (boxText !== "") {
-            journalBox.innerText = boxText;
+            journalBox.innerHTML = boxText; // Important: use innerHTML to parse entities correctly
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -501,10 +513,24 @@
         roundStartTime = Date.now();
     }
 
-    function buildDoiLink(doi) {
-        if (!doi || doi === "NA" || doi === "") return "";
-        const url = doi.startsWith("http") ? doi : `https://doi.org/${doi}`;
-        return `<a href="${url}" target="_blank">${url}</a>`;
+    // Helper to format citation links robustly
+    function formatCitation(text, fallbackDoi) {
+        if (!text) return "";
+        let decoded = decodeHTML(text);
+        
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        if (urlRegex.test(decoded)) {
+            // APA string already has a link, make it clickable, no need to append twice.
+            return decoded.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+        } else {
+            // No link in APA string, manually append the DOI link
+            let out = decoded;
+            if (fallbackDoi && fallbackDoi !== "NA") {
+                const url = fallbackDoi.startsWith("http") ? fallbackDoi : `https://doi.org/${fallbackDoi}`;
+                out += `<br><a href="${url}" target="_blank">${url}</a>`;
+            }
+            return out;
+        }
     }
 
     async function makeGuess(guess) {
@@ -551,9 +577,10 @@
         
         const textO = currentStudy.apa_ref_o || currentStudy.ref_o;
         const textR = currentStudy.apa_ref_r || currentStudy.ref_r;
+        
         document.getElementById('citation-links').innerHTML = `
-            <strong>Original Study:</strong> <br>${textO} <br>${buildDoiLink(currentStudy.doi_o)}<br><br>
-            <strong>Replication Study:</strong> <br>${textR} <br>${buildDoiLink(currentStudy.doi_r)}
+            <strong>Original Study:</strong> <br>${formatCitation(textO, currentStudy.doi_o)}<br><br>
+            <strong>Replication Study:</strong> <br>${formatCitation(textR, currentStudy.doi_r)}
         `;
         
         const nextBtn = document.getElementById('next-btn');
@@ -642,6 +669,7 @@
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
         
+        // Background and Border
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
@@ -672,12 +700,12 @@
         ctx.font = '30px "VT323", monospace'; 
         ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
-        // Bottom Logos
+        // Load Bottom Logos
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
-        const targetH = 65; // Make logos a bit taller since canvas is bigger
-        const bottomY = 610;
+        const targetH = 45; // Height for the logos
+        const bottomY = 635;
         
         // MüCOS (Left)
         if (muecosImg) {
@@ -686,27 +714,49 @@
             
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'left';
-            ctx.font = 'bold 24px Arial, sans-serif';
-            ctx.fillText('MüCOS', 40 + w + 15, bottomY + 24);
+            ctx.font = 'bold 20px Arial, sans-serif';
+            ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
             
-            ctx.font = '16px Arial, sans-serif';
-            ctx.fillText('Münster Center', 40 + w + 15, bottomY + 44);
-            ctx.fillText('for Open Science', 40 + w + 15, bottomY + 62);
+            ctx.font = '14px Arial, sans-serif';
+            ctx.fillText('Münster Center', 40 + w + 12, bottomY + 32);
+            ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
-        // FORRT (Right)
+        // FORRT (Right Side - Image + Line + Text)
         if (forrtImg) {
-            const w = forrtImg.width * (targetH / forrtImg.height);
+            const logoW = forrtImg.width * (targetH / forrtImg.height);
+            
             ctx.fillStyle = '#4b3621'; 
-            ctx.font = 'bold 30px "Century Schoolbook", serif';
+            ctx.textAlign = 'right';
             
-            const textWidth = ctx.measureText('FORRT').width;
-            const totalForrtWidth = w + 15 + textWidth; 
-            const forrtStartX = canvas.width - 40 - totalForrtWidth;
+            // 1. Write the FORRT bold text
+            ctx.font = 'bold 26px "Century Schoolbook", serif';
+            const forrtX = canvas.width - 40; 
+            ctx.fillText('FORRT', forrtX, bottomY + 32);
             
-            ctx.drawImage(forrtImg, forrtStartX, bottomY, w, targetH);
-            ctx.textAlign = 'left'; 
-            ctx.fillText('FORRT', forrtStartX + w + 15, bottomY + 42); 
+            const forrtTextW = ctx.measureText('FORRT').width;
+            
+            // 2. Draw the Logo to the left of the FORRT text
+            const logoX = forrtX - forrtTextW - 10 - logoW;
+            ctx.drawImage(forrtImg, logoX, bottomY, logoW, targetH);
+            
+            // 3. Draw the vertical divider line
+            const lineX = logoX - 10;
+            ctx.beginPath();
+            ctx.moveTo(lineX, bottomY);
+            ctx.lineTo(lineX, bottomY + targetH);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#4b3621';
+            ctx.stroke();
+
+            // 4. Write the long text to the left of the line
+            ctx.font = '12px "Century Schoolbook", serif';
+            const textX = lineX - 10;
+            ctx.fillText('Framework for', textX, bottomY + 8);
+            ctx.fillText('Open and', textX, bottomY + 19);
+            ctx.fillText('Reproducible', textX, bottomY + 30);
+            ctx.fillText('Research', textX, bottomY + 41);
+            ctx.fillText('Training', textX, bottomY + 52);
         }
     }
 
