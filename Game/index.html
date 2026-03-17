@@ -45,7 +45,7 @@
 
         .container {
             width: 100%; max-width: 800px; background: var(--bg-container);
-            padding: 40px 30px 80px; border-radius: 0; 
+            padding: 40px 30px 140px; border-radius: 0; 
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
             position: relative; min-height: 500px;
@@ -69,9 +69,26 @@
             background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
 
-        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.03); padding: 10px; border: 2px dashed var(--border-color);}
-        .checkbox-group label { display: block; margin-bottom: 5px; cursor: pointer;}
-        .checkbox-group input { margin-right: 10px; transform: scale(1.2); }
+        /* Custom Pixel Checkboxes */
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
+        
+        .pixel-checkbox { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; user-select: none; position: relative; }
+        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { height: 24px; width: 24px; background-color: var(--bg-body); border: 3px solid var(--border-color); display: inline-block; margin-right: 12px; position: relative; box-shadow: 3px 3px 0 var(--border-color); transition: 0.1s;}
+        
+        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--royal-blue); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(3px, 3px); }
+        
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
+        
+        /* Pixelated Check shape inside the box */
+        .pixel-checkbox .checkmark:after {
+            left: 6px; top: 1px; width: 6px; height: 12px;
+            border: solid white; border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -100,7 +117,8 @@
         .correct-text { color: var(--dark-green); }
         .wrong-text { color: var(--dark-brown); }
         .quote { font-style: italic; background: rgba(0,0,0,0.05); padding: 15px; text-align: left; border-left: 6px solid var(--dark-brown);}
-        .citation-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
+        .info-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
+        .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
         
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
@@ -110,20 +128,27 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
         .main-game-logo { height: 70px; width: auto; object-fit: contain; }
         
-        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 8px; text-decoration: none;}
+        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .muecos-corner { left: 20px; }
         .forrt-corner { right: 20px; }
-        .corner-img { height: 50px; width: auto; }
+        .corner-img { height: 45px; width: auto; object-fit: contain; }
         
-        /* Font styles for corner logos */
-        .muecos-text { font-family: 'Calibri', sans-serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
-        .forrt-text { font-family: 'Century Schoolbook', serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
+        .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
+        .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--text-main); }
+        .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.8rem; color: var(--text-main); margin-top: 2px;}
+        
+        .forrt-long-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-size: 0.8rem; text-align: right; line-height: 1.1; color: var(--text-main); }
+        .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
+        .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
         .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
+        .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
+        .mute-btn:active { box-shadow: none; transform: scale(0.9); }
+
         /* Badges & Game Over */
-        .badge-img { width: 100px; height: 100px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(4px 4px 0 var(--border-color)); }
+        .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
         
         .certificate-preview {
             background: var(--bg-body);
@@ -134,6 +159,11 @@
         }
 
         canvas { display: none; }
+
+        /* Hide keyboard hints on mobile screens */
+        @media (max-width: 768px) {
+            .key-hint { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -168,10 +198,26 @@
 
         <label style="font-size: 1.3rem;">How familiar are you with social science research?</label><br>
         <div class="checkbox-group" id="experience-checks">
-            <label><input type="checkbox" value="I regularly read research articles"> I regularly read research articles</label>
-            <label><input type="checkbox" value="I conduct research"> I conduct research</label>
-            <label><input type="checkbox" value="I publish research"> I publish research</label>
-            <label><input type="checkbox" value="I conduct replications"> I conduct replications</label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I regularly read research articles">
+                <span class="checkmark"></span> I regularly read research articles
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct research">
+                <span class="checkmark"></span> I conduct research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I publish research">
+                <span class="checkmark"></span> I publish research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct replications">
+                <span class="checkmark"></span> I conduct replications
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I am unfamiliar with research">
+                <span class="checkmark"></span> I am unfamiliar with research
+            </label>
         </div><br>
 
         <button onclick="startGame()">Start Game</button>
@@ -181,23 +227,31 @@
         <!-- Corner Logos -->
         <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank" class="corner-logo-container muecos-corner">
             <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-img">
-            <span class="muecos-text">MüCOS</span>
+            <div class="muecos-text-block">
+                <span class="muecos-title">MüCOS</span>
+                <span class="muecos-subtitle">Münster Center<br>for Open Science</span>
+            </div>
         </a>
         <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
-            <span class="forrt-text">FORRT</span>
+            <div class="forrt-long-text">Framework for<br>Open and<br>Reproducible<br>Research<br>Training</div>
+            <div class="forrt-divider"></div>
             <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
+            <span class="forrt-text">FORRT</span>
         </a>
     </div>
 
     <!-- TUTORIAL SCREEN -->
     <div id="tutorial-screen" class="hidden" style="text-align: left;">
         <h2 style="text-align: center;">How to Play</h2>
-        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again.</p>
-        <p>Your task is to guess the outcome of the replication based on only the information you have.</p>
-        <br>
-        <p>For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.</p>
-        <br>
-        <p>You can use the mouse to click on the buttons, or press <strong>1</strong> (Success), <strong>2</strong> (Failure), and the <strong>Spacebar</strong> to continue.</p>
+        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again. <strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
+        
+        <div class="hint-box">
+            💡 For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.
+        </div>
+        
+        <div class="hint-box">
+            🖱️/⌨️ You can use the mouse to click on the buttons, or press <strong>1</strong> (Success), <strong>2</strong> (Failure), and the <strong>Spacebar</strong> to continue.
+        </div>
         
         <div style="text-align: center; margin-top: 30px;">
             <button onclick="showScreen('start-screen')">Back to Start</button>
@@ -209,7 +263,8 @@
         <h2 style="text-align: center;">About the Game</h2>
         <p>Research is about truth and truth should be findable by everyone. One way to do this is to test again what others have claimed, that is, <i>to replicate</i>. In social science research, replications are often neglected, which is why we created this game: Our aim is for you to learn about replications in a fun and educational way.</p>
         <p>The game uses an excerpt from the FORRT Library of Reproduction and Replication Attempts - the world's largest study-based database of replications. Note that about one third of replications show mixed results (it's not always black and white). Also, just because a replication failed, it does not mean that the original study cannot be trusted. And just because it succeeded, it does not mean that the original study was definitely right. Things are complicated, welcome to the world of research!</p>
-        <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
+        
+        <h3 style="color: var(--royal-blue); margin-top: 30px; text-transform: uppercase;">Data Sharing</h3>
         <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide. We use this game to learn more about how people predict replication outcomes.</p>
 
         <h2 style="text-align: center; margin-top: 40px;">Credits</h2>
@@ -220,9 +275,14 @@
             <li style="margin-bottom: 10px;">Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</li>
         </ul>
         
-        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 25px;">
+        <div class="info-box" style="margin-top: 25px;">
             <strong>Recommended Citation:</strong><br>
             Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
+        </div>
+
+        <div class="info-box" style="margin-top: 15px;">
+            <strong>More games like this:</strong><br>
+            This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
@@ -239,9 +299,10 @@
         <div class="study-abstract" id="study-abstract"></div>
 
         <div>
-            <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small>(Press 1)</small></button>
-            <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small>(Press 2)</small></button>
+            <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small class="key-hint">(Press 1)</small></button>
+            <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small class="key-hint">(Press 2)</small></button>
         </div>
+        <button class="mute-btn" onclick="toggleMute()" title="Toggle Sound">🔊</button>
     </div>
 
     <!-- FEEDBACK SCREEN -->
@@ -254,10 +315,11 @@
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="citation-box" id="citation-links"></div>
+        <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
 
         <br>
-        <button id="next-btn" onclick="handleNext()">Next Round (Space)</button>
+        <button id="next-btn" onclick="handleNext()">Next Round <span class="key-hint">(Space)</span></button>
+        <button class="mute-btn" onclick="toggleMute()" title="Toggle Sound">🔊</button>
     </div>
 
     <!-- LEVEL UP SCREEN -->
@@ -267,7 +329,7 @@
         <h2 id="new-level-name"></h2>
         <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! <span class="hearts">❤️</span></p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
-        <button onclick="continueFromLevelUp()">Continue (Space)</button>
+        <button onclick="continueFromLevelUp()">Continue <span class="key-hint">(Space)</span></button>
     </div>
 
     <!-- GAME OVER SCREEN -->
@@ -285,14 +347,14 @@
             <h2 id="go-level" style="font-size: 2.5rem; margin: 10px 0;"></h2>
         </div>
 
-        <button onclick="downloadImage()">🎓 Download Certificate</button>
+        <button onclick="downloadImage()">🎓 GuTheR Certificate</button>
         <br>
         <div style="margin-top: 10px; margin-bottom: 30px;">
             <a href="#" target="_blank" class="social-btn" id="bsky-btn">Share on Bluesky</a>
             <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Share on Mastodon</a>
         </div>
 
-        <div style="margin: 20px 0; background: rgba(0,0,0,0.05); border: 4px dashed var(--border-color); padding: 15px;">
+        <div class="info-box">
             <p style="font-weight: bold; color: var(--royal-blue); margin-top:0;">Want to learn more?</p>
             <a href="https://forrt.org/flora_zotero/" target="_blank">Never miss a replication: Get the Zotero Plugin</a><br><br>
             <a href="https://forrt.org/replication_handbook/" target="_blank">Learn how to conduct a replication (Handbook)</a>
@@ -312,7 +374,7 @@
         </a>
     </div>
     
-    <canvas id="share-canvas" width="750" height="550"></canvas>
+    <canvas id="share-canvas" width="800" height="720"></canvas>
 </div>
 
 <script>
@@ -325,6 +387,8 @@
 
     let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
     let gameStartTime = 0, roundStartTime = 0, totalTabSwitches = 0, trialTabSwitches = 0;
+    
+    let isMuted = false;
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
@@ -336,7 +400,20 @@
     };
 
     function playAudio(snd) {
+        if (isMuted) return;
         try { snd.currentTime = 0; snd.play().catch(e => {}); } catch(e) {}
+    }
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        const btns = document.querySelectorAll('.mute-btn');
+        btns.forEach(btn => btn.innerText = isMuted ? '🔇' : '🔊');
+    }
+
+    function decodeHTML(html) {
+        const txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
     }
 
     const LEVELS = [
@@ -411,9 +488,11 @@
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
         career = document.getElementById('career').value;
-        if (!career) return alert("Please specify your career level");
+        if (!career) return alert("Please specify your career level.");
         
         const expBoxes = document.querySelectorAll('#experience-checks input:checked');
+        if (expBoxes.length === 0) return alert("Please select your familiarity with research.");
+
         let expArray = [];
         expBoxes.forEach(box => expArray.push(box.value));
         experience = expArray.join(", ");
@@ -451,9 +530,9 @@
         roundNumber++;
         trialTabSwitches = 0;
         
-        document.getElementById('study-title').innerText = currentStudy.ref_o; 
+        document.getElementById('study-title').innerText = decodeHTML(currentStudy.ref_o); 
         
-        let abstractHTML = currentStudy.abstract;
+        let abstractHTML = decodeHTML(currentStudy.abstract);
         if (currentStudy.study_o && /\d/.test(currentStudy.study_o)) {
             abstractHTML = `<strong>Study ${currentStudy.study_o}</strong><br><br>${abstractHTML}`;
         }
@@ -464,7 +543,7 @@
 
         const journalBox = document.getElementById('journal-box');
         let boxText = "";
-        let jText = (currentStudy.journal_visible && currentStudy.journal) ? currentStudy.journal : "";
+        let jText = (currentStudy.journal_visible && currentStudy.journal) ? decodeHTML(currentStudy.journal) : "";
         let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Journal's Impact Factor: ${currentStudy.impact_factor}` : "";
 
         if (jText && ifText) boxText = `Journal: ${jText} (${ifText})`;
@@ -472,7 +551,7 @@
         else if (ifText) boxText = ifText;
 
         if (boxText !== "") {
-            journalBox.innerText = boxText;
+            journalBox.innerHTML = boxText; 
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -483,10 +562,21 @@
         roundStartTime = Date.now();
     }
 
-    function buildDoiLink(doi) {
-        if (!doi || doi === "NA" || doi === "") return "";
-        const url = doi.startsWith("http") ? doi : `https://doi.org/${doi}`;
-        return `<a href="${url}" target="_blank">${url}</a>`;
+    function formatCitation(text, fallbackDoi) {
+        if (!text) return "";
+        let decoded = decodeHTML(text);
+        
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        if (urlRegex.test(decoded)) {
+            return decoded.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+        } else {
+            let out = decoded;
+            if (fallbackDoi && fallbackDoi !== "NA") {
+                const url = fallbackDoi.startsWith("http") ? fallbackDoi : `https://doi.org/${fallbackDoi}`;
+                out += `<br><a href="${url}" target="_blank">${url}</a>`;
+            }
+            return out;
+        }
     }
 
     async function makeGuess(guess) {
@@ -533,13 +623,14 @@
         
         const textO = currentStudy.apa_ref_o || currentStudy.ref_o;
         const textR = currentStudy.apa_ref_r || currentStudy.ref_r;
+        
         document.getElementById('citation-links').innerHTML = `
-            <strong>Original Study:</strong> <br>${textO} <br>${buildDoiLink(currentStudy.doi_o)}<br><br>
-            <strong>Replication Study:</strong> <br>${textR} <br>${buildDoiLink(currentStudy.doi_r)}
+            <strong>Original Study:</strong> <br>${formatCitation(textO, currentStudy.doi_o)}<br><br>
+            <strong>Replication Study:</strong> <br>${formatCitation(textR, currentStudy.doi_r)}
         `;
         
         const nextBtn = document.getElementById('next-btn');
-        nextBtn.innerText = isGameOver ? "See Final Results (Space)" : "Next Round (Space)";
+        nextBtn.innerHTML = isGameOver ? "See Final Results <span class='key-hint'>(Space)</span>" : "Next Round <span class='key-hint'>(Space)</span>";
         nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
@@ -563,7 +654,6 @@
     async function endGame() {
         showScreen('gameover-screen');
         
-        // Update Game Over UI
         document.getElementById('go-nickname').innerText = nickname;
         document.getElementById('go-score').innerText = score;
         document.getElementById('go-rounds').innerText = roundNumber;
@@ -630,66 +720,85 @@
         
         // Title
         ctx.fillStyle = '#002366'; ctx.textAlign = 'center';
-        ctx.font = 'bold 44px "VT323", monospace'; 
-        ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 70);
+        ctx.font = 'bold 50px "VT323", monospace'; 
+        ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
-        // Center Badge Image
+        // Center Badge Image (200x200)
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
-            const size = 120; 
-            ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 100, size, size);
+            const size = 200; 
+            ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 120, size, size);
         }
 
         // Main Text Details
         ctx.fillStyle = '#4b3621';
-        ctx.font = '28px "VT323", monospace';
-        ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 270);
-        ctx.fillText(`outcomes correctly and achieved the rank`, canvas.width / 2, 310);
+        ctx.font = '32px "VT323", monospace';
+        ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 380);
+        ctx.fillText(`outcomes correctly and achieved the rank`, canvas.width / 2, 420);
         
         ctx.fillStyle = '#002366';
-        ctx.font = 'bold 36px "VT323", monospace';
-        ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 360);
+        ctx.font = 'bold 42px "VT323", monospace';
+        ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 480);
 
         // Link
         ctx.fillStyle = '#1a4314';
-        ctx.font = '26px "VT323", monospace'; 
-        ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 420);
+        ctx.font = '30px "VT323", monospace'; 
+        ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
         // Load Bottom Logos
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
-        const targetH = 50;
-        const bottomY = 460;
-        const textY = 495;
-
+        const targetH = 45; 
+        const bottomY = 635;
+        
         // MüCOS (Left)
         if (muecosImg) {
             const w = muecosImg.width * (targetH / muecosImg.height);
             ctx.drawImage(muecosImg, 40, bottomY, w, targetH);
+            
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'left';
-            ctx.font = 'bold 28px Calibri, sans-serif';
-            ctx.fillText('MüCOS', 40 + w + 10, textY);
+            ctx.font = 'bold 20px Arial, sans-serif';
+            ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
+            
+            ctx.font = '14px Arial, sans-serif';
+            ctx.fillText('Münster Center', 40 + w + 12, bottomY + 32);
+            ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
-        // FORRT (Right side calculation: draw image, then write text to the right of it)
+        // FORRT (Right)
         if (forrtImg) {
-            const w = forrtImg.width * (targetH / forrtImg.height);
+            const logoW = forrtImg.width * (targetH / forrtImg.height);
+            
             ctx.fillStyle = '#4b3621'; 
-            ctx.font = 'bold 28px "Century Schoolbook", serif';
+            ctx.textAlign = 'right';
             
-            const textWidth = ctx.measureText('FORRT').width;
+            ctx.font = 'bold 26px "Century Schoolbook", serif';
+            const forrtX = canvas.width - 40; 
+            ctx.fillText('FORRT', forrtX, bottomY + 32);
             
-            // Total width of logo + space + text
-            const totalForrtWidth = w + 10 + textWidth; 
-            
-            // Starting X position so the whole block hugs the right margin (40px padding)
+            const forrtTextW = ctx.measureText('FORRT').width;
+            const totalForrtWidth = logoW + 15 + forrtTextW; 
             const forrtStartX = canvas.width - 40 - totalForrtWidth;
             
-            ctx.drawImage(forrtImg, forrtStartX, bottomY, w, targetH);
-            ctx.textAlign = 'left'; // Align text left starting from the end of the image
-            ctx.fillText('FORRT', forrtStartX + w + 10, textY);
+            ctx.drawImage(forrtImg, forrtStartX, bottomY, logoW, targetH);
+            
+            const lineX = forrtStartX - 10;
+            ctx.beginPath();
+            ctx.moveTo(lineX, bottomY);
+            ctx.lineTo(lineX, bottomY + targetH);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#4b3621';
+            ctx.stroke();
+
+            ctx.font = '12px "Century Schoolbook", serif';
+            const textX = lineX - 10;
+            ctx.fillText('Framework for', textX, bottomY + 8);
+            ctx.fillText('Open and', textX, bottomY + 19);
+            ctx.fillText('Reproducible', textX, bottomY + 30);
+            ctx.fillText('Research', textX, bottomY + 41);
+            ctx.fillText('Training', textX, bottomY + 52);
         }
     }
 
