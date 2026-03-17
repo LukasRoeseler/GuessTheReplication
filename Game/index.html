@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
+    <!-- Retro Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Light Theme */
             --bg-body: #f4f1ea;          
             --bg-container: #ffffff;     
             --text-main: #4b3621;        
@@ -14,10 +16,13 @@
             --dark-brown: #4b3621;       
             --dark-green: #1a4314;       
             --border-color: #002366;     
-            --heart-color: #b22222;
+            --heart-color: #e74c3c;
+            --btn-info: #5f9ea0;
+            --btn-tutorial: #cd853f;
         }
 
         [data-theme="dark"] {
+            /* Dark Theme */
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
@@ -26,18 +31,20 @@
             --dark-green: #3cb371;
             --border-color: #4169e1;
             --heart-color: #ff4444;
+            --btn-info: #4682b4;
+            --btn-tutorial: #d2691e;
         }
 
         body {
             background-color: var(--bg-body); color: var(--text-main);
             font-family: 'VT323', monospace; margin: 0; padding: 20px;
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; text-align: center; transition: 0.3s;
+            min-height: 100vh; text-align: center; transition: background-color 0.3s, color 0.3s;
             font-size: 1.4rem;
         }
 
         .container {
-            width: 100%; max-width: 750px; background: var(--bg-container);
+            width: 100%; max-width: 800px; background: var(--bg-container);
             padding: 40px 30px 80px; border-radius: 0; 
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
@@ -56,12 +63,15 @@
         .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
-        input, select {
+        input[type="text"], select {
             width: 100%; max-width: 350px; padding: 10px;
             margin: 10px 0 20px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
-            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace;
-            text-transform: uppercase;
+            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
+
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.03); padding: 10px; border: 2px dashed var(--border-color);}
+        .checkbox-group label { display: block; margin-bottom: 5px; cursor: pointer;}
+        .checkbox-group input { margin-right: 10px; transform: scale(1.2); }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -70,6 +80,8 @@
         }
         button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(6px, 6px); }
         
+        .btn-info { background: var(--btn-info); }
+        .btn-tutorial { background: var(--btn-tutorial); }
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
@@ -80,29 +92,39 @@
         .hud {
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
             margin-bottom: 20px; padding-bottom: 10px; border-bottom: 4px solid var(--border-color);
-            font-size: 1.5rem; text-transform: uppercase; color: var(--text-main);
+            font-size: 1.6rem; text-transform: uppercase; color: var(--text-main); font-weight: bold;
         }
-        .hearts { color: var(--heart-color); font-size: 2rem; letter-spacing: 2px; }
-        @keyframes fadeOut { 0% {transform: scale(1);} 100% {transform: scale(0); opacity: 0;} }
-        .heart-lost { animation: fadeOut 0.5s forwards; display: inline-block; }
-
-        .big-result { font-size: 4rem; font-weight: bold; margin: 15px 0; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
+        .hearts { color: var(--heart-color); }
+        
+        .big-result { font-size: 3.5rem; font-weight: bold; margin: 15px 0; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         .correct-text { color: var(--dark-green); }
         .wrong-text { color: var(--dark-brown); }
         .quote { font-style: italic; background: rgba(0,0,0,0.05); padding: 15px; text-align: left; border-left: 6px solid var(--dark-brown);}
-        
         .citation-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
         
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
         .leaderboard th { background: var(--royal-blue); color: #fff; }
 
-        /* Logos Setup */
-        .corner-logo { position: absolute; bottom: 15px; height: 50px; width: auto; object-fit: contain; }
-        .muecos-corner { left: 15px; }
-        .forrt-corner { right: 15px; }
-        .main-game-logo { height: 80px; display: block; margin: 0 auto 10px; }
+        /* Logos & Header */
+        .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .main-game-logo { height: 70px; width: auto; object-fit: contain; }
         
+        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 8px; text-decoration: none;}
+        .muecos-corner { left: 20px; }
+        .forrt-corner { right: 20px; }
+        .corner-img { height: 50px; width: auto; }
+        
+        /* Font styles for corner logos */
+        .muecos-text { font-family: 'Calibri', sans-serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
+        .forrt-text { font-family: 'Century Schoolbook', serif; font-weight: bold; font-size: 1.5rem; color: var(--text-main); }
+
+        .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
+        .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
+
+        /* Badges */
+        .badge { display: inline-block; width: 60px; height: 60px; line-height: 50px; font-size: 2.5rem; background: #fff; border: 4px solid var(--border-color); border-radius: 50%; box-shadow: 4px 4px 0 var(--border-color); margin-top: 10px; background: radial-gradient(circle, #fff 40%, #e0e0e0 100%); }
+
         canvas { display: none; }
     </style>
 </head>
@@ -110,34 +132,16 @@
 
 <div class="container" id="app">
 
-    <!-- INFO SCREEN -->
-    <div id="info-screen" class="hidden" style="text-align: left;">
-        <h2 style="text-align: center;">About the Game</h2>
-        <p>Replications are a crucial part of research. Scientific claims are meant to be verifiable and falsifiable by independent researchers. Yet, they often receive little attention. With this game, we want to draw attention to replications in a fun and educational way.</p>
-        <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
-        <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide. We use this game to learn more about how researchers predict replication outcomes. Resulting research articles will all be published in Diamond Open Access journals - that is, we will not pay commercial publishers to disseminate them and the articles will be openly accessible for free for everybody.</p>
-
-        <h2 style="text-align: center; margin-top: 40px;">Credits</h2>
-        <ul style="font-size: 1.3rem; line-height: 1.4; color: var(--text-main);">
-            <li style="margin-bottom: 10px;">This game was developed by Lukas and Jessica Röseler with the help of Gemini 3.1 pro preview.</li>
-            <li style="margin-bottom: 10px;">Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</li>
-            <li style="margin-bottom: 10px;">The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</li>
-            <li style="margin-bottom: 10px;">Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</li>
-        </ul>
-        
-        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 25px;">
-            <strong>Recommended Citation:</strong><br>
-            Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
-        </div>
-        
-        <div style="text-align: center; margin-top: 30px;">
-            <button onclick="showScreen('start-screen')">Back to Start</button>
-        </div>
-    </div>
-
     <!-- START SCREEN -->
     <div id="start-screen">
-        <img src="Images/logo.png" alt="Guess The Replication Logo" class="main-game-logo">
+        <button class="theme-toggle-start" onclick="toggleTheme()" title="Toggle Dark Mode">🌓</button>
+        
+        <div class="header-container">
+            <img src="Images/logo.png" alt="Logo" class="main-game-logo">
+            <h1>GUESS THE REPLICATION</h1>
+        </div>
+        
+        <p>Can you predict which scientific studies replicate?</p>
         
         <label for="nickname">Nickname:</label><br>
         <input type="text" id="nickname" placeholder="PLAYER 1" required><br>
@@ -152,20 +156,70 @@
             <option value="Postdoc">Postdoc</option>
             <option value="Professor">Professor</option>
             <option value="Other">Other</option>
-        </select><br><br>
+        </select><br>
 
-        <button onclick="startGame()">Start Game</button><br>
-        <br>
-        <a onclick="toggleTheme()">[ ☼ / ☾ ] TOGGLE THEME</a><br><br>
-        <a onclick="showScreen('info-screen')">ℹ️ About & Privacy</a>
+        <label style="font-size: 1.3rem;">How familiar are you with social science research?</label><br>
+        <div class="checkbox-group" id="experience-checks">
+            <label><input type="checkbox" value="I regularly read research articles"> I regularly read research articles</label>
+            <label><input type="checkbox" value="I conduct research"> I conduct research</label>
+            <label><input type="checkbox" value="I publish research"> I publish research</label>
+            <label><input type="checkbox" value="I conduct replications"> I conduct replications</label>
+        </div><br>
+
+        <button onclick="startGame()">Start Game</button>
+        <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
+        <button class="btn-info" onclick="showScreen('info-screen')">About</button>
 
         <!-- Corner Logos -->
-        <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank">
-            <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-logo muecos-corner">
+        <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank" class="corner-logo-container muecos-corner">
+            <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-img">
+            <span class="muecos-text">MüCOS</span>
         </a>
-        <a href="https://forrt.org/replication-hub/" target="_blank">
-            <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-logo forrt-corner dynamic-logo">
+        <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
+            <span class="forrt-text">FORRT</span>
+            <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
         </a>
+    </div>
+
+    <!-- TUTORIAL SCREEN -->
+    <div id="tutorial-screen" class="hidden" style="text-align: left;">
+        <h2 style="text-align: center;">How to Play</h2>
+        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again.</p>
+        <p>Your task is to guess the outcome of the replication based on only the information you have.</p>
+        <br>
+        <p>For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.</p>
+        <br>
+        <p>You can use the mouse to click on the buttons, or press <strong>1</strong> (Success), <strong>2</strong> (Failure), and the <strong>Spacebar</strong> to continue.</p>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="showScreen('start-screen')">Back to Start</button>
+        </div>
+    </div>
+
+    <!-- INFO SCREEN -->
+    <div id="info-screen" class="hidden" style="text-align: left;">
+        <h2 style="text-align: center;">About the Game</h2>
+        <p>Research is about truth and truth should be findable by everyone. One way to do this is to test again what others have claimed, that is, <i>to replicate</i>. In social science research, replications are often neglected, which is why we created this game: Our aim is for you to learn about replications in a fun and educational way.</p>
+        <p>The game uses an excerpt from the FORRT Library of Reproduction and Replication Attempts - the world's largest study-based database of replications. Note that about one third of replications show mixed results (it's not always black and white). Also, just because a replication failed, it does not mean that the original study cannot be trusted. And just because it succeeded, it does not mean that the original study was definitely right. Things are complicated, welcome to the world of research!</p>
+        <p>This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.</p>
+        <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide. We use this game to learn more about how people predict replication outcomes.</p>
+
+        <h2 style="text-align: center; margin-top: 40px;">Credits</h2>
+        <ul style="font-size: 1.3rem; line-height: 1.4; color: var(--text-main);">
+            <li style="margin-bottom: 10px;">This game was developed by Lukas and Jessica Röseler with the help of Gemini 3.1 pro preview. The authorship order was determined by who got a higher score in the game.</li>
+            <li style="margin-bottom: 10px;">Gameplay is strongly inspired by <a href="https://www.guessthecorrelation.com" target="_blank">GuessTheCorrelation</a>.</li>
+            <li style="margin-bottom: 10px;">The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</li>
+            <li style="margin-bottom: 10px;">Journal Impact Factors (2-year mean citedness) are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a>.</li>
+        </ul>
+        
+        <div style="background: rgba(0,0,0,0.05); padding: 10px; border: 4px dashed var(--border-color); text-align: left; font-size: 1.1rem; margin-top: 25px;">
+            <strong>Recommended Citation:</strong><br>
+            Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="showScreen('start-screen')">Back to Start</button>
+        </div>
     </div>
 
     <!-- GAME SCREEN -->
@@ -201,8 +255,9 @@
     <!-- LEVEL UP SCREEN -->
     <div id="levelup-screen" class="hidden">
         <h1>LEVEL UP!</h1>
+        <div id="levelup-badge" class="badge"></div>
         <h2 id="new-level-name"></h2>
-        <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! ♥</p>
+        <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! <span class="hearts">❤️</span></p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
         <button onclick="continueFromLevelUp()">Continue (Space)</button>
     </div>
@@ -210,7 +265,8 @@
     <!-- GAME OVER SCREEN -->
     <div id="gameover-screen" class="hidden">
         <h1>GAME OVER</h1>
-        <p>Player: <strong id="go-nickname"></strong></p>
+        <div id="final-badge" class="badge" style="margin-bottom:10px;"></div>
+        <p>PLAYER: <strong id="go-nickname"></strong></p>
         <p>Accuracy: <strong id="go-score"></strong> out of <strong id="go-rounds"></strong> correct</p>
         <p>Final Rank: <strong id="go-level"></strong></p>
         
@@ -227,7 +283,7 @@
         </table>
 
         <br>
-        <button onclick="downloadImage()">Download Image</button><br>
+        <button onclick="downloadImage()">🎓 GuTheR Certificate</button><br>
         <div style="margin-top: 10px;">
             <a href="#" target="_blank" class="social-btn" id="bsky-btn">Share on Bluesky</a>
             <a href="#" target="_blank" class="social-btn" id="mastodon-btn">Share on Mastodon</a>
@@ -248,8 +304,8 @@
     const SUPABASE_URL = 'https://oahaowlrxgntoyhthuhr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
-    let dataset = [], currentStudy = null;
-    let nickname = '', career = '', sessionId = Date.now();
+    let fullDataset = [], activeDataset = [], currentStudy = null;
+    let nickname = '', career = '', experience = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
@@ -257,6 +313,7 @@
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
+    // Audio setup (using HTMLAudioElement to prevent overlap/failures)
     const sfx = {
         correct: new Audio('Sounds/dragon-studio-correct-472358.mp3'),
         wrong: new Audio('Sounds/floraphonic-classic-game-action-negative-18-224576.mp3'),
@@ -264,10 +321,20 @@
         levelUp: new Audio('Sounds/floraphonic-classic-game-action-positive-1-224407.mp3')
     };
 
+    function playAudio(snd) {
+        try {
+            snd.currentTime = 0; 
+            snd.play().catch(e => console.log('Audio overlap/error suppressed:', e));
+        } catch(e) {}
+    }
+
     const LEVELS = [
-        { min: 0, name: 'Junior Reviewer' }, { min: 5, name: 'Reviewer 1' },
-        { min: 10, name: 'Reviewer 2' }, { min: 15, name: 'Associate Editor' },
-        { min: 20, name: 'Senior Editor' }, { min: 25, name: 'Editor-in-Chief' }
+        { min: 0, name: 'Junior Reviewer', emoji: '🥉' }, 
+        { min: 5, name: 'Reviewer 1', emoji: '🥈' },
+        { min: 10, name: 'Reviewer 2', emoji: '🥇' }, 
+        { min: 15, name: 'Associate Editor', emoji: '🎖️' },
+        { min: 20, name: 'Senior Editor', emoji: '🏆' }, 
+        { min: 25, name: 'Editor-in-Chief', emoji: '👑' }
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -276,14 +343,12 @@
 
         try {
             const res = await fetch('dataset.json');
-            dataset = await res.json();
-            dataset.sort(() => Math.random() - 0.5); 
+            fullDataset = await res.json();
         } catch (e) {
             document.getElementById('app').innerHTML = "<h2>Error: Please run convert_dataset.R first to generate dataset.json</h2>";
         }
     });
 
-    // Spacebar and Number key controls
     document.addEventListener('keydown', (e) => {
         if (!document.getElementById('game-screen').classList.contains('hidden')) {
             if (e.key === '1') makeGuess('success');
@@ -308,29 +373,24 @@
     }
 
     function showScreen(id) {
-        ['start-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
+        ['start-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
             document.getElementById(s).classList.add('hidden');
         });
         document.getElementById(id).classList.remove('hidden');
     }
 
-    function getLevelName(pts) {
-        let name = LEVELS[0].name;
-        for (let l of LEVELS) if (pts >= l.min) name = l.name;
-        return name;
+    function getLevelInfo(pts) {
+        let info = LEVELS[0];
+        for (let l of LEVELS) if (pts >= l.min) info = l;
+        return info;
     }
 
-    function renderHUD(lostLife = false) {
-        let heartsHTML = '';
-        for(let i=0; i<lives; i++) heartsHTML += '♥ ';
-        if (lostLife) heartsHTML += '<span class="heart-lost">♥</span>';
-        const displayLives = heartsHTML.trim() || 'DEAD';
-
+    function renderHUD() {
         const hudContent = `
-            <div>PLYR: <span>${nickname}</span></div>
-            <div>SCR: <span>${score}</span></div>
-            <div>LVL: <span>${currentLevel}</span></div>
-            <div class="hearts">${displayLives}</div>
+            <div>PLAYER: <span>${nickname}</span></div>
+            <div>SCORE: <span>${score}</span></div>
+            <div>LEVEL: <span>${currentLevel}</span></div>
+            <div style="color:var(--text-main)">LIVES: <span class="hearts">❤️</span> x <span>${lives}</span></div>
         `;
         document.getElementById('game-hud').innerHTML = hudContent;
         document.getElementById('feedback-hud').innerHTML = hudContent;
@@ -342,6 +402,12 @@
         career = document.getElementById('career').value;
         if (!career) return alert("Please specify your career level");
         
+        // Collect checked experience boxes
+        const expBoxes = document.querySelectorAll('#experience-checks input:checked');
+        let expArray = [];
+        expBoxes.forEach(box => expArray.push(box.value));
+        experience = expArray.join(", ");
+
         localStorage.setItem('gtr_nickname', nickname);
         playCount++;
         localStorage.setItem('gtr_play_count', playCount);
@@ -349,28 +415,46 @@
         score = 0; lives = 3; roundNumber = 0; currentLevel = 'Junior Reviewer';
         gameStartTime = Date.now(); totalTabSwitches = 0;
         
+        // Prep dataset for this specific user (no repeats)
+        let seenKey = `gtr_seen_${nickname}`;
+        let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
+        
+        activeDataset = fullDataset.filter(s => !seen.includes(s.doi_o));
+        if(activeDataset.length === 0) {
+            seen = []; // Reset if they played every single study
+            activeDataset = [...fullDataset];
+        }
+        
+        // Shuffle active
+        activeDataset.sort(() => Math.random() - 0.5);
+
         nextRound();
     }
 
     function nextRound() {
-        if (dataset.length === 0) return endGame();
+        if (activeDataset.length === 0) return endGame();
         
-        currentStudy = dataset.pop();
+        currentStudy = activeDataset.pop();
+        
+        // Save to seen
+        let seenKey = `gtr_seen_${nickname}`;
+        let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
+        seen.push(currentStudy.doi_o);
+        localStorage.setItem(seenKey, JSON.stringify(seen));
+
         roundNumber++;
         trialTabSwitches = 0;
         
         document.getElementById('study-title').innerText = currentStudy.ref_o; 
         document.getElementById('study-abstract').innerText = currentStudy.abstract;
         
-        // 50/50 Chance independently for Journal and IF visibility
         currentStudy.journal_visible = Math.random() >= 0.5; 
         currentStudy.if_visible = Math.random() >= 0.5;
 
         const journalBox = document.getElementById('journal-box');
         let boxText = "";
-
         let jText = (currentStudy.journal_visible && currentStudy.journal) ? currentStudy.journal : "";
-        let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Impact Factor: ${currentStudy.impact_factor}` : "";
+        let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Journal's Impact Factor: ${currentStudy.impact_factor}` : "";
 
         if (jText && ifText) {
             boxText = `Journal: ${jText} (${ifText})`;
@@ -406,29 +490,30 @@
         let isGameOver = false;
 
         if (isCorrect) {
-            try { sfx.correct.play(); } catch(e){}
             score++;
-            const newLevel = getLevelName(score);
-            if (newLevel !== currentLevel) {
-                currentLevel = newLevel;
-                lives = Math.min(lives + 1, 3); 
+            const levelInfo = getLevelInfo(score);
+            if (levelInfo.name !== currentLevel) {
+                currentLevel = levelInfo.name;
+                lives++; // Unlimited max lives now
                 triggeredLevelUp = true;
-                try { sfx.levelUp.play(); } catch(e){}
+                document.getElementById('levelup-badge').innerText = levelInfo.emoji;
+                playAudio(sfx.levelUp); // Prioritize level up sound
+            } else {
+                playAudio(sfx.correct);
             }
-            renderHUD();
         } else {
             lives--;
-            renderHUD(true); 
             if (lives <= 0) {
                 isGameOver = true;
-                try { sfx.gameOver.play(); } catch(e){}
+                playAudio(sfx.gameOver);
             } else {
-                try { sfx.wrong.play(); } catch(e){}
+                playAudio(sfx.wrong);
             }
         }
+        renderHUD();
 
         document.getElementById('feedback-comparison').innerHTML = 
-            `You guessed: <strong>${guess.toUpperCase()}</strong>.<br>Actual outcome: <strong>${actualOutcome.toUpperCase()}</strong>.`;
+            `You guessed: <strong>${guess.toUpperCase()}</strong>.<br>Replication Outcome: <strong>${actualOutcome.toUpperCase()}</strong>.`;
         
         const bigRes = document.getElementById('big-result-text');
         if (isCorrect) {
@@ -474,6 +559,7 @@
         document.getElementById('go-score').innerText = score;
         document.getElementById('go-rounds').innerText = roundNumber;
         document.getElementById('go-level').innerText = currentLevel;
+        document.getElementById('final-badge').innerText = getLevelInfo(score).emoji;
 
         await generateCanvas();
         prepareSocialLinks();
@@ -490,7 +576,7 @@
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
         const payload = {
-            session_id: sessionId, play_count: playCount, nickname, career, round_number: roundNumber,
+            session_id: sessionId, play_count: playCount, nickname, career, research_experience: experience, round_number: roundNumber,
             ref_o: currentStudy.ref_o, ref_r: currentStudy.ref_r, journal: currentStudy.journal || '', 
             journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
             impact_factor: currentStudy.impact_factor, player_guess: guess, true_outcome: actualOutcome,
@@ -502,7 +588,7 @@
 
     async function saveScoreToDB() {
         const payload = { 
-            session_id: sessionId, play_count: playCount, nickname, career, final_score: score, 
+            session_id: sessionId, play_count: playCount, nickname, career, research_experience: experience, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
         };
@@ -523,10 +609,7 @@
     }
 
     const loadImg = (src) => new Promise(resolve => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = () => resolve(null);
-        img.src = src;
+        const img = new Image(); img.onload = () => resolve(img); img.onerror = () => resolve(null); img.src = src;
     });
 
     async function generateCanvas() {
@@ -546,6 +629,10 @@
         ctx.fillText(`Accuracy: ${score} out of ${roundNumber} correct`, 40, 190);
         ctx.fillText(`Rank: ${currentLevel}`, 40, 240);
 
+        // Draw Emoji Badge
+        ctx.font = '40px sans-serif';
+        ctx.fillText(getLevelInfo(score).emoji, 350, 245);
+
         ctx.fillStyle = '#1a4314';
         ctx.font = '26px "VT323", monospace'; 
         ctx.fillText('Play at: lukasroeseler.github.io/GuessTheReplication', 40, 310);
@@ -555,13 +642,11 @@
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
-        // Game logo top right
         if (gameLogoImg) {
             const h = 60; const w = gameLogoImg.width * (h / gameLogoImg.height);
             ctx.drawImage(gameLogoImg, canvas.width - w - 25, 25, w, h);
         }
         
-        // Bottom logos spacing (y=340)
         if (muecosImg) {
             const h = 50; const w = muecosImg.width * (h / muecosImg.height);
             ctx.drawImage(muecosImg, 40, 340, w, h);
@@ -581,7 +666,7 @@
 
     function prepareSocialLinks() {
         const url = "https://lukasroeseler.github.io/GuessTheReplication/";
-        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
+        const text = `I correctly predicted ${score} out of ${roundNumber} studies in Guess the Replication, reaching the rank of "${currentLevel}" ${getLevelInfo(score).emoji}!\n\nCan you do better?\nPlay here: ${url}`;
         
         document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
         document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
