@@ -45,7 +45,8 @@
 
         .container {
             width: 100%; max-width: 800px; background: var(--bg-container);
-            padding: 40px 30px 80px; border-radius: 0; 
+            /* Increased bottom padding to 140px to prevent logo overlap */
+            padding: 40px 30px 140px; border-radius: 0; 
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
             position: relative; min-height: 500px;
@@ -129,7 +130,7 @@
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
         /* Badges & Game Over */
-        .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 var(--border-color)); }
+        .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
         
         .certificate-preview {
             background: var(--bg-body);
@@ -502,7 +503,7 @@
         else if (ifText) boxText = ifText;
 
         if (boxText !== "") {
-            journalBox.innerHTML = boxText; // Important: use innerHTML to parse entities correctly
+            journalBox.innerHTML = boxText; 
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -513,17 +514,14 @@
         roundStartTime = Date.now();
     }
 
-    // Helper to format citation links robustly
     function formatCitation(text, fallbackDoi) {
         if (!text) return "";
         let decoded = decodeHTML(text);
         
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         if (urlRegex.test(decoded)) {
-            // APA string already has a link, make it clickable, no need to append twice.
             return decoded.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
         } else {
-            // No link in APA string, manually append the DOI link
             let out = decoded;
             if (fallbackDoi && fallbackDoi !== "NA") {
                 const url = fallbackDoi.startsWith("http") ? fallbackDoi : `https://doi.org/${fallbackDoi}`;
@@ -669,7 +667,6 @@
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
         
-        // Background and Border
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
@@ -678,7 +675,7 @@
         ctx.font = 'bold 50px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
-        // Center Badge Image (200x200)
+        // Center Badge Image
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
             const size = 200; 
@@ -704,7 +701,7 @@
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
-        const targetH = 45; // Height for the logos
+        const targetH = 45; 
         const bottomY = 635;
         
         // MüCOS (Left)
@@ -722,25 +719,21 @@
             ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
-        // FORRT (Right Side - Image + Line + Text)
+        // FORRT (Right)
         if (forrtImg) {
             const logoW = forrtImg.width * (targetH / forrtImg.height);
             
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'right';
             
-            // 1. Write the FORRT bold text
             ctx.font = 'bold 26px "Century Schoolbook", serif';
             const forrtX = canvas.width - 40; 
             ctx.fillText('FORRT', forrtX, bottomY + 32);
             
             const forrtTextW = ctx.measureText('FORRT').width;
-            
-            // 2. Draw the Logo to the left of the FORRT text
             const logoX = forrtX - forrtTextW - 10 - logoW;
             ctx.drawImage(forrtImg, logoX, bottomY, logoW, targetH);
             
-            // 3. Draw the vertical divider line
             const lineX = logoX - 10;
             ctx.beginPath();
             ctx.moveTo(lineX, bottomY);
@@ -749,7 +742,6 @@
             ctx.strokeStyle = '#4b3621';
             ctx.stroke();
 
-            // 4. Write the long text to the left of the line
             ctx.font = '12px "Century Schoolbook", serif';
             const textX = lineX - 10;
             ctx.fillText('Framework for', textX, bottomY + 8);
