@@ -69,9 +69,25 @@
             background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
 
-        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.03); padding: 15px; border: 2px dashed var(--border-color);}
-        .checkbox-group label { display: block; margin-bottom: 8px; cursor: pointer;}
-        .checkbox-group input { margin-right: 10px; transform: scale(1.2); }
+        /* 8-Bit Pixel Checkboxes */
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
+        
+        .pixel-checkbox { display: block; position: relative; padding-left: 36px; margin-bottom: 12px; cursor: pointer; user-select: none; min-height: 24px; line-height: 24px;}
+        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { position: absolute; top: 0; left: 0; height: 24px; width: 24px; background-color: var(--bg-body); border: 4px solid var(--border-color); box-shadow: 2px 2px 0 var(--border-color); transition: 0.1s;}
+        
+        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--bg-body); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(2px, 2px); }
+        
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
+        
+        /* The chunky pixel block inside */
+        .pixel-checkbox .checkmark:after {
+            left: 3px; top: 3px; width: 18px; height: 18px;
+            background-color: var(--royal-blue);
+        }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -662,9 +678,15 @@
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
+        
+        // CRITICAL FIX: Ensure Impact Factor is strictly numeric or strictly null. 
+        // "NaN" strings cause database failures.
         let safeIF = currentStudy.impact_factor;
-        if (safeIF === "NA" || safeIF === "" || safeIF === undefined) safeIF = null;
-        else safeIF = parseFloat(safeIF);
+        if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
+            safeIF = null;
+        } else {
+            safeIF = parseFloat(safeIF);
+        }
 
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, career, research_experience: experience, round_number: roundNumber,
