@@ -69,9 +69,26 @@
             background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
 
-        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.03); padding: 15px; border: 2px dashed var(--border-color);}
-        .checkbox-group label { display: block; margin-bottom: 8px; cursor: pointer;}
-        .checkbox-group input { margin-right: 10px; transform: scale(1.2); }
+        /* Custom Pixel Checkboxes */
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
+        
+        .pixel-checkbox { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; user-select: none; position: relative; }
+        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { height: 24px; width: 24px; background-color: var(--bg-body); border: 3px solid var(--border-color); display: inline-block; margin-right: 12px; position: relative; box-shadow: 3px 3px 0 var(--border-color); transition: 0.1s;}
+        
+        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--royal-blue); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(3px, 3px); }
+        
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
+        
+        /* Pixelated Check shape inside the box */
+        .pixel-checkbox .checkmark:after {
+            left: 6px; top: 1px; width: 6px; height: 12px;
+            border: solid white; border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -111,19 +128,18 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
         .main-game-logo { height: 70px; width: auto; object-fit: contain; }
         
-        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 8px; text-decoration: none;}
+        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .muecos-corner { left: 20px; }
         .forrt-corner { right: 20px; }
-        .corner-img { height: 35px; width: auto; object-fit: contain; }
+        .corner-img { height: 45px; width: auto; object-fit: contain; }
         
-        /* Font styles for corner logos */
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
-        .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--text-main); }
-        .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.75rem; color: var(--text-main); margin-top: 2px;}
+        .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--text-main); }
+        .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.8rem; color: var(--text-main); margin-top: 2px;}
         
-        .forrt-long-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-size: 0.75rem; text-align: right; line-height: 1.1; color: var(--text-main); }
-        .forrt-divider { width: 1px; height: 35px; background-color: var(--text-main); margin: 0 6px; opacity: 0.5; }
-        .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.4rem; color: var(--text-main); letter-spacing: 1px; margin-left: 2px;}
+        .forrt-long-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-size: 0.8rem; text-align: right; line-height: 1.1; color: var(--text-main); }
+        .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
+        .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
         .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
@@ -535,7 +551,7 @@
         else if (ifText) boxText = ifText;
 
         if (boxText !== "") {
-            journalBox.innerText = boxText; 
+            journalBox.innerHTML = boxText; 
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -550,17 +566,17 @@
         if (!text) return "";
         let decoded = decodeHTML(text);
         
-        let out = decoded;
-        if (fallbackDoi && fallbackDoi !== "NA") {
-            let rawDoi = fallbackDoi.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, "");
-            if (!decoded.includes(rawDoi)) {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        if (urlRegex.test(decoded)) {
+            return decoded.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+        } else {
+            let out = decoded;
+            if (fallbackDoi && fallbackDoi !== "NA") {
                 const url = fallbackDoi.startsWith("http") ? fallbackDoi : `https://doi.org/${fallbackDoi}`;
                 out += `<br><a href="${url}" target="_blank">${url}</a>`;
             }
+            return out;
         }
-        
-        out = out.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-        return out;
     }
 
     async function makeGuess(guess) {
@@ -702,16 +718,19 @@
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
+        // Title
         ctx.fillStyle = '#002366'; ctx.textAlign = 'center';
         ctx.font = 'bold 50px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
+        // Center Badge Image (200x200)
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
             const size = 200; 
             ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 120, size, size);
         }
 
+        // Main Text Details
         ctx.fillStyle = '#4b3621';
         ctx.font = '32px "VT323", monospace';
         ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 380);
@@ -721,60 +740,65 @@
         ctx.font = 'bold 42px "VT323", monospace';
         ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 480);
 
+        // Link
         ctx.fillStyle = '#1a4314';
         ctx.font = '30px "VT323", monospace'; 
         ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
+        // Load Bottom Logos
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
-        const targetH = 35; 
-        const bottomY = 650;
+        const targetH = 45; 
+        const bottomY = 635;
         
+        // MüCOS (Left)
         if (muecosImg) {
             const w = muecosImg.width * (targetH / muecosImg.height);
             ctx.drawImage(muecosImg, 40, bottomY, w, targetH);
             
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'left';
-            ctx.font = '900 18px Arial, sans-serif';
-            ctx.fillText('MüCOS', 40 + w + 10, bottomY + 14);
+            ctx.font = 'bold 20px Arial, sans-serif';
+            ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
             
-            ctx.font = '12px Arial, sans-serif';
-            ctx.fillText('Münster Center', 40 + w + 10, bottomY + 26);
-            ctx.fillText('for Open Science', 40 + w + 10, bottomY + 38);
+            ctx.font = '14px Arial, sans-serif';
+            ctx.fillText('Münster Center', 40 + w + 12, bottomY + 32);
+            ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
+        // FORRT (Right)
         if (forrtImg) {
             const logoW = forrtImg.width * (targetH / forrtImg.height);
             
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'right';
             
-            ctx.font = 'bold 22px "Century Schoolbook", serif';
-            let currentX = canvas.width - 40; 
-            ctx.fillText('FORRT', currentX, bottomY + 25);
+            ctx.font = 'bold 26px "Century Schoolbook", serif';
+            const forrtX = canvas.width - 40; 
+            ctx.fillText('FORRT', forrtX, bottomY + 32);
             
             const forrtTextW = ctx.measureText('FORRT').width;
-            currentX -= (forrtTextW + 8);
+            const totalForrtWidth = logoW + 15 + forrtTextW; 
+            const forrtStartX = canvas.width - 40 - totalForrtWidth;
             
-            ctx.drawImage(forrtImg, currentX - logoW, bottomY, logoW, targetH);
-            currentX -= (logoW + 8);
+            ctx.drawImage(forrtImg, forrtStartX, bottomY, logoW, targetH);
             
+            const lineX = forrtStartX - 10;
             ctx.beginPath();
-            ctx.moveTo(currentX, bottomY);
-            ctx.lineTo(currentX, bottomY + targetH);
+            ctx.moveTo(lineX, bottomY);
+            ctx.lineTo(lineX, bottomY + targetH);
             ctx.lineWidth = 1;
             ctx.strokeStyle = '#4b3621';
             ctx.stroke();
-            currentX -= 8;
 
-            ctx.font = '10px "Century Schoolbook", serif';
-            ctx.textAlign = 'right';
-            const lines = ['Framework for', 'Open and', 'Reproducible', 'Research', 'Training'];
-            lines.forEach((line, idx) => {
-                ctx.fillText(line, currentX, bottomY + 7 + (idx * 7));
-            });
+            ctx.font = '12px "Century Schoolbook", serif';
+            const textX = lineX - 10;
+            ctx.fillText('Framework for', textX, bottomY + 8);
+            ctx.fillText('Open and', textX, bottomY + 19);
+            ctx.fillText('Reproducible', textX, bottomY + 30);
+            ctx.fillText('Research', textX, bottomY + 41);
+            ctx.fillText('Training', textX, bottomY + 52);
         }
     }
 
