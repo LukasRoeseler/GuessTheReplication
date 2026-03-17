@@ -32,7 +32,13 @@ get_crossref_abstract <- function(doi) {
       if (!is.null(abs)) {
         # Clean up XML tags
         clean_abs <- str_replace_all(abs, "<[^>]+>", " ")
-        return(str_squish(clean_abs))
+        # Remove line breaks
+        clean_abs <- str_replace_all(clean_abs, "[\r\n]+", " ")
+        clean_abs <- str_squish(clean_abs)
+        # Remove the word "Abstract" if it is the very first word
+        clean_abs <- str_replace(clean_abs, "^(?i)abstract\\s*[:\\.\\-]?\\s*", "")
+        
+        return(clean_abs)
       }
     }
     return(NA)
@@ -60,22 +66,63 @@ get_openalex_jif <- function(journal_name) {
 }
 
 cat("Filtering dataset...\n")
+
+# List of exact (or partial) bad quotes to remove entirely
+bad_quotes <- c(
+  "no", 
+  "no.",
+  "yes stated in replicated column", 
+  "es stated in the rep. s1+s2 column",
+  "yes stated in the rep. s1+s2 column",
+  "no marked in replicate column",
+  "yes marked in replicate column",
+  "subjective replication success rating 0",
+  "subjective replication success rating 1",
+  "replicationsuccess marked as yes",
+  "crossed in replication outcome column in supplementary table 2.",
+  "ticked in replication outcome column in supplementary table 2."
+)
+
 clean_data <- data %>%
+  # 1. Recode specific DOI before filtering
+  mutate(outcome = ifelse(grepl("10.1037/xhp0000331", doi_r, ignore.case = TRUE), "failed", outcome)) %>%
   mutate(outcome = tolower(outcome)) %>%
   filter(outcome %in% c("successful", "failed")) %>%
+  
+  # 2. Exclude specific studies
+  filter(!grepl("10.1126/science.aaf0918", doi_r, ignore.case = TRUE)) %>%
+  filter(!grepl("10.17605/osf.io/fmd75", doi_r, ignore.case = TRUE)) %>%
+  
+  # 3. Clean and filter the outcome_quote
+  mutate(
+    # Remove the lengthy subjective replication rating note completely from quotes
+    outcome_quote = str_remove_all(outcome_quote, fixed("0 [In figure 2, authors quantified subjective success on a more nuanced scale from 0, 0.25, 0.5, 0.75 and 1. I am coding 0 as 'failed', 1 as 'success' and anything inbetween as 'mixed'].")),
+    outcome_quote = str_remove_all(outcome_quote, "(?i)subjective replication success = [01]"),
+    outcome_quote = str_squish(outcome_quote)
+  ) %>%
+  # Remove if the remaining string exactly matches (ignoring case) our bad quotes list
+  filter(!tolower(outcome_quote) %in% bad_quotes) %>%
+  # Remove if it contains 'sub_rep' anywhere inside it
   filter(!grepl("sub_rep", outcome_quote, ignore.case = TRUE)) %>%
+  # Remove if it's completely empty after cleaning
+  filter(outcome_quote != "") %>%
+  
+  # 4. Map the final variables for the game
   mutate(
     outcome = ifelse(outcome == "successful", "success", "failure"),
     ref_o = title_o,
     ref_r = title_r,
+    apa_ref_o = apa_ref_o,
+    apa_ref_r = apa_ref_r,
     journal = journal_o,
+    study_o = ifelse(grepl("\\d", study_o), str_extract(study_o, "\\d+[a-zA-Z]*"), NA_character_),
     doi_o = sapply(doi_o, clean_doi),
     doi_r = sapply(doi_r, clean_doi)
   ) %>%
-  select(ref_o, ref_r, journal, doi_o, doi_r, outcome, outcome_quote) %>%
+  select(ref_o, ref_r, apa_ref_o, apa_ref_r, journal, study_o, doi_o, doi_r, outcome, outcome_quote) %>%
   filter(!is.na(ref_o) & !is.na(outcome))
 
-# --- NEW: Fetch Impact Factors for Unique Journals ---
+# --- Fetch Impact Factors for Unique Journals ---
 unique_journals <- unique(clean_data$journal[!is.na(clean_data$journal)])
 cat(sprintf("Fetching Impact Factors via OpenAlex for %d unique journals...\n", length(unique_journals)))
 
@@ -108,7 +155,7 @@ close(pb_abs)
 cat("\nDropping studies with missing abstracts...\n")
 final_data <- clean_data %>% 
   filter(!is.na(abstract) & str_length(abstract) > 30) %>% 
-  select(ref_o, ref_r, journal, impact_factor, abstract, outcome, outcome_quote, doi_o, doi_r)
+  select(ref_o, ref_r, apa_ref_o, apa_ref_r, journal, impact_factor, study_o, abstract, outcome, outcome_quote, doi_o, doi_r)
 
 # --- Smart path resolution ---
 if (dir.exists("../Game")) { 
