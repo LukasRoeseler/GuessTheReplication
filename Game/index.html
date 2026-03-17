@@ -45,7 +45,6 @@
 
         .container {
             width: 100%; max-width: 800px; background: var(--bg-container);
-            /* Increased bottom padding to 140px to prevent logo overlap */
             padding: 40px 30px 140px; border-radius: 0; 
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
@@ -70,9 +69,26 @@
             background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
 
-        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.03); padding: 15px; border: 2px dashed var(--border-color);}
-        .checkbox-group label { display: block; margin-bottom: 8px; cursor: pointer;}
-        .checkbox-group input { margin-right: 10px; transform: scale(1.2); }
+        /* Custom Pixel Checkboxes */
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
+        
+        .pixel-checkbox { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; user-select: none; position: relative; }
+        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { height: 24px; width: 24px; background-color: var(--bg-body); border: 3px solid var(--border-color); display: inline-block; margin-right: 12px; position: relative; box-shadow: 3px 3px 0 var(--border-color); transition: 0.1s;}
+        
+        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--royal-blue); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(3px, 3px); }
+        
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
+        
+        /* Pixelated Check shape inside the box */
+        .pixel-checkbox .checkmark:after {
+            left: 6px; top: 1px; width: 6px; height: 12px;
+            border: solid white; border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -117,7 +133,6 @@
         .forrt-corner { right: 20px; }
         .corner-img { height: 45px; width: auto; object-fit: contain; }
         
-        /* Font styles for corner logos */
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
         .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--text-main); }
         .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.8rem; color: var(--text-main); margin-top: 2px;}
@@ -128,6 +143,9 @@
 
         .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
+
+        .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
+        .mute-btn:active { box-shadow: none; transform: scale(0.9); }
 
         /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
@@ -141,6 +159,11 @@
         }
 
         canvas { display: none; }
+
+        /* Hide keyboard hints on mobile screens */
+        @media (max-width: 768px) {
+            .key-hint { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -175,11 +198,26 @@
 
         <label style="font-size: 1.3rem;">How familiar are you with social science research?</label><br>
         <div class="checkbox-group" id="experience-checks">
-            <label><input type="checkbox" value="I regularly read research articles"> I regularly read research articles</label>
-            <label><input type="checkbox" value="I conduct research"> I conduct research</label>
-            <label><input type="checkbox" value="I publish research"> I publish research</label>
-            <label><input type="checkbox" value="I conduct replications"> I conduct replications</label>
-            <label><input type="checkbox" value="I am unfamiliar with research"> I am unfamiliar with research</label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I regularly read research articles">
+                <span class="checkmark"></span> I regularly read research articles
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct research">
+                <span class="checkmark"></span> I conduct research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I publish research">
+                <span class="checkmark"></span> I publish research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct replications">
+                <span class="checkmark"></span> I conduct replications
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I am unfamiliar with research">
+                <span class="checkmark"></span> I am unfamiliar with research
+            </label>
         </div><br>
 
         <button onclick="startGame()">Start Game</button>
@@ -261,9 +299,10 @@
         <div class="study-abstract" id="study-abstract"></div>
 
         <div>
-            <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small>(Press 1)</small></button>
-            <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small>(Press 2)</small></button>
+            <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small class="key-hint">(Press 1)</small></button>
+            <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small class="key-hint">(Press 2)</small></button>
         </div>
+        <button class="mute-btn" onclick="toggleMute()" title="Toggle Sound">🔊</button>
     </div>
 
     <!-- FEEDBACK SCREEN -->
@@ -279,7 +318,8 @@
         <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
 
         <br>
-        <button id="next-btn" onclick="handleNext()">Next Round (Space)</button>
+        <button id="next-btn" onclick="handleNext()">Next Round <span class="key-hint">(Space)</span></button>
+        <button class="mute-btn" onclick="toggleMute()" title="Toggle Sound">🔊</button>
     </div>
 
     <!-- LEVEL UP SCREEN -->
@@ -289,7 +329,7 @@
         <h2 id="new-level-name"></h2>
         <p style="color: var(--dark-green); font-size: 1.8rem; font-weight: bold;">+1 LIFE AWARDED! <span class="hearts">❤️</span></p>
         <p id="eic-message" class="hidden">Maximum Rank Achieved!</p>
-        <button onclick="continueFromLevelUp()">Continue (Space)</button>
+        <button onclick="continueFromLevelUp()">Continue <span class="key-hint">(Space)</span></button>
     </div>
 
     <!-- GAME OVER SCREEN -->
@@ -347,6 +387,8 @@
 
     let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
     let gameStartTime = 0, roundStartTime = 0, totalTabSwitches = 0, trialTabSwitches = 0;
+    
+    let isMuted = false;
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
@@ -358,10 +400,16 @@
     };
 
     function playAudio(snd) {
+        if (isMuted) return;
         try { snd.currentTime = 0; snd.play().catch(e => {}); } catch(e) {}
     }
 
-    // Helper function to decode HTML entities like &amp; to &
+    function toggleMute() {
+        isMuted = !isMuted;
+        const btns = document.querySelectorAll('.mute-btn');
+        btns.forEach(btn => btn.innerText = isMuted ? '🔇' : '🔊');
+    }
+
     function decodeHTML(html) {
         const txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -582,7 +630,7 @@
         `;
         
         const nextBtn = document.getElementById('next-btn');
-        nextBtn.innerText = isGameOver ? "See Final Results (Space)" : "Next Round (Space)";
+        nextBtn.innerHTML = isGameOver ? "See Final Results <span class='key-hint'>(Space)</span>" : "Next Round <span class='key-hint'>(Space)</span>";
         nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
@@ -675,7 +723,7 @@
         ctx.font = 'bold 50px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
-        // Center Badge Image
+        // Center Badge Image (200x200)
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
             const size = 200; 
@@ -731,10 +779,12 @@
             ctx.fillText('FORRT', forrtX, bottomY + 32);
             
             const forrtTextW = ctx.measureText('FORRT').width;
-            const logoX = forrtX - forrtTextW - 10 - logoW;
-            ctx.drawImage(forrtImg, logoX, bottomY, logoW, targetH);
+            const totalForrtWidth = logoW + 15 + forrtTextW; 
+            const forrtStartX = canvas.width - 40 - totalForrtWidth;
             
-            const lineX = logoX - 10;
+            ctx.drawImage(forrtImg, forrtStartX, bottomY, logoW, targetH);
+            
+            const lineX = forrtStartX - 10;
             ctx.beginPath();
             ctx.moveTo(lineX, bottomY);
             ctx.lineTo(lineX, bottomY + targetH);
