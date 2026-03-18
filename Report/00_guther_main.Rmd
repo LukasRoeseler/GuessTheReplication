@@ -1,0 +1,93 @@
+---
+title             : "How Journal Prestige affects Predicted and Actual Replication Success"
+shorttitle        : "PREDICTING REPLICABILITY"
+
+author: 
+  - name          : "Lukas Röseler"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : ""
+    email         : "lukas.roeseler@uni-muenster.de"
+    
+  - name          : "Jessica Röseler"
+    affiliation   : "2"
+    corresponding : no    # Define only one corresponding author
+    address       : ""
+
+
+affiliation:
+  - id            : "1"
+    institution   : "Münster Center for Open Science, University of Münster, Germany"
+  - id            : "2"
+    institution   : "Independent Researcher"
+
+authornote: |
+  This is a non-peer reviewed preprint. Data has not yet been collected and all results are place-holders. The order of the authors was determined by a game of Guess The Replication.
+
+abstract: |
+  When selecting an academic journal to submit research reports to and when assessing research quality, researchers rely on journal prestige. We investigated how researchers and non-researchers predict replication outcomes in the presence and absence of journal names and impact factor. We compare this relation to the actual relationship between impact factor and replication outcomes. For this, we used data from the FORRT Library of Reproduction and Replication Attempts (Wallrich et al., 2026) and a gamified paradigm "Guess The Replication". On a subset of N = XXX studies that were either successfully or not successfully replicated (mixed results were excluded), impact factor did [not] predict replication success. Researchers [relied/did not rely] on impact factors in their prediction. Higher impact factors of the journal that published the original study were [not] associated with a higher probability of predicted success. This relationship was [different/similar] for non-researchers. We discuss the use of citation metrics as proxies for research quality.
+  
+  
+  
+keywords          : "replication, prediction market, impact factor, meta-science, bibliometrics"
+
+bibliography      : ["guther-refs.bib","r-references.bib"]
+appendix          :
+  - "05_guther_supplement.Rmd"
+
+floatsintext      : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_word
+---
+
+```{r setup, include = FALSE}
+
+# This whole document is only here to initialize everything. It contains the settings
+# for the manuscript, but nothing else.
+
+# Set chunk options (i.e., how chunks will be handled globally, can however be overwritten locally in chunks)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed, 
+                      echo=FALSE,     # chunks will not be printed in rendered document
+                      include=FALSE,  # results will not be printed in the rendered document
+                      message=FALSE,  # warnings and messages will no be printed in the rendered document
+                      warning=FALSE)
+
+# Seed for random number generation
+set.seed(42)
+
+
+```
+
+```{r load-packages-data}
+
+# Load packages
+library(papaja)       # for generating the APA manuscript
+library(tidyverse)    # for data analysis (and beautiful plots -> ggplot2)
+library(prmisc)       # for printing stats
+library(grateful)       # for citing r packages
+# library(effectsize)   # for calculating effect sizes
+# library(car)          # for calculating Levene's Test
+
+# Load the data
+# load("data/dataSCR.RData")
+
+```
+
+```{r child = c("01_guther_introduction.Rmd","02_guther_methods.Rmd","03_guther_results.Rmd","04_guther_discussion.Rmd"), echo = FALSE}
+
+
+```
+
+\newpage
+
+# (APPENDIX) Appendix {.unnumbered}
+
+```{r child = "05_guther_supplement.Rmd"}

@@ -1,0 +1,45 @@
+```{r discussion}
+
+# This file only contains the discussion
+
+```
+
+# Discussion
+
+
+## Limitations
+
+
+## Conclusion
+
+
+## Acknowledgements
+
+We thank XXX for feedback during the creation of Guess The Correlation.
+
+## Conflict of Interest and Funding
+
+LR is the EiC of Replication Research, an open access journal supporting replications and the managing director of the Münster Center for Open Science, which has the purpose of supporting researchers in applying open research techniques.
+
+## Financial Support Statement
+
+The authors report no financial support for this work.
+
+## Data Availability
+
+xxxxxxx
+
+## Declaration of AI Use
+
+Gemini 3.1 Pro Preview was used to create Guess the Replication and to complement a manual literature search on prediction markets.
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+::: {#refs custom-style="Bibliography"}
+:::
+
+\endgroup

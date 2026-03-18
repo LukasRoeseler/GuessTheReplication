@@ -1,0 +1,42 @@
+```{r methods}
+
+# This file only contains the methods
+
+```
+
+```{r methods-r-bib}
+
+# Create a bib-file for R citations
+# grateful::cite_packages(output = "file", bib.file = "r-references.bib")
+papaja::r_refs(file = "r-references.bib")
+r_citations <- papaja::cite_r(file = "r-references.bib")
+
+```
+
+```{r methods-descriptive-information}
+
+# Calculate the age and sd of the participants
+
+# mean_age <- mean(dataSCR$age_T0, na.rm = TRUE)
+# sd_age <- sd(dataSCR$age_T0, na.rm = TRUE)
+
+```
+
+# Methods
+
+## Predicting Replicability
+
+-   prediction markets [create beautiful table with source, number of studies, field, number of participants, accuracy (and accuracy metric)
+    -   <https://doi.org/10.1073/pnas.1516179112> prediction of outcomes from OSC (2015)
+    -   <https://doi.org/10.1126/science.aaf0918> prediction market in Camerer 2016
+    -   <https://doi.org/10.1038/s41562-018-0399-z> prediction market for Camerer 2018 ???
+    -   <https://doi.org/10.1371/journal.pone.0248780> prediction market on pooled data, 73% accuracy, XXX studies, XXX participants
+    -   <https://doi.org/10.1016/j.joep.2018.10.009> Predicting Many Labs 2
+    -   <https://doi.org/10.1371/journal.pone.0225826> AI models that predict replication outcomes, 71% accuracy (AUC?)
+    -   SMART competition
+
+## Guess the Replication (Guther): A Gamified Pedagogical Approach
+
+## Analysis Plan
+
+For data analysis and visualizations as well as for the creation of the manuscript, we used `r r_citations`.

@@ -1,0 +1,25 @@
+```{r introduction}
+
+# This file only contains the introduction
+
+```
+
+# Introduction
+
+-   Research assessment highly relevant
+-   (Mis)use of journal metrics such as impact factor
+-   Too many publications and reliance on "high impact" journals
+-   replicability as a measure of robustness:
+
+## Replicability as a Measure of Research Quality?
+
+should it be related to research quality? [conceptual question -\> make strong argument]
+
+## Replicability and Journal Impact
+
+-   [https://doi.org/10.1016/S0165-4608(97)00459-7](https://doi.org/10.1016/S0165-4608(97)00459-7){.uri} JIF bashing
+
+<!-- -->
+
+-   Hypothesis 1: Replicability is unrelated to Impact Factor
+-   Hypothesis 2: Researchers rely on Impact Factor to predict Replicability
