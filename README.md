@@ -15,6 +15,8 @@ This project uses the following sound effects from Pixabay:
 * **Wrong:** <a href="https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=224576">floraphonic</a>
 * **Level Up:** <a href="https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=224407">floraphonic</a>
 * **Game Over:** <a href="https://pixabay.com/users/alphix-52619918/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=417465">Alphix</a>
+* **Game Start**: <a href="https://pixabay.com/users/u_xmiiqyhi46-47475901/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=272829">u_xmiiqyhi46</a>
+
 
 ---
 
