@@ -53,7 +53,7 @@
 
         .hidden { display: none !important; }
 
-        h1 { margin-top: 0; font-size: 3.5rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
+        h1 { margin-top: 0; font-size: 3rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--royal-blue); text-transform: uppercase;}
         p { font-size: 1.4rem; line-height: 1.3; }
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
@@ -64,13 +64,30 @@
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
         input[type="text"], select {
-            width: 100%; max-width: 400px; padding: 10px;
-            margin: 5px 0 10px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
-            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace;
+            width: 100%; max-width: 350px; padding: 10px;
+            margin: 10px 0 20px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
+            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
         }
 
-        /* Help texts */
-        .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
+        /* Custom Pixel Checkboxes */
+        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
+        
+        .pixel-checkbox { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; user-select: none; position: relative; }
+        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { height: 24px; width: 24px; background-color: var(--bg-body); border: 3px solid var(--border-color); display: inline-block; margin-right: 12px; position: relative; box-shadow: 3px 3px 0 var(--border-color); transition: 0.1s;}
+        
+        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--royal-blue); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(3px, 3px); }
+        
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
+        
+        .pixel-checkbox .checkmark:after {
+            left: 6px; top: 1px; width: 6px; height: 12px;
+            border: solid white; border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+        }
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -81,6 +98,11 @@
         
         .btn-info { background: var(--btn-info); }
         .btn-tutorial { background: var(--btn-tutorial); }
+        .btn-start { background: var(--dark-green); }
+        
+        .menu-btn-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;}
+        .menu-btn-stack button { width: 250px; }
+
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
@@ -102,6 +124,8 @@
         .info-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
         .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
         
+        .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
+
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
         .leaderboard th { background: var(--royal-blue); color: #fff; }
@@ -110,9 +134,9 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; margin-top: 30px;}
         .main-game-logo { height: 90px; width: auto; object-fit: contain; }
         
-        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
-        .muecos-corner { left: 20px; }
-        .forrt-corner { right: 20px; }
+        /* Mobile layout fixes for logos */
+        .logos-wrapper { position: absolute; bottom: 15px; width: 100%; left: 0; display: flex; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
+        .corner-logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .corner-img { height: 45px; width: auto; object-fit: contain; }
         
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
@@ -123,21 +147,22 @@
         .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
         .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
-        /* Dark Mode Toggle */
         .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
         .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
         .mute-btn:active { box-shadow: none; transform: scale(0.9); }
 
-        /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
         .certificate-preview { background: var(--bg-body); border: 6px solid var(--border-color); padding: 20px; margin: 20px 0 30px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
 
         canvas { display: none; }
 
+        /* Responsive Fixes */
         @media (max-width: 768px) {
             .key-hint { display: none; }
+            .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
+            .container { padding-bottom: 40px; } /* Reset padding since logos are no longer absolute */
         }
     </style>
 </head>
@@ -153,26 +178,31 @@
             <img src="Images/logo.png" alt="Logo" class="main-game-logo">
             <h1>GUESS THE<br>REPLICATION</h1>
         </div>
-
-        <br><br>
-        <button onclick="showScreen('player-screen')">Start Game</button><br><br>
-        <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
-        <button class="btn-info" onclick="showScreen('info-screen')">About</button>
+        
+        <p>Can you predict which scientific studies replicate?</p>
+        
+        <div class="menu-btn-stack">
+            <button class="btn-start" onclick="showScreen('player-screen')">Start Game</button>
+            <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
+            <button class="btn-info" onclick="showScreen('info-screen')">About</button>
+        </div>
 
         <!-- Corner Logos -->
-        <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank" class="corner-logo-container muecos-corner">
-            <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-img">
-            <div class="muecos-text-block">
-                <span class="muecos-title">MüCOS</span>
-                <span class="muecos-subtitle">Münster Center<br>for Open Science</span>
-            </div>
-        </a>
-        <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
-            <div class="forrt-long-text">Framework for<br>Open and<br>Reproducible<br>Research<br>Training</div>
-            <div class="forrt-divider"></div>
-            <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
-            <span class="forrt-text">FORRT</span>
-        </a>
+        <div class="logos-wrapper">
+            <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank" class="corner-logo-container muecos-corner">
+                <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-img">
+                <div class="muecos-text-block">
+                    <span class="muecos-title">MüCOS</span>
+                    <span class="muecos-subtitle">Münster Center<br>for Open Science</span>
+                </div>
+            </a>
+            <a href="https://forrt.org/replication-hub/" target="_blank" class="corner-logo-container forrt-corner">
+                <div class="forrt-long-text">Framework for<br>Open and<br>Reproducible<br>Research<br>Training</div>
+                <div class="forrt-divider"></div>
+                <img src="Images/forrt_black.png" alt="FORRT Logo" class="corner-img dynamic-logo">
+                <span class="forrt-text">FORRT</span>
+            </a>
+        </div>
     </div>
 
     <!-- PLAYER INFO SCREEN -->
@@ -188,11 +218,11 @@
         <label for="personal-code">Personal Code:</label><br>
         <input type="text" id="personal-code" placeholder="e.g. AMin9302" required><br>
         <div class="help-text">
-            Please generate your anonymous and personal code. This will greatly help us:<br><br>
-            1. Die ersten beiden Buchstaben Ihres Geburtsortes (z.B. Am bei Amsterdam)<br>
-            2. Die letzten beiden Buchstaben des Vornamens Ihres Vaters (z.B. 'in' for 'Martin')<br>
-            3. Die letzten beiden Ziffern Ihres Geburts<strong>jahres</strong> (z.B. 93 bei 1993)<br>
-            4. Tag, an dem Sie geboren sind (z.B. 02 bei 02.06.)
+            Please generate your anonymous and personal code. This will greatly help us connect your predictions if you play multiple times:<br><br>
+            1. The first two letters of your city of birth (e.g. 'Am' for 'Amsterdam')<br>
+            2. The last two letters of your father's first name (e.g. 'in' for 'Martin')<br>
+            3. The last two digits of your birth <strong>year</strong> (e.g. '93' for '1993')<br>
+            4. The day of the month you were born (e.g. '02' for the 2nd of June)
         </div>
 
         <button onclick="submitPlayer()">Next</button>
@@ -227,10 +257,10 @@
         <label>3. Familiarity with social research:</label><br>
         <select id="familiarity">
             <option value="" disabled selected>-- Select Familiarity --</option>
-            <option value="0 = Unfamiliar with research">0 = Unfamiliar with research</option>
-            <option value="1 = read research articles">1 = read research articles</option>
-            <option value="2 = conduct research">2 = conduct research</option>
-            <option value="3 = publish research">3 = publish research</option>
+            <option value="Unfamiliar with research">Unfamiliar with research</option>
+            <option value="read research articles">Read research articles</option>
+            <option value="conduct research">Conduct research</option>
+            <option value="publish research">Publish research</option>
         </select><br><br>
 
         <button onclick="submitDemographics()">Start Game</button>
@@ -366,8 +396,11 @@
         </table>
 
         <br><br>
-        <button onclick="playAgain()" style="background: var(--dark-green);">Play Again</button><br><br>
-        
+        <div class="menu-btn-stack">
+            <button onclick="playAgainFast()" style="background: var(--dark-green);">Play Again</button>
+            <button class="btn-info" onclick="showScreen('info-screen')">About</button>
+        </div>
+        <br>
         <a href="https://github.com/LukasRoeseler/GuessTheReplication/issues/new" target="_blank" style="display:inline-block; font-size: 1.2rem; margin-bottom: 20px;">
             🐛 Report an Issue on GitHub
         </a>
@@ -392,6 +425,7 @@
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
     const sfx = {
+        start: new Audio('Sounds/u_xmiiqyhi46-gamestart-272829.mp3'),
         correct: new Audio('Sounds/dragon-studio-correct-472358.mp3'),
         wrong: new Audio('Sounds/floraphonic-classic-game-action-negative-18-224576.mp3'),
         gameOver: new Audio('Sounds/alphix-game-over-417465.mp3'),
@@ -409,7 +443,6 @@
         btns.forEach(btn => btn.innerText = isMuted ? '🔇' : '🔊');
     }
 
-    // Decode HTML Entities so &amp; turns into &
     function decodeHTML(html) {
         if (!html) return "";
         const txt = document.createElement("textarea");
@@ -429,7 +462,7 @@
     document.addEventListener("DOMContentLoaded", async () => {
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
-        
+
         const savedCode = localStorage.getItem('gtr_code');
         if(savedCode) document.getElementById('personal-code').value = savedCode;
 
@@ -465,7 +498,7 @@
     }
 
     function showScreen(id) {
-        ['home-screen', 'player-screen', 'demographics-screen', 'start-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
+        ['home-screen', 'player-screen', 'demographics-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
             const el = document.getElementById(s);
             if(el) el.classList.add('hidden');
         });
@@ -501,16 +534,14 @@
         const savedEdu = localStorage.getItem('gtr_education');
         const savedExp = localStorage.getItem('gtr_experience');
 
-        // If nickname matches a previous session AND we have demographic data, skip demographics
         if (nickname === savedNick && savedCareer && savedEdu && savedExp) {
             career = savedCareer;
             education = savedEdu;
             experience = savedExp;
             
-            localStorage.setItem('gtr_code', personalCode); // Update code just in case
+            localStorage.setItem('gtr_code', personalCode); 
             startGameplay();
         } else {
-            // New player or changed name -> force them to answer demographics
             showScreen('demographics-screen');
         }
     }
@@ -524,7 +555,6 @@
             return alert("Please answer all demographic questions.");
         }
 
-        // Save everything
         localStorage.setItem('gtr_nickname', nickname);
         localStorage.setItem('gtr_code', personalCode);
         localStorage.setItem('gtr_career', career);
@@ -551,7 +581,12 @@
         }
         activeDataset.sort(() => Math.random() - 0.5);
 
+        playAudio(sfx.start);
         nextRound();
+    }
+
+    function playAgainFast() {
+        startGameplay();
     }
 
     function nextRound() {
@@ -575,7 +610,6 @@
         }
         document.getElementById('study-abstract').innerHTML = abstractHTML;
         
-        // MANIPULATION: Journal is NEVER visible. Impact Factor is randomly visible (50/50).
         currentStudy.journal_visible = false; 
         currentStudy.if_visible = Math.random() >= 0.5;
 
@@ -705,7 +739,6 @@
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
-        
         let safeIF = currentStudy.impact_factor;
         if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
             safeIF = null;
