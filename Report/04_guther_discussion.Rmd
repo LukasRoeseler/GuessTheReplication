@@ -5,20 +5,38 @@
 ```
 
 # Discussion
-- relationship between JIF and replicability
-- use of JIF for replicability in general
-- use of JIF for replicability in different groups
+
+Using an excerpt from the FORRT Library of Reproduction and Replication Attempts, we measured the relationship between an open and reproducible version of the journals' impact factor (JIF) and collected data to estimate the usage of this metric in predicting replication outcomes. JIF and replicability were [unrelated / positively correlated / negatively correlated]. Overall, participants [did not give higher or lower / gave higher / gave lower] replicability scores to studies with a high JIF. How JIF affected replicabiltiy ratings [differed / did not differ] between different groups of participants. [explain difference if present]
 
 ## Limitations
-- no actual prediction
-- exclusion of many studies and non-comprehensiveness of FLoRA
+
+**Pseudo-prediction**: The most serious limitation of our study is that participants did not predict replication outcome because outcomes were already publicly available. Participants who new about replication studies could thus simply remember the outcomes. With over [400] studies from various fields and replications being less visible less cited than traditional research [REF], we believe that this problem is negligible overall.
+
+**Selective sample**: For the simplicity of the design, we excluded many studies such as those that did not have singular outcome statements (e.g., studies from [REF large scale project]) and those that had mixed findings, which were about 20% of the sample.
+
+**Manipulation of JIF**: Hiding JIF may not have prevented researchers from relying on them if they knew the study or if the journal that published the original study was already known to them.
+
+**Open Source Impact Factor**: The impact factors that we presented - though likely highly correlated with the Clarivate JIF and more transparent due to reliance on openly accessible data and reproducible - may not be those that authors actually use though this is secondary to the study's purpose.
+
+**The limitations of FLoRA:** FLoRA limitations were inherited in this project. For example, not all replications are indexed, replication authors' success judgments are sometimes difficult to categorize (e.g., REF and QUOTE from What is FLoRA, z*.B. Mail vom 19.3. zu mixed vs success*).
+
+**Deviations from the Preregistration**.
+
+Table X lists how and why we deviated from the preregistration.
+
+| Deviation | Justification | Effect on the Results |
+|-----------|---------------|-----------------------|
+|           |               |                       |
+|           |               |                       |
+|           |               |                       |
 
 ## Conclusion
-- recommendation for research assessment
+
+-   [recommendation for research assessment]
 
 ## Acknowledgements
 
-We thank XXX for feedback during the creation of Guess The Correlation.
+We thank XXX for valuable feedback during the creation of Guess the Correlation.
 
 ## Conflict of Interest and Funding
 
@@ -30,7 +48,7 @@ The authors report no financial support for this work.
 
 ## Data Availability
 
-xxxxxxx
+The datasets (i.e., FLoRA data as of [XXX date] excerpt and newly collected data) used for this study is available on the OSF [LINK]. The up p-to-date version of FLoRA is available at [XXX Link].
 
 ## Declaration of AI Use
 

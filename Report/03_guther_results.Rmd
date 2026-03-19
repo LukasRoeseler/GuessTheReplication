@@ -6,3 +6,24 @@
 
 # Results
 
+-   FLoRA excerpt description
+
+-   Collected data description
+
+-   data and sample description
+
+## Confirmatory Analyses
+
+-   JIF and replicability
+
+-   overall predictions
+
+-   reliance on JIF
+
+-   reliance on JIF in different groups
+
+## Exploratory Analyses
+
+-   were there studies that could very well be predicted (well-known replications)?
+
+-   

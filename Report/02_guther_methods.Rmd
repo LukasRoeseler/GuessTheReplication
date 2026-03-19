@@ -24,20 +24,21 @@ r_citations <- papaja::cite_r(file = "r-references.bib")
 
 # Methods
 
-We collected predictions of replication success using an existing community resource that includes pairs of replications and original studies. Participants did not actually predict sucess since all of the replication outcomes were publicly known. The primary purpose was not to investigate how well researchers could predict replication outcomes but if they relied on journal impact factors for this.
+We collected predictions of replication success using an existing community resource that includes pairs of replications and original studies. Participants did not actually predict success since all of the replication outcomes were publicly known. The primary purpose was not to investigate how well researchers could predict replication outcomes but if they relied on journal impact factors for this.
 
 ## Predicting Replicability
 
 Past studies have used prediction markets with monetary rewards and often before the replication success was known. Table X provides an overview of past studies.
 
--   prediction markets [create beautiful table with source, number of studies, field, number of participants, accuracy (and accuracy metric)
-    -   <https://doi.org/10.1073/pnas.1516179112> prediction of outcomes from OSC (2015)
-    -   <https://doi.org/10.1126/science.aaf0918> prediction market in Camerer 2016
-    -   <https://doi.org/10.1038/s41562-018-0399-z> prediction market for Camerer 2018 ???
-    -   <https://doi.org/10.1371/journal.pone.0248780> prediction market on pooled data, 73% accuracy, XXX studies, XXX participants
-    -   <https://doi.org/10.1016/j.joep.2018.10.009> Predicting Many Labs 2
-    -   <https://doi.org/10.1371/journal.pone.0225826> AI models that predict replication outcomes, 71% accuracy (AUC?)
-    -   SMART competition
+| Reference | Number of Studies | Field | Number of Participants | Accuracy and Metric |
+|--------------|--------------|--------------|-----------------|--------------|
+| @[10.1073/pnas.1516179112](https://doi.org/10.1073/pnas.1516179112){.uri} |  | Psychology replications from [OSC 2015] |  |  |
+| @[10.1126/science.aaf0918](https://doi.org/10.1126/science.aaf0918){.uri} |  | Camerer 2016 |  |  |
+| @[10.1038/s41562-018-0399-z](https://doi.org/10.1038/s41562-018-0399-z){.uri} |  | Camerer 2018 |  |  |
+| @[10.1371/journal.pone.0248780](https://doi.org/10.1371/journal.pone.0248780){.uri} |  |  |  | 73% |
+| @[10.1016/j.joep.2018.10.009](https://doi.org/10.1016/j.joep.2018.10.009){.uri} |  | Many Labs 2 |  |  |
+| @[10.1371/journal.pone.0225826](https://doi.org/10.1371/journal.pone.0225826){.uri} |  |  | None (AI models were used) | 71% AUC |
+| SMART competition |  |  |  |  |
 
 ## Guess the Replication (Guther): A Gamified Pedagogical Approach
 
@@ -63,4 +64,4 @@ When losing all lives, a descending series of tones was played and players could
 
 ## Analysis Plan
 
-For data analysis and visualizations as well as for the creation of the manuscript, we used `r r_citations`.
+For data analysis and visualizations as well as for the creation of the manuscript, we used `r r_citations`. [XXX analysis plan description, reference to preregistration]
