@@ -5,13 +5,16 @@
 ```
 
 # Discussion
-
+- relationship between JIF and replicability
+- use of JIF for replicability in general
+- use of JIF for replicability in different groups
 
 ## Limitations
-
+- no actual prediction
+- exclusion of many studies and non-comprehensiveness of FLoRA
 
 ## Conclusion
-
+- recommendation for research assessment
 
 ## Acknowledgements
 

@@ -24,7 +24,11 @@ r_citations <- papaja::cite_r(file = "r-references.bib")
 
 # Methods
 
+We collected predictions of replication success using an existing community resource that includes pairs of replications and original studies. Participants did not actually predict sucess since all of the replication outcomes were publicly known. The primary purpose was not to investigate how well researchers could predict replication outcomes but if they relied on journal impact factors for this.
+
 ## Predicting Replicability
+
+Past studies have used prediction markets with monetary rewards and often before the replication success was known. Table X provides an overview of past studies.
 
 -   prediction markets [create beautiful table with source, number of studies, field, number of participants, accuracy (and accuracy metric)
     -   <https://doi.org/10.1073/pnas.1516179112> prediction of outcomes from OSC (2015)
@@ -36,6 +40,26 @@ r_citations <- papaja::cite_r(file = "r-references.bib")
     -   SMART competition
 
 ## Guess the Replication (Guther): A Gamified Pedagogical Approach
+
+To collect data on people's predictions of replicability and to drive attention towards replication studies, we created a browser game that resembles the popular guessthecorrelation.com. That is, the style is pixelated, there are sounds for correct and wrong answers, players' score will be ranked on a leaderboard, players get a certificate that they can share with others on social media, and it can be played with keyboard, mouse, or on smartphones.
+
+The aim of Guess the Replication (GutheR) is to correctly predict replication success based on only the title, abstract, and for 50% of the trials impact factor of the journal. We used the FORRT Library of Reproduction and Replication Attempts as the database from which trials were created.
+
+### Database: FLoRA
+
+The FLoRA version from [DATE, REF] was used to create trials and enriched with data from OpenAlex [REF]. This database consist of over 1,500 pairs of reproduction or replication studies including their coded result (e.g., success, failure, mixed) and an outcome quote. Thus, participants did not actually predict the outcome. We filtered out all reproductions and replications for which there was no informative outcome, such as studies that were included in multi-replication articles and only said "success rating = 1" or something similar. We also filtered out all replications for which the impact factor of the original study could not be computed based on OpenAlex. Finally, to allow the game to be less complex, we excluded all studies for which the outcome rating was not "successful" or "failed". The final sample consisted of [XXX] replication studies. The dataset creation script is available online: [LINK]. We computed the relationship between the journals' impact factors and replication rate based on this subset of the database.
+
+### Procedure
+
+Players of Guther had the option to read a tutorial describing the procedure and options to use mouse or keyboard or start right away. An "About" button on the starting screen provided information about replications, FLoRA, data sharing, and credits/citation. When they played the game for the first time, they had to choose a nickname that would be presented on the leaderboard and create an anonymous personal code made out of the first two letters of their city of birth, the last wto letters of their father's first name, the last two digits of their birth year, and the day of the month they were born. This would allow us to link players if they played on different devices at different times without having to collect sensitive data such as IP addresses.
+
+Subsequently, we asked players four questions: What is your current professional status (e.g., working outside of academia or being a phd student), what is your highest level of education (e.g., no formal education, PhD) and how familiar they are with social research (e.g., unfamiliar, publishing social science research).
+
+During the game, players saw their nickname, current score (+1 for every correct response), their level (from "Junior Reviewer" to "Editor-in-Chief" with level increases for every five correct responses), and lives (3 at the beginning, losing one for every false prediction). For each trial, we presented the original study's title (e.g., "Turning the hands of time") and the corresponding abstract. For half of the trials, we presented the journal's impact factor as computed based on OpenAlex. Players had to predict "replicates" or "fails" by a mouse click or button press. After their prediction, their guess, the actual replication outcome, and whether they were correct or wrong, accompanied by a high- versus low-pitched sound was presented. They had the option to disable the sound. Moreover, we provided the quote from the replication authors' about the success (e.g., "the data were 10.76 times more likely under the null hypothesis than under the alternative hypothesis") and provided links to the original and replication study (e.g., for this example REF <https://doi.org/10.1177/1948550611419266> and <https://doi.org/10.3389/fpsyg.2015.00494>]. Players initiated the subsequent trial by pressing space or clicking the respective button. Trials were drawn without replacement and so that they had a 50% chance of being a study that could successfully be replicated.
+
+Apart from the data that participants actively provided, we recorded time spend on each of the trials so that we could filter out cases of trials where players randomly pressed a button as well as whether they switched browser tabs during a trial: Since the FLoRA is publicly available and some replication attempts have already gained much attention, players could otherwise look up the results. They could also already know the results.
+
+When losing all lives, a descending series of tones was played and players could proceed to viewing the final results. At the top of the page was an auto-generated Guther certificate of achievement, presenting them a badge for the level that they achieved similar to the Open Science Badges [REF] including how many replication outcomes they predicted correctly (for an example see [XXX]). They could download the certificate as a .png-file or share a text on Bluesky or Mastodon. Below, we advertised replication-related projects from the FORRT Replication Hub (e.g., [HANDBOOK REF XXX]) and presented the leaderboard as a table with rank, player, score, and level. Table X contains the leaderboard as of [DATE]. Players could then play again without having to type in nickname, code, and respond to the career stage questions, access the about page, or report issues on Github. The number of rounds that players could play was unlimited.
 
 ## Analysis Plan
 

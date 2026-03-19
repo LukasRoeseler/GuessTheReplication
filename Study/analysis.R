@@ -19,10 +19,10 @@ cat("=== OVERALL BEHAVIORAL PERFORMANCE ===\n")
 overall_acc <- mean(trials$correct, na.rm = TRUE)
 cat(sprintf("Overall Prediction Accuracy: %.2f%%\n", overall_acc * 100))
 
-cat("\n=== EXPERIMENTAL MANIPULATION: JOURNAL VISIBILITY ===\n")
+cat("\n=== EXPERIMENTAL MANIPULATION: JIF VISIBILITY ===\n")
 # Does seeing the journal name change prediction accuracy?
 manipulation_stats <- trials %>%
-  group_by(journal_visible) %>%
+  group_by(if_visible) %>%
   summarize(
     trials_count = n(),
     accuracy = mean(correct, na.rm = TRUE),
@@ -41,11 +41,11 @@ career_stats <- trials %>%
 print(career_stats)
 
 # Plot: Effect of Journal Visibility on Accuracy
-p1 <- ggplot(manipulation_stats, aes(x = as.factor(journal_visible), y = accuracy, fill = as.factor(journal_visible))) +
+p1 <- ggplot(manipulation_stats, aes(x = as.factor(if_visible), y = accuracy, fill = as.factor(if_visible))) +
   geom_bar(stat = "identity", width = 0.6) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Effect of Journal Visibility on Prediction Accuracy",
-       x = "Journal Visible to Player",
+  labs(title = "Effect of JIF Visibility on Prediction Accuracy",
+       x = "JIF Visible to Player",
        y = "Accuracy (%)",
        fill = "Visible") +
   theme_minimal()
