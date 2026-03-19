@@ -53,7 +53,7 @@
 
         .hidden { display: none !important; }
 
-        h1 { margin-top: 0; font-size: 3rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
+        h1 { margin-top: 0; font-size: 3.5rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--royal-blue); text-transform: uppercase;}
         p { font-size: 1.4rem; line-height: 1.3; }
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
@@ -64,30 +64,13 @@
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
         input[type="text"], select {
-            width: 100%; max-width: 350px; padding: 10px;
-            margin: 10px 0 20px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
-            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace; text-transform: uppercase;
+            width: 100%; max-width: 400px; padding: 10px;
+            margin: 5px 0 10px; border: 4px solid var(--border-color); border-radius: 0; font-size: 1.3rem;
+            background: var(--bg-body); color: var(--text-main); font-family: 'VT323', monospace;
         }
 
-        /* 8-Bit Pixel Checkboxes */
-        .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
-        
-        .pixel-checkbox { display: block; position: relative; padding-left: 36px; margin-bottom: 12px; cursor: pointer; user-select: none; min-height: 24px; line-height: 24px;}
-        .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
-        .checkmark { position: absolute; top: 0; left: 0; height: 24px; width: 24px; background-color: var(--bg-body); border: 4px solid var(--border-color); box-shadow: 2px 2px 0 var(--border-color); transition: 0.1s;}
-        
-        .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
-        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--bg-body); }
-        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(2px, 2px); }
-        
-        .checkmark:after { content: ""; position: absolute; display: none; }
-        .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
-        
-        /* The chunky pixel block inside */
-        .pixel-checkbox .checkmark:after {
-            left: 3px; top: 3px; width: 18px; height: 18px;
-            background-color: var(--royal-blue);
-        }
+        /* Help texts */
+        .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
 
         button {
             padding: 12px 24px; font-size: 1.5rem; border: 4px solid var(--border-color); border-radius: 0;
@@ -124,8 +107,8 @@
         .leaderboard th { background: var(--royal-blue); color: #fff; }
 
         /* Logos & Header */
-        .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .main-game-logo { height: 70px; width: auto; object-fit: contain; }
+        .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; margin-top: 30px;}
+        .main-game-logo { height: 90px; width: auto; object-fit: contain; }
         
         .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .muecos-corner { left: 20px; }
@@ -140,7 +123,8 @@
         .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
         .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
-        .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
+        /* Dark Mode Toggle */
+        .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
         .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
@@ -148,18 +132,10 @@
 
         /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
-        
-        .certificate-preview {
-            background: var(--bg-body);
-            border: 6px solid var(--border-color);
-            padding: 20px;
-            margin: 20px 0 30px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-        }
+        .certificate-preview { background: var(--bg-body); border: 6px solid var(--border-color); padding: 20px; margin: 20px 0 30px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
 
         canvas { display: none; }
 
-        /* Hide keyboard hints on mobile screens */
         @media (max-width: 768px) {
             .key-hint { display: none; }
         }
@@ -169,57 +145,17 @@
 
 <div class="container" id="app">
 
-    <!-- START SCREEN -->
-    <div id="start-screen">
+    <!-- HOME SCREEN -->
+    <div id="home-screen">
         <button class="theme-toggle-start" onclick="toggleTheme()" title="Toggle Dark Mode">🌓</button>
         
         <div class="header-container">
             <img src="Images/logo.png" alt="Logo" class="main-game-logo">
-            <h1>GUESS THE REPLICATION</h1>
+            <h1>GUESS THE<br>REPLICATION</h1>
         </div>
-        
-        <p>Can you predict which scientific studies replicate?</p>
-        
-        <label for="nickname">Nickname:</label><br>
-        <input type="text" id="nickname" placeholder="PLAYER 1" required><br>
 
-        <label for="career">Career Level:</label><br>
-        <select id="career">
-            <option value="" disabled selected>-- Please specify --</option>
-            <option value="Apprenticeship / No university degree">Apprenticeship / No university degree</option>
-            <option value="Undergraduate Student">Undergraduate Student</option>
-            <option value="Graduate / Master's Student">Graduate / Master's Student</option>
-            <option value="PhD Candidate">PhD Candidate</option>
-            <option value="Postdoc">Postdoc</option>
-            <option value="Professor">Professor</option>
-            <option value="Other">Other</option>
-        </select><br>
-
-        <label style="font-size: 1.3rem;">How familiar are you with social science research?</label><br>
-        <div class="checkbox-group" id="experience-checks">
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I regularly read research articles">
-                <span class="checkmark"></span> I regularly read research articles
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I conduct research">
-                <span class="checkmark"></span> I conduct research
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I publish research">
-                <span class="checkmark"></span> I publish research
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I conduct replications">
-                <span class="checkmark"></span> I conduct replications
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I am unfamiliar with research">
-                <span class="checkmark"></span> I am unfamiliar with research
-            </label>
-        </div><br>
-
-        <button onclick="startGame()">Start Game</button>
+        <br><br>
+        <button onclick="showScreen('player-screen')">Start Game</button><br><br>
         <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
         <button class="btn-info" onclick="showScreen('info-screen')">About</button>
 
@@ -239,10 +175,72 @@
         </a>
     </div>
 
+    <!-- PLAYER INFO SCREEN -->
+    <div id="player-screen" class="hidden">
+        <h2>Player Profile</h2>
+        
+        <label for="nickname">Nickname:</label><br>
+        <input type="text" id="nickname" placeholder="PLAYER 1" required><br>
+        <div class="help-text">
+            Will be displayed on the GutheR-leaderboard. Please don't change the nickname unless you let another person play on your device. This will help researchers use the data to study predictions of replicability.
+        </div>
+
+        <label for="personal-code">Personal Code:</label><br>
+        <input type="text" id="personal-code" placeholder="e.g. AMin9302" required><br>
+        <div class="help-text">
+            Please generate your anonymous and personal code. This will greatly help us:<br><br>
+            1. Die ersten beiden Buchstaben Ihres Geburtsortes (z.B. Am bei Amsterdam)<br>
+            2. Die letzten beiden Buchstaben des Vornamens Ihres Vaters (z.B. 'in' for 'Martin')<br>
+            3. Die letzten beiden Ziffern Ihres Geburts<strong>jahres</strong> (z.B. 93 bei 1993)<br>
+            4. Tag, an dem Sie geboren sind (z.B. 02 bei 02.06.)
+        </div>
+
+        <button onclick="submitPlayer()">Next</button>
+    </div>
+
+    <!-- DEMOGRAPHICS SCREEN -->
+    <div id="demographics-screen" class="hidden">
+        <h2>About You</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 20px;">Please answer these questions before playing for the first time.</p>
+
+        <label>1. What is your current professional status?</label><br>
+        <select id="career">
+            <option value="" disabled selected>-- Select Status --</option>
+            <option value="I am a student at university">I am a student at university</option>
+            <option value="I am a phd student">I am a phd student</option>
+            <option value="I am working outside of research">I am working outside of research</option>
+            <option value="I am post doc">I am post doc</option>
+            <option value="I am professor">I am professor</option>
+        </select><br>
+
+        <label>2. What is your highest level of education?</label><br>
+        <select id="education">
+            <option value="" disabled selected>-- Select Education --</option>
+            <option value="No formal qualification">No formal qualification</option>
+            <option value="High School diploma">High School diploma</option>
+            <option value="Apprenticeship">Apprenticeship</option>
+            <option value="Bachelors degree">Bachelors degree</option>
+            <option value="Masters degree">Masters degree</option>
+            <option value="PhD">PhD</option>
+        </select><br>
+
+        <label>3. Familiarity with social research:</label><br>
+        <select id="familiarity">
+            <option value="" disabled selected>-- Select Familiarity --</option>
+            <option value="0 = Unfamiliar with research">0 = Unfamiliar with research</option>
+            <option value="1 = read research articles">1 = read research articles</option>
+            <option value="2 = conduct research">2 = conduct research</option>
+            <option value="3 = publish research">3 = publish research</option>
+        </select><br><br>
+
+        <button onclick="submitDemographics()">Start Game</button>
+    </div>
+
     <!-- TUTORIAL SCREEN -->
     <div id="tutorial-screen" class="hidden" style="text-align: left;">
         <h2 style="text-align: center;">How to Play</h2>
-        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again. <strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
+        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again.</p>
+        <p><strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
         
         <div class="hint-box">
             💡 For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.
@@ -253,7 +251,7 @@
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-            <button onclick="showScreen('start-screen')">Back to Start</button>
+            <button onclick="showScreen('home-screen')">Back to Start</button>
         </div>
     </div>
 
@@ -285,7 +283,7 @@
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-            <button onclick="showScreen('start-screen')">Back to Start</button>
+            <button onclick="showScreen('home-screen')">Back to Start</button>
         </div>
     </div>
 
@@ -383,7 +381,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let fullDataset = [], activeDataset = [], currentStudy = null;
-    let nickname = '', career = '', experience = '', sessionId = Date.now();
+    let nickname = '', personalCode = '', career = '', education = '', experience = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
@@ -431,6 +429,9 @@
     document.addEventListener("DOMContentLoaded", async () => {
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
+        
+        const savedCode = localStorage.getItem('gtr_code');
+        if(savedCode) document.getElementById('personal-code').value = savedCode;
 
         try {
             const res = await fetch('dataset.json');
@@ -464,8 +465,9 @@
     }
 
     function showScreen(id) {
-        ['start-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
-            document.getElementById(s).classList.add('hidden');
+        ['home-screen', 'player-screen', 'demographics-screen', 'start-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
+            const el = document.getElementById(s);
+            if(el) el.classList.add('hidden');
         });
         document.getElementById(id).classList.remove('hidden');
     }
@@ -487,20 +489,52 @@
         document.getElementById('feedback-hud').innerHTML = hudContent;
     }
 
-    function startGame() {
+    function submitPlayer() {
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
-        career = document.getElementById('career').value;
-        if (!career) return alert("Please specify your career level.");
+        personalCode = document.getElementById('personal-code').value.trim();
         
-        const expBoxes = document.querySelectorAll('#experience-checks input:checked');
-        if (expBoxes.length === 0) return alert("Please select your familiarity with research.");
+        if (!personalCode) return alert("Please enter your Personal Code.");
 
-        let expArray = [];
-        expBoxes.forEach(box => expArray.push(box.value));
-        experience = expArray.join(", ");
+        const savedNick = localStorage.getItem('gtr_nickname');
+        const savedCareer = localStorage.getItem('gtr_career');
+        const savedEdu = localStorage.getItem('gtr_education');
+        const savedExp = localStorage.getItem('gtr_experience');
 
+        // If nickname matches a previous session AND we have demographic data, skip demographics
+        if (nickname === savedNick && savedCareer && savedEdu && savedExp) {
+            career = savedCareer;
+            education = savedEdu;
+            experience = savedExp;
+            
+            localStorage.setItem('gtr_code', personalCode); // Update code just in case
+            startGameplay();
+        } else {
+            // New player or changed name -> force them to answer demographics
+            showScreen('demographics-screen');
+        }
+    }
+
+    function submitDemographics() {
+        career = document.getElementById('career').value;
+        education = document.getElementById('education').value;
+        experience = document.getElementById('familiarity').value;
+
+        if (!career || !education || !experience) {
+            return alert("Please answer all demographic questions.");
+        }
+
+        // Save everything
         localStorage.setItem('gtr_nickname', nickname);
+        localStorage.setItem('gtr_code', personalCode);
+        localStorage.setItem('gtr_career', career);
+        localStorage.setItem('gtr_education', education);
+        localStorage.setItem('gtr_experience', experience);
+
+        startGameplay();
+    }
+
+    function startGameplay() {
         playCount++;
         localStorage.setItem('gtr_play_count', playCount);
 
@@ -541,20 +575,14 @@
         }
         document.getElementById('study-abstract').innerHTML = abstractHTML;
         
-        currentStudy.journal_visible = Math.random() >= 0.5; 
+        // MANIPULATION: Journal is NEVER visible. Impact Factor is randomly visible (50/50).
+        currentStudy.journal_visible = false; 
         currentStudy.if_visible = Math.random() >= 0.5;
 
         const journalBox = document.getElementById('journal-box');
-        let boxText = "";
-        let jText = (currentStudy.journal_visible && currentStudy.journal) ? decodeHTML(currentStudy.journal) : "";
-        let ifText = (currentStudy.if_visible && currentStudy.impact_factor) ? `Journal's Impact Factor: ${currentStudy.impact_factor}` : "";
-
-        if (jText && ifText) boxText = `Journal: ${jText} (${ifText})`;
-        else if (jText) boxText = `Journal: ${jText}`;
-        else if (ifText) boxText = ifText;
-
-        if (boxText !== "") {
-            journalBox.innerHTML = boxText; 
+        
+        if (currentStudy.if_visible && currentStudy.impact_factor) {
+            journalBox.innerText = `Journal's Impact Factor: ${currentStudy.impact_factor}`;
             journalBox.classList.remove('hidden');
         } else {
             journalBox.classList.add('hidden');
@@ -565,7 +593,6 @@
         roundStartTime = Date.now();
     }
 
-    // Smart logic to check if a DOI exists in the APA string before appending
     function formatCitation(text, fallbackDoi) {
         if (!text) return "";
         let decoded = decodeHTML(text);
@@ -679,8 +706,6 @@
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
         
-        // CRITICAL FIX: Ensure Impact Factor is strictly numeric or strictly null. 
-        // "NaN" strings cause database failures.
         let safeIF = currentStudy.impact_factor;
         if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
             safeIF = null;
@@ -689,7 +714,8 @@
         }
 
         const payload = {
-            session_id: sessionId, play_count: playCount, nickname, career, research_experience: experience, round_number: roundNumber,
+            session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
+            career: career, education: education, research_experience: experience, round_number: roundNumber,
             ref_o: decodeHTML(currentStudy.ref_o), ref_r: decodeHTML(currentStudy.ref_r), 
             journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '', 
             journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
@@ -709,7 +735,8 @@
 
     async function saveScoreToDB() {
         const payload = { 
-            session_id: sessionId, play_count: playCount, nickname, career, research_experience: experience, final_score: score, 
+            session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
+            career: career, education: education, research_experience: experience, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
         };
@@ -782,11 +809,11 @@
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'left';
             ctx.font = '900 16px Arial, sans-serif';
-            ctx.fillText('MüCOS', 40 + w + 10, bottomY + 12);
+            ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
             
-            ctx.font = '10px Arial, sans-serif';
-            ctx.fillText('Münster Center', 40 + w + 10, bottomY + 26);
-            ctx.fillText('for Open Science', 40 + w + 10, bottomY + 38);
+            ctx.font = '14px Arial, sans-serif';
+            ctx.fillText('Münster Center', 40 + w + 12, bottomY + 32);
+            ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
         // FORRT (Right)
@@ -796,30 +823,31 @@
             ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'right';
             
-            ctx.font = 'bold 22px "Century Schoolbook", serif';
-            let currentX = canvas.width - 40; 
-            ctx.fillText('FORRT', currentX, bottomY + 25);
+            ctx.font = 'bold 26px "Century Schoolbook", serif';
+            const forrtX = canvas.width - 40; 
+            ctx.fillText('FORRT', forrtX, bottomY + 32);
             
             const forrtTextW = ctx.measureText('FORRT').width;
-            currentX -= (forrtTextW + 8);
+            const totalForrtWidth = logoW + 15 + forrtTextW; 
+            const forrtStartX = canvas.width - 40 - totalForrtWidth;
             
-            ctx.drawImage(forrtImg, currentX - logoW, bottomY, logoW, targetH);
-            currentX -= (logoW + 8);
+            ctx.drawImage(forrtImg, forrtStartX, bottomY, logoW, targetH);
             
+            const lineX = forrtStartX - 10;
             ctx.beginPath();
-            ctx.moveTo(currentX, bottomY);
-            ctx.lineTo(currentX, bottomY + targetH);
+            ctx.moveTo(lineX, bottomY);
+            ctx.lineTo(lineX, bottomY + targetH);
             ctx.lineWidth = 1;
             ctx.strokeStyle = '#4b3621';
             ctx.stroke();
-            currentX -= 8;
 
-            ctx.font = '10px "Century Schoolbook", serif';
-            ctx.textAlign = 'right';
-            const lines = ['Framework for', 'Open and', 'Reproducible', 'Research', 'Training'];
-            lines.forEach((line, idx) => {
-                ctx.fillText(line, currentX, bottomY + 5 + (idx * 8));
-            });
+            ctx.font = '12px "Century Schoolbook", serif';
+            const textX = lineX - 10;
+            ctx.fillText('Framework for', textX, bottomY + 8);
+            ctx.fillText('Open and', textX, bottomY + 19);
+            ctx.fillText('Reproducible', textX, bottomY + 30);
+            ctx.fillText('Research', textX, bottomY + 41);
+            ctx.fillText('Training', textX, bottomY + 52);
         }
     }
 
