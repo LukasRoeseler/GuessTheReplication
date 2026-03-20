@@ -165,11 +165,39 @@
 
         canvas { display: none; }
 
-        /* Responsive Fixes */
+        /* Responsive Fixes for Mobile */
         @media (max-width: 768px) {
             .key-hint { display: none; }
             .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
-            .container { padding-bottom: 40px; } 
+            
+            /* Tighter container padding to save vertical space */
+            .container { padding: 20px 15px 30px; border-width: 4px; } 
+            
+            .header-container { flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
+            .header-title { font-size: 2.4rem !important; text-align: center; }
+            .main-game-logo { height: 60px !important; }
+            
+            /* HUD compression */
+            .hud { font-size: 1rem; padding-bottom: 5px; margin-bottom: 10px; justify-content: center; gap: 10px; }
+            .hearts { font-size: 1.2rem; }
+            
+            /* Typography compression */
+            .study-title { font-size: 1.3rem; margin-bottom: 10px; }
+            .journal-box { font-size: 1.1rem; margin-bottom: 10px; padding-bottom: 2px;}
+            
+            /* Abstract scrolling constraint */
+            .study-abstract { font-size: 1.1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
+            
+            /* Buttons side-by-side */
+            .btn-large { width: 45%; max-width: 140px; height: 60px; font-size: 1.2rem; padding: 5px; margin: 5px; }
+            
+            /* Result Screen constraints */
+            .big-result { font-size: 2.5rem; margin: 10px 0; }
+            #feedback-comparison { font-size: 1.1rem !important; }
+            .quote { font-size: 1rem; padding: 10px; }
+            .citation-box, .info-box { font-size: 0.95rem !important; padding: 10px; margin-top: 15px; }
+            
+            .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
         }
     </style>
 </head>
@@ -565,7 +593,7 @@
     }
 
     function submitPlayer() {
-        showScreen('player-screen'); // Route triggered from "Start Game" on Home Screen
+        showScreen('player-screen'); 
     }
 
     function goToDemographics() {
@@ -575,7 +603,6 @@
         
         if (!personalCode) return alert("Please enter your Personal Code.");
         
-        // Always show demographics from the home screen flow, auto-fill handled on load
         showScreen('demographics-screen');
     }
 
@@ -631,7 +658,6 @@
     }
 
     function playAgainFast() {
-        // Skip all menus and go straight to game with existing demographic cache
         startGameplay();
     }
 
@@ -855,16 +881,19 @@
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
+        // Title
         ctx.fillStyle = '#002366'; ctx.textAlign = 'center';
         ctx.font = 'bold 50px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
+        // Center Badge Image (200x200)
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
             const size = 200; 
             ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 120, size, size);
         }
 
+        // Main Text Details
         ctx.fillStyle = '#4b3621';
         ctx.font = '32px "VT323", monospace';
         ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 380);
@@ -874,16 +903,19 @@
         ctx.font = 'bold 42px "VT323", monospace';
         ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 480);
 
+        // Link
         ctx.fillStyle = '#1a4314';
         ctx.font = '30px "VT323", monospace'; 
         ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
+        // Load Bottom Logos
         const muecosImg = await loadImg('Images/muecos_logo.png');
         const forrtImg = await loadImg('Images/forrt_black.png');
         
         const targetH = 45; 
         const bottomY = 635;
         
+        // MüCOS (Left)
         if (muecosImg) {
             const w = muecosImg.width * (targetH / muecosImg.height);
             ctx.drawImage(muecosImg, 40, bottomY, w, targetH);
@@ -898,6 +930,7 @@
             ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
         
+        // FORRT (Right)
         if (forrtImg) {
             const logoW = forrtImg.width * (targetH / forrtImg.height);
             
