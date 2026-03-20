@@ -102,6 +102,7 @@
         .menu-btn-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;}
         .menu-btn-stack button { width: 250px; }
 
+        .button-container { display: block; }
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
@@ -124,6 +125,7 @@
         .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
         
         .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
+        #citation-links { font-size: 1.1rem; line-height: 1.4; }
 
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
@@ -182,21 +184,25 @@
             .hearts { font-size: 1.2rem; }
             
             /* Typography compression */
-            .study-title { font-size: 1.3rem; margin-bottom: 10px; }
-            .journal-box { font-size: 1.1rem; margin-bottom: 10px; padding-bottom: 2px;}
+            .study-title { font-size: 1.2rem; margin-bottom: 10px; }
+            .journal-box { font-size: 1rem; margin-bottom: 10px; padding-bottom: 2px;}
             
             /* Abstract scrolling constraint */
-            .study-abstract { font-size: 1.1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
+            .study-abstract { font-size: 1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
             
             /* Buttons side-by-side */
-            .btn-large { width: 45%; max-width: 140px; height: 60px; font-size: 1.2rem; padding: 5px; margin: 5px; }
+            .button-container { display: flex; justify-content: space-between; gap: 10px; }
+            .btn-large { width: 50%; height: 50px; font-size: 1.2rem; padding: 5px; margin: 0; }
             
             /* Result Screen constraints */
-            .big-result { font-size: 2.5rem; margin: 10px 0; }
-            #feedback-comparison { font-size: 1.1rem !important; }
-            .quote { font-size: 1rem; padding: 10px; }
-            .citation-box, .info-box { font-size: 0.95rem !important; padding: 10px; margin-top: 15px; }
+            .big-result { font-size: 2rem; margin: 5px 0; }
+            #feedback-comparison { font-size: 1rem !important; }
+            .quote { font-size: 0.95rem; padding: 10px; margin-bottom: 10px; }
             
+            /* Citation box scrolling constraint */
+            #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.85rem !important; padding: 10px; margin-top: 10px; }
+            
+            .info-box { font-size: 0.95rem; padding: 10px; }
             .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
         }
     </style>
@@ -379,7 +385,7 @@
         <div class="journal-box hidden" id="journal-box"></div>
         <div class="study-abstract" id="study-abstract"></div>
 
-        <div>
+        <div class="button-container">
             <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small class="key-hint">(Press 1)</small></button>
             <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small class="key-hint">(Press 2)</small></button>
         </div>
@@ -396,7 +402,7 @@
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
+        <div class="info-box" id="citation-links"></div>
 
         <br>
         <button id="next-btn" onclick="handleNext()">Next Round <span class="key-hint">(Space)</span></button>
@@ -603,6 +609,7 @@
         
         if (!personalCode) return alert("Please enter your Personal Code.");
         
+        // Always show demographics from the home screen flow, auto-fill handled on load
         showScreen('demographics-screen');
     }
 
