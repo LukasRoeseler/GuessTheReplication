@@ -31,7 +31,7 @@ We collected predictions of replication success using an existing community reso
 Past studies have used prediction markets with monetary rewards and often before the replication success was known. Table X provides an overview of past studies.
 
 | Reference | Number of Studies | Field | Number of Participants | Accuracy and Metric |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | \@[10.1073/pnas.1516179112](https://doi.org/10.1073/pnas.1516179112){.uri} |  | Psychology replications from [OSC 2015] |  |  |
 | \@[10.1126/science.aaf0918](https://doi.org/10.1126/science.aaf0918){.uri} |  | Camerer 2016 |  |  |
 | \@[10.1038/s41562-018-0399-z](https://doi.org/10.1038/s41562-018-0399-z){.uri} |  | Camerer 2018 |  |  |
