@@ -55,3 +55,16 @@ id,session_id,play_count,nickname,career,final_score,final_level,rounds_played,t
 54,1773927826332,58,LukeThursday3,I am post doc,3,Junior Reviewer,6,4779,0,2026-03-19 14:13:17.746+00,publish research,Hiin9302,PhD
 55,1773927826332,59,LukeThursday3,I am post doc,4,Junior Reviewer,7,3231,0,2026-03-19 14:13:25.137+00,publish research,Hiin9302,PhD
 56,1773929623567,60,LukeThursday3,I am post doc,12,Reviewer 2,17,7331,0,2026-03-19 14:13:53.025+00,publish research,Hiin9302,PhD
+57,1773930324802,5,Player10,I am post doc,4,Junior Reviewer,7,330176,0,2026-03-19 14:42:26.096+00,publish research,ABCD1234,PhD
+58,1773929623567,61,LukeThursday3,I am post doc,1,Junior Reviewer,4,612093,1,2026-03-19 14:56:26.532+00,publish research,Hiin9302,PhD
+59,1774008869878,62,LukeFriday1,I am a postdoc,6,Reviewer 1,10,16109,0,2026-03-20 12:15:18.094+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,PhD
+60,1774010057822,63,LukeFriday3,I am professor,6,Reviewer 1,10,7968,0,2026-03-20 12:34:46.97+00,conduct research,Hiin9302,Bachelors degree
+61,1774017051401,64,LukeFriday4,I am a postdoc,5,Reviewer 1,9,22949,0,2026-03-20 14:31:23.685+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,Bachelors degree
+62,1774017116529,10,Lukemobile,I am a postdoc,4,Junior Reviewer,7,98841,0,2026-03-20 14:33:45.312+00,I regularly read research articles,Dcba4321,PhD
+63,1774031006718,11,Lukemobile,I am a postdoc,1,Junior Reviewer,4,40214,0,2026-03-20 18:24:39.691+00,I regularly read research articles,Dcba4321,PhD
+64,1774031111775,12,Spielplatz,I am working outside of research,4,Junior Reviewer,7,61825,0,2026-03-20 18:27:36.184+00,I am unfamiliar with research,Baas2021,No formal qualification
+65,1774167685647,1,Luk,I am a postdoc,4,Junior Reviewer,7,17948,0,2026-03-22 08:22:32.942+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,PhD
+66,1774360243443,65,LukeFriday4,I am a postdoc,9,Reviewer 1,13,43288,0,2026-03-24 13:52:48.57+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,Bachelors degree
+67,1774360769995,1,LukeTuesday,I am a postdoc,4,Junior Reviewer,7,25998,0,2026-03-24 14:00:30.082+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",HIIN9302,PhD
+68,1774364847272,66,Luke2403,I am a postdoc,3,Junior Reviewer,6,17598,0,2026-03-24 15:07:59.384+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,Bachelors degree
+69,1774364847272,67,Luke2403,I am a postdoc,7,Reviewer 1,11,7576,0,2026-03-24 15:08:15.716+00,"I regularly read research articles, I conduct research, I publish research, I conduct replications",Hiin9302,Bachelors degree
