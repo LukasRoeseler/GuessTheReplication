@@ -81,7 +81,7 @@ get_openalex_jif <- function(journal_name) {
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
       if (length(content$results) > 0) {
-        jif <- content$results[[1]]$summary_stats$`2yr_mean_citedness`
+        jif <- content$results[[1]]$summary_stats$`2yr_mean_citedness` # see https://developers.openalex.org/api-reference/publishers for documentation
         if (!is.null(jif)) return(round(as.numeric(jif), 2))
       }
     }
@@ -121,8 +121,8 @@ clean_data <- data %>%
   filter(outcome %in% c("successful", "failed")) %>%
   
   # 2. Exclude specific studies
-  filter(!grepl("10.1126/science.aaf0918", doi_r, ignore.case = TRUE)) %>%
-  filter(!grepl("10.17605/osf.io/fmd75", doi_r, ignore.case = TRUE)) %>%
+  filter(!grepl("10.1126/science.aaf0918", doi_r, ignore.case = TRUE)) %>% # no individual reports with quotes but
+  filter(!grepl("10.17605/osf.io/fmd75", doi_r, ignore.case = TRUE)) %>% # registration (full paper is already incldued)
   
   # 3. Clean and filter the outcome_quote
   mutate(
@@ -138,7 +138,7 @@ clean_data <- data %>%
   
   # 4. Map the final variables for the game
   mutate(
-    outcome = ifelse(outcome == "successful", "success", "failure"),
+    outcome = ifelse(outcome == "successful", "success", "failure"), # this also excludes reproductions
     ref_o = title_o,
     ref_r = title_r,
     apa_ref_o = apa_ref_o,
@@ -189,7 +189,7 @@ for (i in seq_len(nrow(clean_data))) {
 }
 close(pb_abs)
 
-# CRITICAL FIX: Remove any studies where abstract is NA or very short
+# Remove any studies where abstract is NA or very short
 cat("\nDropping studies with missing abstracts...\n")
 final_data <- clean_data %>% 
   filter(!is.na(abstract) & str_length(abstract) > 30) %>% 
