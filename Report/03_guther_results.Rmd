@@ -12,6 +12,8 @@
 
 -   data and sample description
 
+-   adequacy of OpenAlex mean citedness instead of JIF
+
 ## Confirmatory Analyses
 
 -   JIF and replicability
