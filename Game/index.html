@@ -53,7 +53,7 @@
 
         .hidden { display: none !important; }
 
-        h1 { margin-top: 0; font-size: 3rem; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
+        .header-title { margin: 0; font-size: 3.5rem; line-height: 0.9; text-align: left; text-transform: uppercase; color: var(--royal-blue); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--royal-blue); text-transform: uppercase;}
         p { font-size: 1.4rem; line-height: 1.3; }
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
@@ -72,21 +72,20 @@
         /* Custom Pixel Checkboxes */
         .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
         
-        .pixel-checkbox { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; user-select: none; position: relative; }
+        .pixel-checkbox { display: block; position: relative; padding-left: 36px; margin-bottom: 12px; cursor: pointer; user-select: none; min-height: 24px; line-height: 24px;}
         .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
-        .checkmark { height: 24px; width: 24px; background-color: var(--bg-body); border: 3px solid var(--border-color); display: inline-block; margin-right: 12px; position: relative; box-shadow: 3px 3px 0 var(--border-color); transition: 0.1s;}
+        .checkmark { position: absolute; top: 0; left: 0; height: 24px; width: 24px; background-color: var(--bg-body); border: 4px solid var(--border-color); box-shadow: 2px 2px 0 var(--border-color); transition: 0.1s;}
         
         .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
-        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--royal-blue); }
-        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(3px, 3px); }
+        .pixel-checkbox input:checked ~ .checkmark { background-color: var(--bg-body); }
+        .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(2px, 2px); }
         
         .checkmark:after { content: ""; position: absolute; display: none; }
         .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
         
         .pixel-checkbox .checkmark:after {
-            left: 6px; top: 1px; width: 6px; height: 12px;
-            border: solid white; border-width: 0 4px 4px 0;
-            transform: rotate(45deg);
+            left: 3px; top: 3px; width: 18px; height: 18px;
+            background-color: var(--royal-blue);
         }
 
         button {
@@ -103,6 +102,7 @@
         .menu-btn-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;}
         .menu-btn-stack button { width: 250px; }
 
+        .button-container { display: block; }
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
@@ -125,13 +125,14 @@
         .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
         
         .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
+        #citation-links { font-size: 1.1rem; line-height: 1.4; }
 
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
         .leaderboard th { background: var(--royal-blue); color: #fff; }
 
         /* Logos & Header */
-        .header-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; margin-top: 30px;}
+        .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px; margin-top: 30px;}
         .main-game-logo { height: 90px; width: auto; object-fit: contain; }
         
         /* Mobile layout fixes for logos */
@@ -147,22 +148,62 @@
         .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
         .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
 
-        .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
+        .theme-toggle-start { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; background: none; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer; }
         .theme-toggle-start:active { transform: scale(0.9); box-shadow: none; }
 
         .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
         .mute-btn:active { box-shadow: none; transform: scale(0.9); }
 
+        /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
-        .certificate-preview { background: var(--bg-body); border: 6px solid var(--border-color); padding: 20px; margin: 20px 0 30px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+        
+        .certificate-preview {
+            background: var(--bg-body);
+            border: 6px solid var(--border-color);
+            padding: 20px;
+            margin: 20px 0 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        }
 
         canvas { display: none; }
 
-        /* Responsive Fixes */
+        /* Responsive Fixes for Mobile */
         @media (max-width: 768px) {
             .key-hint { display: none; }
             .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
-            .container { padding-bottom: 40px; } /* Reset padding since logos are no longer absolute */
+            
+            /* Tighter container padding to save vertical space */
+            .container { padding: 20px 15px 30px; border-width: 4px; } 
+            
+            .header-container { flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
+            .header-title { font-size: 2.4rem !important; text-align: center; }
+            .main-game-logo { height: 60px !important; }
+            
+            /* HUD compression */
+            .hud { font-size: 1rem; padding-bottom: 5px; margin-bottom: 10px; justify-content: center; gap: 10px; }
+            .hearts { font-size: 1.2rem; }
+            
+            /* Typography compression */
+            .study-title { font-size: 1.2rem; margin-bottom: 10px; }
+            .journal-box { font-size: 1rem; margin-bottom: 10px; padding-bottom: 2px;}
+            
+            /* Abstract scrolling constraint */
+            .study-abstract { font-size: 1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
+            
+            /* Buttons side-by-side */
+            .button-container { display: flex; justify-content: space-between; gap: 10px; }
+            .btn-large { width: 50%; height: 50px; font-size: 1.2rem; padding: 5px; margin: 0; }
+            
+            /* Result Screen constraints */
+            .big-result { font-size: 2rem; margin: 5px 0; }
+            #feedback-comparison { font-size: 1rem !important; }
+            .quote { font-size: 0.95rem; padding: 10px; margin-bottom: 10px; }
+            
+            /* Citation box scrolling constraint */
+            #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.85rem !important; padding: 10px; margin-top: 10px; }
+            
+            .info-box { font-size: 0.95rem; padding: 10px; }
+            .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
         }
     </style>
 </head>
@@ -176,13 +217,13 @@
         
         <div class="header-container">
             <img src="Images/logo.png" alt="Logo" class="main-game-logo">
-            <h1>GUESS THE<br>REPLICATION</h1>
+            <h1 class="header-title">GUESS THE<br>REPLICATION</h1>
         </div>
         
         <p>Can you predict which scientific studies replicate?</p>
         
         <div class="menu-btn-stack">
-            <button class="btn-start" onclick="showScreen('player-screen')">Start Game</button>
+            <button class="btn-start" onclick="submitPlayer()">Start Game</button>
             <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
             <button class="btn-info" onclick="showScreen('info-screen')">About</button>
         </div>
@@ -225,7 +266,7 @@
             4. The day of the month you were born (e.g. '02' for the 2nd of June)
         </div>
 
-        <button onclick="submitPlayer()">Next</button>
+        <button onclick="goToDemographics()">Next</button>
     </div>
 
     <!-- DEMOGRAPHICS SCREEN -->
@@ -239,8 +280,8 @@
             <option value="I am a student at university">I am a student at university</option>
             <option value="I am a phd student">I am a phd student</option>
             <option value="I am working outside of research">I am working outside of research</option>
-            <option value="I am post doc">I am a post doc</option>
-            <option value="I am professor">I am a professor</option>
+            <option value="I am a postdoc">I am a postdoc</option>
+            <option value="I am a professor">I am a professor</option>
         </select><br>
 
         <label>2. What is your highest level of education?</label><br>
@@ -255,13 +296,28 @@
         </select><br>
 
         <label>3. Familiarity with social research:</label><br>
-        <select id="familiarity">
-            <option value="" disabled selected>-- Select Familiarity --</option>
-            <option value="Unfamiliar with research">Unfamiliar with research</option>
-            <option value="read research articles">Read research articles</option>
-            <option value="conduct research">Conduct research</option>
-            <option value="publish research">Publish research</option>
-        </select><br><br>
+        <div class="checkbox-group" id="experience-checks">
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I regularly read research articles">
+                <span class="checkmark"></span> I regularly read research articles
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct research">
+                <span class="checkmark"></span> I conduct research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I publish research">
+                <span class="checkmark"></span> I publish research
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I conduct replications">
+                <span class="checkmark"></span> I conduct replications
+            </label>
+            <label class="pixel-checkbox">
+                <input type="checkbox" value="I am unfamiliar with research">
+                <span class="checkmark"></span> I am unfamiliar with research
+            </label>
+        </div><br>
 
         <button onclick="submitDemographics()">Start Game</button>
     </div>
@@ -269,8 +325,7 @@
     <!-- TUTORIAL SCREEN -->
     <div id="tutorial-screen" class="hidden" style="text-align: left;">
         <h2 style="text-align: center;">How to Play</h2>
-        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again.</p>
-        <p><strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
+        <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again. <strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
         
         <div class="hint-box">
             💡 For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.
@@ -311,6 +366,11 @@
             <strong>More games like this:</strong><br>
             This project is part of the <a href="https://forrt.org/games/" target="_blank">FORRT Open Research Games</a>.
         </div>
+
+        <div class="info-box" style="margin-top: 15px;">
+            <strong>Contact:</strong><br>
+            Questions, feedback, criticism? Write us an email at lukas.roeseler [at] uni-muenster.de.
+        </div>
         
         <div style="text-align: center; margin-top: 30px;">
             <button onclick="showScreen('home-screen')">Back to Start</button>
@@ -325,7 +385,7 @@
         <div class="journal-box hidden" id="journal-box"></div>
         <div class="study-abstract" id="study-abstract"></div>
 
-        <div>
+        <div class="button-container">
             <button class="btn-success-retro btn-large" onclick="makeGuess('success')">Replicates<br><small class="key-hint">(Press 1)</small></button>
             <button class="btn-danger-retro btn-large" onclick="makeGuess('failure')">Fails<br><small class="key-hint">(Press 2)</small></button>
         </div>
@@ -342,7 +402,7 @@
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
+        <div class="info-box" id="citation-links"></div>
 
         <br>
         <button id="next-btn" onclick="handleNext()">Next Round <span class="key-hint">(Space)</span></button>
@@ -363,7 +423,7 @@
     <div id="gameover-screen" class="hidden">
         
         <div class="certificate-preview">
-            <h1 style="margin-bottom: 10px;">GUESS THE REPLICATION</h1>
+            <h1 style="margin-bottom: 10px; font-size: 3rem; text-shadow:none;">GUESS THE REPLICATION</h1>
             <h2 style="font-size: 1.8rem; color: var(--text-main);">CERTIFICATE OF ACHIEVEMENT</h2>
             
             <img id="final-badge" class="badge-img" src="" alt="Final Badge">
@@ -413,7 +473,7 @@
     const SUPABASE_URL = 'https://oahaowlrxgntoyhthuhr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
-    let fullDataset = [], activeDataset = [], currentStudy = null;
+    let fullDataset = [], activeSuccesses = [], activeFailures = [], currentStudy = null;
     let nickname = '', personalCode = '', career = '', education = '', experience = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
@@ -443,6 +503,7 @@
         btns.forEach(btn => btn.innerText = isMuted ? '🔇' : '🔊');
     }
 
+    // Decode HTML Entities so &amp; turns into &
     function decodeHTML(html) {
         if (!html) return "";
         const txt = document.createElement("textarea");
@@ -460,11 +521,26 @@
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
+        // Pre-fill local data
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
 
         const savedCode = localStorage.getItem('gtr_code');
         if(savedCode) document.getElementById('personal-code').value = savedCode;
+
+        const savedCareer = localStorage.getItem('gtr_career');
+        if(savedCareer) document.getElementById('career').value = savedCareer;
+
+        const savedEdu = localStorage.getItem('gtr_education');
+        if(savedEdu) document.getElementById('education').value = savedEdu;
+
+        const savedExp = localStorage.getItem('gtr_experience');
+        if(savedExp) {
+            const exps = savedExp.split(", ");
+            document.querySelectorAll('#experience-checks input').forEach(box => {
+                if(exps.includes(box.value)) box.checked = true;
+            });
+        }
 
         try {
             const res = await fetch('dataset.json');
@@ -523,33 +599,30 @@
     }
 
     function submitPlayer() {
+        showScreen('player-screen'); 
+    }
+
+    function goToDemographics() {
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
         personalCode = document.getElementById('personal-code').value.trim();
         
         if (!personalCode) return alert("Please enter your Personal Code.");
-
-        const savedNick = localStorage.getItem('gtr_nickname');
-        const savedCareer = localStorage.getItem('gtr_career');
-        const savedEdu = localStorage.getItem('gtr_education');
-        const savedExp = localStorage.getItem('gtr_experience');
-
-        if (nickname === savedNick && savedCareer && savedEdu && savedExp) {
-            career = savedCareer;
-            education = savedEdu;
-            experience = savedExp;
-            
-            localStorage.setItem('gtr_code', personalCode); 
-            startGameplay();
-        } else {
-            showScreen('demographics-screen');
-        }
+        
+        // Always show demographics from the home screen flow, auto-fill handled on load
+        showScreen('demographics-screen');
     }
 
     function submitDemographics() {
         career = document.getElementById('career').value;
         education = document.getElementById('education').value;
-        experience = document.getElementById('familiarity').value;
+        
+        const expBoxes = document.querySelectorAll('#experience-checks input:checked');
+        if (expBoxes.length === 0) return alert("Please select your familiarity with research.");
+
+        let expArray = [];
+        expBoxes.forEach(box => expArray.push(box.value));
+        experience = expArray.join(", ");
 
         if (!career || !education || !experience) {
             return alert("Please answer all demographic questions.");
@@ -574,12 +647,18 @@
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
         
-        activeDataset = fullDataset.filter(s => !seen.includes(s.doi_o));
-        if(activeDataset.length === 0) {
+        let unseen = fullDataset.filter(s => !seen.includes(s.doi_o));
+        if(unseen.length === 0) {
             seen = []; 
-            activeDataset = [...fullDataset];
+            unseen = [...fullDataset];
         }
-        activeDataset.sort(() => Math.random() - 0.5);
+
+        // Split unplayed dataset to ensure 50/50 randomized outcomes
+        activeSuccesses = unseen.filter(s => s.outcome === 'success');
+        activeFailures = unseen.filter(s => s.outcome === 'failure');
+        
+        activeSuccesses.sort(() => Math.random() - 0.5);
+        activeFailures.sort(() => Math.random() - 0.5);
 
         playAudio(sfx.start);
         nextRound();
@@ -590,9 +669,15 @@
     }
 
     function nextRound() {
-        if (activeDataset.length === 0) return endGame();
+        if (activeSuccesses.length === 0 && activeFailures.length === 0) return endGame();
         
-        currentStudy = activeDataset.pop();
+        // 50/50 Chance to draw a success vs failure (if available)
+        let drawSuccess = Math.random() >= 0.5;
+        if (drawSuccess) {
+            currentStudy = activeSuccesses.length > 0 ? activeSuccesses.pop() : activeFailures.pop();
+        } else {
+            currentStudy = activeFailures.length > 0 ? activeFailures.pop() : activeSuccesses.pop();
+        }
         
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
@@ -610,6 +695,7 @@
         }
         document.getElementById('study-abstract').innerHTML = abstractHTML;
         
+        // Journal is ALWAYS false, IF is 50/50
         currentStudy.journal_visible = false; 
         currentStudy.if_visible = Math.random() >= 0.5;
 
@@ -739,6 +825,8 @@
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
+        
+        // Ensure Impact Factor is strictly numeric or strictly null. 
         let safeIF = currentStudy.impact_factor;
         if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
             safeIF = null;
