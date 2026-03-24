@@ -94,6 +94,8 @@
             background: var(--royal-blue); color: #fff; box-shadow: 6px 6px 0 var(--border-color); transition: 0.1s; margin: 5px;
         }
         button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(6px, 6px); }
+        button:disabled { background: #888; border-color: #555; box-shadow: 6px 6px 0 #555; cursor: not-allowed; }
+        button:disabled:active { transform: none; box-shadow: 6px 6px 0 #555; }
         
         .btn-info { background: var(--btn-info); }
         .btn-tutorial { background: var(--btn-tutorial); }
@@ -135,9 +137,9 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px; margin-top: 30px;}
         .main-game-logo { height: 90px; width: auto; object-fit: contain; }
         
-        /* Mobile layout fixes for logos */
-        .logos-wrapper { position: absolute; bottom: 15px; width: 100%; left: 0; display: flex; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
-        .corner-logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none;}
+        .corner-logo-container { position: absolute; bottom: 15px; display: flex; align-items: center; gap: 10px; text-decoration: none;}
+        .muecos-corner { left: 20px; }
+        .forrt-corner { right: 20px; }
         .corner-img { height: 45px; width: auto; object-fit: contain; }
         
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
@@ -154,60 +156,79 @@
         .mute-btn { position: absolute; bottom: 15px; right: 15px; font-size: 2rem; background: none; border: none; box-shadow: none; cursor: pointer; margin: 0; padding: 0;}
         .mute-btn:active { box-shadow: none; transform: scale(0.9); }
 
-        /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
-        
-        .certificate-preview {
-            background: var(--bg-body);
-            border: 6px solid var(--border-color);
-            padding: 20px;
-            margin: 20px 0 30px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        .certificate-preview { background: var(--bg-body); border: 6px solid var(--border-color); padding: 20px; margin: 20px 0 30px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+
+        /* Consent Modal */
+        #consent-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
         }
+        .consent-box {
+            background: var(--bg-container); border: 6px solid var(--border-color);
+            padding: 30px; max-width: 700px; max-height: 90vh; overflow-y: auto;
+            text-align: left; color: var(--text-main); font-family: 'VT323', monospace;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+        }
+        .consent-box h2 { text-align: center; }
 
         canvas { display: none; }
 
-        /* Responsive Fixes for Mobile */
+        /* Responsive Fixes */
         @media (max-width: 768px) {
             .key-hint { display: none; }
             .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
-            
-            /* Tighter container padding to save vertical space */
             .container { padding: 20px 15px 30px; border-width: 4px; } 
-            
             .header-container { flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
             .header-title { font-size: 2.4rem !important; text-align: center; }
             .main-game-logo { height: 60px !important; }
-            
-            /* HUD compression */
             .hud { font-size: 1rem; padding-bottom: 5px; margin-bottom: 10px; justify-content: center; gap: 10px; }
             .hearts { font-size: 1.2rem; }
-            
-            /* Typography compression */
             .study-title { font-size: 1.2rem; margin-bottom: 10px; }
             .journal-box { font-size: 1rem; margin-bottom: 10px; padding-bottom: 2px;}
-            
-            /* Abstract scrolling constraint */
             .study-abstract { font-size: 1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
-            
-            /* Buttons side-by-side */
             .button-container { display: flex; justify-content: space-between; gap: 10px; }
             .btn-large { width: 50%; height: 50px; font-size: 1.2rem; padding: 5px; margin: 0; }
-            
-            /* Result Screen constraints */
             .big-result { font-size: 2rem; margin: 5px 0; }
             #feedback-comparison { font-size: 1rem !important; }
             .quote { font-size: 0.95rem; padding: 10px; margin-bottom: 10px; }
-            
-            /* Citation box scrolling constraint */
             #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.85rem !important; padding: 10px; margin-top: 10px; }
-            
             .info-box { font-size: 0.95rem; padding: 10px; }
             .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
+            
+            .consent-box { padding: 15px; font-size: 1.1rem; border-width: 4px; max-width: 90%;}
         }
     </style>
 </head>
 <body>
+
+<!-- CONSENT MODAL -->
+<div id="consent-modal" class="hidden">
+    <div class="consent-box">
+        <h2>Participant Consent</h2>
+        <p style="font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
+            By playing Guess the Replication, you are granting us the permission to collect data from you. We will do so in a way that does not permit us to identify players. Participation in the study is voluntary. You can revoke your consent to participate in this study at any time and without giving reasons without any disadvantages to you. 
+        </p>
+        <p style="font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
+            Data is stored online via Supabase and will be published on Zenodo or OSF under a CC-BY license for at least ten years. Collected data includes the personal code that you generate, nickname, responses, response times, and demographics. You can request deletion of your data by sending an email with your code to the contact person, which will result in it not being included in the leaderboard and the published dataset. Feel free to reach out to us if you have any questions about the content of the project.
+        </p>
+        
+        <label class="pixel-checkbox" style="margin-top: 20px; font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
+            <input type="checkbox" id="consent-checkbox" onchange="toggleConsentBtn()">
+            <span class="checkmark" style="top: 5px;"></span> 
+            I hereby voluntarily consent to the collection and processing of my personal data within the framework of the research project "Guess the Replication". I took note of the privacy policy for the project in question, was adequately informed and had the opportunity to ask questions. I have been informed about the consequences of revoking my consent under data protection law at any time. I have been informed that my revocation of consent does not affect the lawfulness of the processing carried out on the basis of the consent until the revocation.
+        </label>
+
+        <p style="font-family: Arial, sans-serif; font-size: 0.9rem; font-weight: bold; margin-top: 15px;">
+            Contact person: lukas.roeseler[at]uni-muenster[dot]de
+        </p>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="consent-btn" class="btn-start" disabled onclick="acceptConsent()">I Agree & Play</button>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="app">
 
@@ -521,6 +542,11 @@
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
+        // Handle Consent Modal logic
+        if (!localStorage.getItem('gtr_consent')) {
+            document.getElementById('consent-modal').classList.remove('hidden');
+        }
+
         // Pre-fill local data
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
@@ -549,6 +575,17 @@
             document.getElementById('app').innerHTML = "<h2>Error: Please run convert_dataset.R first to generate dataset.json</h2>";
         }
     });
+
+    function toggleConsentBtn() {
+        const box = document.getElementById('consent-checkbox');
+        const btn = document.getElementById('consent-btn');
+        btn.disabled = !box.checked;
+    }
+
+    function acceptConsent() {
+        localStorage.setItem('gtr_consent', 'true');
+        document.getElementById('consent-modal').classList.add('hidden');
+    }
 
     document.addEventListener('keydown', (e) => {
         if (!document.getElementById('game-screen').classList.contains('hidden')) {
@@ -609,7 +646,6 @@
         
         if (!personalCode) return alert("Please enter your Personal Code.");
         
-        // Always show demographics from the home screen flow, auto-fill handled on load
         showScreen('demographics-screen');
     }
 
@@ -653,7 +689,6 @@
             unseen = [...fullDataset];
         }
 
-        // Split unplayed dataset to ensure 50/50 randomized outcomes
         activeSuccesses = unseen.filter(s => s.outcome === 'success');
         activeFailures = unseen.filter(s => s.outcome === 'failure');
         
@@ -671,7 +706,6 @@
     function nextRound() {
         if (activeSuccesses.length === 0 && activeFailures.length === 0) return endGame();
         
-        // 50/50 Chance to draw a success vs failure (if available)
         let drawSuccess = Math.random() >= 0.5;
         if (drawSuccess) {
             currentStudy = activeSuccesses.length > 0 ? activeSuccesses.pop() : activeFailures.pop();
@@ -695,7 +729,6 @@
         }
         document.getElementById('study-abstract').innerHTML = abstractHTML;
         
-        // Journal is ALWAYS false, IF is 50/50
         currentStudy.journal_visible = false; 
         currentStudy.if_visible = Math.random() >= 0.5;
 
@@ -825,8 +858,6 @@
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
-        
-        // Ensure Impact Factor is strictly numeric or strictly null. 
         let safeIF = currentStudy.impact_factor;
         if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
             safeIF = null;
