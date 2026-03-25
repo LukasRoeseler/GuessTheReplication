@@ -10,7 +10,7 @@ Using an excerpt from the FORRT Library of Reproduction and Replication Attempts
 
 ## Limitations
 
-**Pseudo-prediction**: The most serious limitation of our study is that participants did not predict replication outcome because outcomes were already publicly available. Participants who new about replication studies could thus simply remember the outcomes. With over [400] studies from various fields and replications being less visible less cited than traditional research [REF], we believe that this problem is negligible overall.
+**Pseudo-prediction**: The most serious limitation of our study is that participants did not predict replication outcome because outcomes were already publicly available. Participants who new about replication studies could thus simply remember the outcomes. With over [400] studies from various fields and replications sometimes being less visible less cited than traditional research [@Hardwicke2021], we believe that this problem is negligible overall.
 
 **Selective sample**: For the simplicity of the design, we excluded many studies such as those that did not have singular outcome statements (e.g., studies from [REF large scale project]) and those that had mixed findings, which were about 20% of the sample.
 
@@ -18,7 +18,7 @@ Using an excerpt from the FORRT Library of Reproduction and Replication Attempts
 
 **Open Source Impact Factor**: The impact factors that we presented - though likely highly correlated with the Clarivate JIF and more transparent due to reliance on openly accessible data and reproducible - may not be those that authors actually use though this is secondary to the study's purpose.
 
-**The limitations of FLoRA:** FLoRA limitations were inherited in this project. For example, not all replications are indexed, replication authors' success judgments are sometimes difficult to categorize (e.g., REF and QUOTE from What is FLoRA, z*.B. Mail vom 19.3. zu mixed vs success*).
+**The limitations of FLoRA:** FLoRA limitations were inherited in this project. For example, not all replications are indexed, replication authors' success judgments are sometimes difficult to categorize when authors could replicate one part but not another less important part.
 
 **Deviations from the Preregistration**.
 
