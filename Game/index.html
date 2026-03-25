@@ -406,6 +406,25 @@
         </div>
     </div>
 
+    <!-- DATA INTEGRITY SCREEN -->
+    <div id="integrity-screen" class="hidden">
+        <h2>Data Quality Check</h2>
+        <div class="info-box" style="margin-bottom: 30px; font-size: 1.4rem;">
+            Please let us know whether you looked up any of the studies before making a prediction or whether you just randomly pressed buttons without paying much attention. 
+            <br><br>
+            Note that this will <strong>not</strong> affect your potential position on the leaderboard and you will still get a certificate. However, we will remove this round of yours from the data analysis that is part of a research report.
+        </div>
+
+        <div style="display:flex; flex-direction: column; gap: 15px; align-items: center;">
+            <button class="btn-success-retro" style="width: 100%; max-width: 600px; padding: 20px;" onclick="finishGame(true)">
+                I did NOT look up responses.
+            </button>
+            <button class="btn-danger-retro" style="width: 100%; max-width: 600px; padding: 20px;" onclick="finishGame(false)">
+                I looked up the replications / clicked randomly.<br><small>Please do not use this data.</small>
+            </button>
+        </div>
+    </div>
+
     <!-- GAME SCREEN -->
     <div id="game-screen" class="hidden">
         <div class="hud" id="game-hud"></div>
@@ -431,7 +450,7 @@
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
-        <div class="info-box" id="citation-links"></div>
+        <div class="info-box" id="citation-links" style="font-size:1.1rem; line-height: 1.4;"></div>
 
         <br>
         <button id="next-btn" onclick="handleNext()">Next Round <span class="key-hint">(Space)</span></button>
@@ -506,7 +525,8 @@
     let nickname = '', personalCode = '', career = '', education = '', experience = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
-    let score = 0, lives = 3, roundNumber = 0, currentLevel = 'Junior Reviewer';
+    // Start with 5 lives
+    let score = 0, lives = 5, roundNumber = 0, currentLevel = 'Junior Reviewer';
     let gameStartTime = 0, roundStartTime = 0, totalTabSwitches = 0, trialTabSwitches = 0;
     
     let isMuted = false;
@@ -532,7 +552,6 @@
         btns.forEach(btn => btn.innerText = isMuted ? '🔇' : '🔊');
     }
 
-    // Decode HTML Entities so &amp; turns into &
     function decodeHTML(html) {
         if (!html) return "";
         const txt = document.createElement("textarea");
@@ -550,12 +569,10 @@
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
-        // Handle Consent Modal logic
         if (!localStorage.getItem('gtr_consent')) {
             document.getElementById('consent-modal').classList.remove('hidden');
         }
 
-        // Pre-fill local data
         const savedNick = localStorage.getItem('gtr_nickname');
         if(savedNick) document.getElementById('nickname').value = savedNick;
 
@@ -619,7 +636,7 @@
     }
 
     function showScreen(id) {
-        ['home-screen', 'player-screen', 'demographics-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'gameover-screen', 'info-screen'].forEach(s => {
+        ['home-screen', 'player-screen', 'demographics-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'integrity-screen', 'gameover-screen', 'info-screen'].forEach(s => {
             const el = document.getElementById(s);
             if(el) el.classList.add('hidden');
         });
@@ -685,7 +702,7 @@
         playCount++;
         localStorage.setItem('gtr_play_count', playCount);
 
-        score = 0; lives = 3; roundNumber = 0; currentLevel = 'Junior Reviewer';
+        score = 0; lives = 5; roundNumber = 0; currentLevel = 'Junior Reviewer'; // Start with 5 lives
         gameStartTime = Date.now(); totalTabSwitches = 0;
         
         let seenKey = `gtr_seen_${nickname}`;
@@ -712,7 +729,9 @@
     }
 
     function nextRound() {
-        if (activeSuccesses.length === 0 && activeFailures.length === 0) return endGame();
+        if (activeSuccesses.length === 0 && activeFailures.length === 0) {
+            return showScreen('integrity-screen');
+        }
         
         let drawSuccess = Math.random() >= 0.5;
         if (drawSuccess) {
@@ -823,7 +842,9 @@
         
         const nextBtn = document.getElementById('next-btn');
         nextBtn.innerHTML = isGameOver ? "See Final Results <span class='key-hint'>(Space)</span>" : "Next Round <span class='key-hint'>(Space)</span>";
-        nextBtn.dataset.state = isGameOver ? "gameover" : (triggeredLevelUp ? "levelup" : "next");
+        
+        // If game is over, the NEXT button routes to the integrity check
+        nextBtn.dataset.state = isGameOver ? "integrity" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
         saveTrialToDB(guess, actualOutcome, isCorrect, rt);
@@ -831,7 +852,7 @@
 
     function handleNext() {
         const state = document.getElementById('next-btn').dataset.state;
-        if (state === "gameover") endGame();
+        if (state === "integrity") showScreen('integrity-screen');
         else if (state === "levelup") showLevelUp();
         else nextRound();
     }
@@ -843,7 +864,7 @@
     }
     function continueFromLevelUp() { nextRound(); }
 
-    async function endGame() {
+    async function finishGame(keepData) {
         showScreen('gameover-screen');
         
         document.getElementById('go-nickname').innerText = nickname;
@@ -855,7 +876,8 @@
         await generateCanvas();
         prepareSocialLinks();
         
-        await saveScoreToDB();
+        // Save score with integrity flag
+        await saveScoreToDB(keepData);
         await loadLeaderboard();
     }
 
@@ -893,12 +915,12 @@
         } catch(e) { console.error("Network error saving trial:", e); }
     }
 
-    async function saveScoreToDB() {
+    async function saveScoreToDB(keepData) {
         const payload = { 
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
             career: career, education: education, research_experience: experience, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
-            tab_switches: totalTabSwitches, timestamp: new Date().toISOString() 
+            tab_switches: totalTabSwitches, data_integrity_keep: keepData, timestamp: new Date().toISOString() 
         };
         await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error"));
     }
