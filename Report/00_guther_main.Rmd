@@ -75,6 +75,7 @@ library(prmisc)       # for printing stats
 library(grateful)       # for citing r packages
 library(openxlsx)       # to open Excel files
 library(ggplot2)        # for plots
+library(patchwork)      # to combine plots
 # library(effectsize)   # for calculating effect sizes
 # library(car)          # for calculating Levene's Test
 
