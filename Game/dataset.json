@@ -8061,6 +8061,19 @@
     "doi_r": "10.1080/20008198.2017.1315291"
   },
   {
+    "ref_o": "A controlled experiment in maintenance: comparing design patterns to simpler solutions",
+    "ref_r": "Design Patterns in Software Maintenance: An Experiment Replication at UPM - Experiences with the RESER'11 Joint Replication Project",
+    "apa_ref_o": "Prechelt, L., Unger, B., Tichy, W. F., Brossler, P., & Votta, L. G. (2001). A controlled experiment in maintenance: comparing design patterns to simpler solutions. IEEE Transactions on Software Engineering, 27(12), 1134–1144. https://doi.org/10.1109/32.988711",
+    "apa_ref_r": "Juristo, N., & Vegas, S. (2011). Design Patterns in Software Maintenance: An Experiment Replication at UPM - Experiences with the RESER’11 Joint Replication Project. 2011 Second International Workshop on Replication in Empirical Software Engineering Research, 7–14. https://doi.org/10.1109/reser.2011.8",
+    "journal": "IEEE Transactions on Software Engineering",
+    "impact_factor": 5.01,
+    "abstract": "Software design patterns package proven solutions to recurring design problems in a form that simplifies reuse. We are seeking empirical evidence whether using design patterns is beneficial. In particular, one may prefer using a design pattern even if the actual design problem is simpler than that solved by the pattern, i.e., if not all of the functionality offered by the pattern is actually required. Our experiment investigates software maintenance scenarios that employ various design patterns and compares designs with patterns to simpler alternatives. The subjects were professional software engineers. In most of our nine maintenance tasks, we found positive effects from using a design pattern: either its inherent additional flexibility was achieved without requiring more maintenance time or maintenance time was reduced compared to the simpler alternative. In a few cases, we found negative effects: the alternative solution was less error-prone or required less maintenance time. Overall, we conclude that, unless there is a clear reason to prefer the simpler solution, it is probably wise to choose the flexibility provided by the design pattern because unexpected new requirements often appear. We identify several questions for future empirical research.",
+    "outcome": "failure",
+    "outcome_quote": "Our results are inconsistent with the original experiment.",
+    "doi_o": "10.1109/32.988711",
+    "doi_r": "10.1109/reser.2011.8"
+  },
+  {
     "ref_o": "Representative Bureaucracy: A Lever to Enhance Social Equity, Coproduction, and Democracy",
     "ref_r": "A replication of “Representative bureaucracy and the willingness to coproduce”",
     "apa_ref_o": "Riccucci, N. M., & Van Ryzin, G. G. (2016). Representative Bureaucracy: A Lever to Enhance Social Equity, Coproduction, and Democracy. Public Administration Review, 77(1), 21–30. Portico. https://doi.org/10.1111/puar.12649",
@@ -8125,6 +8138,32 @@
     "outcome_quote": "We generally confirm H&Qs finding of a high CEO effect, but find a smaller industry effect and a larger firm effect in our much larger sample.",
     "doi_o": "10.1002/smj.2108",
     "doi_r": "10.1002/smj.3453"
+  },
+  {
+    "ref_o": "THE ROMANCE OF LEADERSHIP AND THE EVALUATION OF ORGANIZATIONAL PERFORMANCE.",
+    "ref_r": "The romance of leadership: Rekindling the fire through replication of Meindl and Ehrlich",
+    "apa_ref_o": "Meindl, J. R., & Ehrlich, S. B. (1987). THE ROMANCE OF LEADERSHIP AND THE EVALUATION OF ORGANIZATIONAL PERFORMANCE. Academy of Management Journal, 30(1), 91–109. https://doi.org/10.2307/255897",
+    "apa_ref_r": "Hammond, M. M., Schyns, B., Lester, G. V., Clapp-Smith, R., & Thomas, J. S. (2023). The romance of leadership: Rekindling the fire through replication of Meindl and Ehrlich. The Leadership Quarterly, 34(4), 101538. https://doi.org/10.1016/j.leaqua.2021.101538",
+    "journal": "Academy of Management Journal",
+    "impact_factor": 5.08,
+    "abstract": "Suggesting that as an explanatory concept, leadership has assumed a heroic, larger-than-life quality, this research investigated the effects of leadership attributions on evaluations of organizatio...",
+    "outcome": "failure",
+    "outcome_quote": "Taken together, these studies do not support Meindl and Ehrlichs findings that organizations are viewed more favorably when such outcomes are attributed to leadership.",
+    "doi_o": "10.2307/255897",
+    "doi_r": "10.1016/j.leaqua.2021.101538"
+  },
+  {
+    "ref_o": "Creating a Profile of a Nurse Effective in Caring",
+    "ref_r": "Caritas and job environment: A replication of Persky et al",
+    "apa_ref_o": "Persky, G. J., Nelson, J. W., Watson, J., & Bent, K. (2008). Creating a Profile of a Nurse Effective in Caring. Nursing Administration Quarterly, 32(1), 15–20. https://doi.org/10.1097/01.naq.0000305943.46440.77",
+    "apa_ref_r": "M Berry, D., Beth Kaylor, M., Church, J., Campbell, K., Mcmillin, T., & Wamsley, R. (2013). Caritas and job environment: A replication of Persky et al. Contemporary Nurse, 43(2), 237–243. https://doi.org/10.5172/conu.2013.43.2.237",
+    "journal": "Nursing Administration Quarterly",
+    "impact_factor": 0.85,
+    "abstract": "Findings from this study indicate that further inquiry into the profile of nurses effective in caring and evaluation of the presence of caring and love on patient outcomes is warranted.",
+    "outcome": "failure",
+    "outcome_quote": "As nurses positive perceptions of the work environment increased, patients perceptions of caring increased.",
+    "doi_o": "10.1097/01.naq.0000305943.46440.77",
+    "doi_r": "10.5172/conu.2013.43.2.237"
   },
   {
     "ref_o": "Sunk‐Cost Effects on Purely Behavioral Investments",
@@ -8192,6 +8231,19 @@
     "doi_r": "10.1080/15534510.2019.1710248"
   },
   {
+    "ref_o": "Subliminal Instrumental Conditioning Demonstrated in the Human Brain",
+    "ref_r": "Feasibility of unconscious instrumental conditioning: A registered replication",
+    "apa_ref_o": "Pessiglione, M., Petrovic, P., Daunizeau, J., Palminteri, S., Dolan, R. J., & Frith, C. D. (2008). Subliminal Instrumental Conditioning Demonstrated in the Human Brain. Neuron, 59(4), 561–567. https://doi.org/10.1016/j.neuron.2008.07.005",
+    "apa_ref_r": "Skora, L. I., Livermore, J. J. A., Dienes, Z., Seth, A. K., & Scott, R. B. (2023). Feasibility of unconscious instrumental conditioning: A registered replication. Cortex, 159, 101–117. https://doi.org/10.1016/j.cortex.2022.12.003",
+    "journal": "Neuron",
+    "impact_factor": 11.59,
+    "abstract": "How the brain uses success and failure to optimize future decisions is a long-standing question in neuroscience. One computational solution involves updating the values of context-action associations in proportion to a reward prediction error. Previous evidence suggests that such computations are expressed in the striatum and, as they are cognitively impenetrable, represent an unconscious learning mechanism. Here, we formally test this by studying instrumental conditioning in a situation where we masked contextual cues, such that they were not consciously perceived. Behavioral data showed that subjects nonetheless developed a significant propensity to choose cues associated with monetary rewards relative to punishments. Functional neuroimaging revealed that during conditioning cue values and prediction errors, generated from a computational model, both correlated with activity in ventral striatum. We conclude that, even without conscious processing of contextual cues, our brain can learn their reward value and use them to provide a bias on decision making.",
+    "outcome": "failure",
+    "outcome_quote": "Here, we found evidence for absence of unconscious learning.",
+    "doi_o": "10.1016/j.neuron.2008.07.005",
+    "doi_r": "10.1016/j.cortex.2022.12.003"
+  },
+  {
     "ref_o": "Motivation, Vision, and Gender: A Survey of Learners of English in China",
     "ref_r": "Reexamining the Role of Vision in Second Language Motivation: A Preregistered Conceptual Replication of You, Dörnyei, and Csizér (2016)",
     "apa_ref_o": "You, C. (Julia), Dörnyei, Z., & Csizér, K. (2015). Motivation, Vision, and Gender: A Survey of Learners of English in China. Language Learning, 66(1), 94–123. Portico. https://doi.org/10.1111/lang.12140",
@@ -8203,6 +8255,45 @@
     "outcome_quote": "found support for an alternative model where the Intended Effort scale showed a better fit as a predictor of motivation than as an outcome variable.",
     "doi_o": "10.1111/lang.12140",
     "doi_r": "10.1111/lang.12371"
+  },
+  {
+    "ref_o": "Self-Controlled Feedback Is Effective if It Is Based on the Learner's Performance",
+    "ref_r": "Self-controlled feedback is effective if it is based on the learnerâ€™s performance: a replication and extension of Chiviacowsky and Wulf (2005)",
+    "apa_ref_o": "Chiviacowsky, S., & Wulf, G. (2005). Self-Controlled Feedback Is Effective if It Is Based on the Learner’s Performance. Research Quarterly for Exercise and Sport, 76(1), 42–48. https://doi.org/10.1080/02701367.2005.10599260",
+    "apa_ref_r": "Carter, M. J., Carlsen, A. N., & Ste-Marie, D. M. (2014). Self-controlled feedback is effective if it is based on the learnerâ€™s performance: a replication and extension of Chiviacowsky and Wulf (2005). Frontiers in Psychology, 5. https://doi.org/10.3389/fpsyg.2014.01325",
+    "journal": "Research Quarterly for Exercise and Sport",
+    "impact_factor": 1.3,
+    "abstract": "The study follows up on the contention that self-controlled feedback schedules benefit learning because they are more tailored to the performers' needs than externally controlled feedback schedules (Chiviacowsky & Wulf, 2002). Under this assumption, one would expect learning advantages for individuals who decide whether they want to receive feedback after a trial rather than before a trial. Participants practiced a sequential timing task, and all could decide the trials on which they received feedback. One group (\"self-after\") decided after every trial whether they wanted to receive feedback for that trial while another group (\"self-before\") made that decision before each trial The self-after group showed learning benefits on a delayed transfer test (novel absolute timing requirements) with regard to overall timing and relative-timing accuracy. Thus, self-controlled feedback was more effective when the learner could make a decision about receiving feedback after the trial. This seems to support the view that self-controlled feedback benefits learning, because learners can make a decision about feedback based on their performance on a given trial.",
+    "outcome": "success",
+    "outcome_quote": "These results therefore replicate and extend the work of Chiviacowsky and Wulf (2005) and highlight that self-controlled learning benefits depend on the option of making the KR decision after completing ones motor response.",
+    "doi_o": "10.1080/02701367.2005.10599260",
+    "doi_r": "10.3389/fpsyg.2014.01325"
+  },
+  {
+    "ref_o": "Optimal learning in a virtual patient simulation of cranial nerve palsies: The interaction between social learning context and student aptitude",
+    "ref_r": "Virtual patient simulations and optimal social learning context: A replication of an aptitude–treatment interaction effect",
+    "apa_ref_o": "Johnson, T. R., Lyons, R., Chuah, J. H., Kopper, R., Lok, B. C., & Cendan, J. C. (2012). Optimal learning in a virtual patient simulation of cranial nerve palsies: The interaction between social learning context and student aptitude. Medical Teacher, 35(1), e899–e907. https://doi.org/10.3109/0142159x.2012.714884",
+    "apa_ref_r": "Johnson, T. R., Lyons, R., Kopper, R., Johnsen, K. J., Lok, B. C., & Cendan, J. C. (2014). Virtual patient simulations and optimal social learning context: A replication of an aptitude–treatment interaction effect. Medical Teacher, 36(6), 486–494. https://doi.org/10.3109/0142159x.2014.890702",
+    "journal": "Medical Teacher",
+    "impact_factor": 3.2,
+    "abstract": "The ATI effect allows us to begin defining best practices for the integration of VP simulators into the medical curriculum. We are persuaded to implement future NERVE exercises with small teams of medical students.",
+    "outcome": "success",
+    "outcome_quote": "Implementing NERVE experiences in team environments with medical students in the future may be preferable.",
+    "doi_o": "10.3109/0142159x.2012.714884",
+    "doi_r": "10.3109/0142159x.2014.890702"
+  },
+  {
+    "ref_o": "Environmental enrichment as an effective treatment for autism: A randomized controlled trial.",
+    "ref_r": "Environmental enrichment as a therapy for autism: A clinical trial replication and extension.",
+    "apa_ref_o": "Woo, C. C., & Leon, M. (2013). Environmental enrichment as an effective treatment for autism: A randomized controlled trial. Behavioral Neuroscience, 127(4), 487–497. https://doi.org/10.1037/a0033010",
+    "apa_ref_r": "Woo, C. C., Donnelly, J. H., Steinberg-Epstein, R., & Leon, M. (2015). Environmental enrichment as a therapy for autism: A clinical trial replication and extension. Behavioral Neuroscience, 129(4), 412–422. https://doi.org/10.1037/bne0000068",
+    "journal": "Behavioral Neuroscience",
+    "impact_factor": 1.7,
+    "abstract": "Enriched sensorimotor environments enable rodents to compensate for a wide range of neurological challenges, including those induced in animal models of autism. Given the sensorimotor deficits in most children with autism, we attempted to translate that approach to their treatment. In a randomized controlled trial, 3-12 year-old children with autism were assigned to either a sensorimotor enrichment group, which received daily olfactory/tactile stimulation along with exercises that stimulated other paired sensory modalities, or to a control group. We administered tests of cognitive performance and autism severity to both groups at the initiation of the study and after 6 months. Severity of autism, as assessed with the Childhood Autism Rating Scale, improved significantly in the enriched group compared to controls. Indeed, 42% of the enriched group and only 7% of the control group had what we considered to be a clinically significant improvement of 5 points on that scale. Sensorimotor enrichment also produced a clear improvement in cognition, as determined by their Leiter-R Visualization and Reasoning scores. At 6 months, the change in average scores for the enriched group was 11.3 points higher than that for the control group. Finally, 69% of parents in the enriched group and 31% of parents in the control group reported improvement in their child over the 6-month study. Environmental enrichment therefore appears to be effective in ameliorating some of the symptoms of autism in children.",
+    "outcome": "success",
+    "outcome_quote": "After 6 months, enriched children showed statistically significant gains in their IQ scores, a decline in their atypical sensory responses, and an improvement in their receptive language performance, compared to controls.",
+    "doi_o": "10.1037/a0033010",
+    "doi_r": "10.1037/bne0000068"
   },
   {
     "ref_o": "Individualized Clinical Coaching in the TLE TeachLivE Lab",
@@ -8229,6 +8320,84 @@
     "outcome_quote": "In both regards the exercise where learners worked with intact phrases generated the best results.",
     "doi_o": "10.1177/1362168813505389",
     "doi_r": "10.1177/1362168816651464"
+  },
+  {
+    "ref_o": "Attitudes without objects: Evidence for a dispositional attitude, its measurement, and its consequences.",
+    "ref_r": "The dispositional basis of attitudes: A replication and extension of Hepler and Albarracín (2013).",
+    "apa_ref_o": "Hepler, J., & Albarracín, D. (2013). Attitudes without objects: Evidence for a dispositional attitude, its measurement, and its consequences. Journal of Personality and Social Psychology, 104(6), 1060–1076. https://doi.org/10.1037/a0032282",
+    "apa_ref_r": "Eschleman, K. J., Bowling, N. A., & Judge, T. A. (2015). The dispositional basis of attitudes: A replication and extension of Hepler and Albarracín (2013). Journal of Personality and Social Psychology, 108(5), e1–e15. https://doi.org/10.1037/pspp0000017",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "We hypothesized that individuals may differ in the dispositional tendency to have positive vs. negative attitudes, a trait termed the dispositional attitude. Across 4 studies, we developed a 16-item Dispositional Attitude Measure (DAM) and investigated its internal consistency, test-retest reliability, factor structure, convergent validity, discriminant validity, and predictive validity. DAM scores were (a) positively correlated with positive affect traits, curiosity-related traits, and individual preexisting attitudes; (b) negatively correlated with negative affect traits; and (c) uncorrelated with theoretically unrelated traits. Dispositional attitudes also significantly predicted the valence of novel attitudes while controlling for theoretically relevant traits (such as the Big 5 and optimism). The dispositional attitude construct represents a new perspective in which attitudes are not simply a function of the properties of the stimuli under consideration, but are also a function of the properties of the evaluator. We discuss the intriguing implications of dispositional attitudes for many areas of research, including attitude formation, persuasion, and behavior prediction.",
+    "outcome": "failure",
+    "outcome_quote": "Our findings suggest that the DAM does not consistently predict attitudes",
+    "doi_o": "10.1037/a0032282",
+    "doi_r": "10.1037/pspp0000017"
+  },
+  {
+    "ref_o": "Toddlers’ dysregulated fear predicts delta–beta coupling during preschool",
+    "ref_r": "Dysregulated Fear, Social Inhibition, and Respiratory Sinus Arrhythmia: A Replication and Extension",
+    "apa_ref_o": "Phelps, R. A., Brooker, R. J., & Buss, K. A. (2016). Toddlers’ dysregulated fear predicts delta–beta coupling during preschool. Developmental Cognitive Neuroscience, 17, 28–34. https://doi.org/10.1016/j.dcn.2015.09.007",
+    "apa_ref_r": "Buss, K. A., Davis, E. L., Ram, N., & Coccia, M. (2018). Dysregulated Fear, Social Inhibition, and Respiratory Sinus Arrhythmia: A Replication and Extension. Child Development, 89(3), e214–e228. https://doi.org/10.1111/cdev.12774",
+    "journal": "Developmental Cognitive Neuroscience",
+    "impact_factor": 4.28,
+    "abstract": "Dysregulated fear, or the persistence of high levels of fear in low-threat contexts, is an early risk factor for the development of anxiety symptoms. Previous work has suggested both propensities for over-control and under-control of fearfulness as risk factors for anxiety problems, each of which may be relevant to observations of dysregulated fear. Given difficulty disentangling over-control and under-control through traditional behavioral measures, we used delta-beta coupling to begin to understand the degree to which dysregulated fear may reflect propensities for over- or under-control. We found that toddlers who showed high levels of dysregulated fear evidenced greater delta-beta coupling at frontal and central electrode sites as preschoolers relative to children who were low in dysregulated fear. Importantly, these differences were not observed when comparisons were made based on fear levels in high threat contexts. Results suggest dysregulated fear may involve tendencies toward over-control at the neural level.",
+    "outcome": "success",
+    "outcome_quote": "Replicating prior findings, at 24 months, we identified a pattern of fearful behavior across contexts marked by higher fear to putatively low-threat situations.",
+    "doi_o": "10.1016/j.dcn.2015.09.007",
+    "doi_r": "10.1111/cdev.12774"
+  },
+  {
+    "ref_o": "Trust and concern in consumers’ perceptions of marketing information management practices",
+    "ref_r": "Revisiting Trust and Privacy Concern in Consumers’ Perceptions of Marketing Information Management Practices: Replication and Extension",
+    "apa_ref_o": "Milne, G. R., & Boza, M.-E. (1999). Trust and concern in consumers’ perceptions of marketing information management practices. Journal of Interactive Marketing, 13(1), 5–24. https://doi.org/10.1002/(sici)1520-6653(199924)13:1<5::aid-dir2>3.0.co;2-9",
+    "apa_ref_r": "Swani, K., Milne, G. R., & Slepchuk, A. N. (2021). Revisiting Trust and Privacy Concern in Consumers’ Perceptions of Marketing Information Management Practices: Replication and Extension. Journal of Interactive Marketing, 56(1), 137–158. https://doi.org/10.1016/j.intmar.2021.03.001",
+    "journal": "Journal of Interactive Marketing",
+    "impact_factor": 2.66,
+    "abstract": "This research examines two constructs, consumers' trust and concern, in information management practices. The authors present empirical evidence from a national consumer survey that suggests improving trust and reducing concerns are two distinct approaches to managing consumer information. Contrary to existing self-regulation efforts, the authors argue that when managing consumer information, the improvement of trust is more effective than efforts to reduce concern.",
+    "outcome": "success",
+    "outcome_quote": "The new analysis shows that building trust still has a greater effect than reducing privacy concern on consumers willingness to participate in information markets.",
+    "doi_o": "10.1002/(sici)1520-6653(199924)13:1<5::aid-dir2>3.0.co;2-9",
+    "doi_r": "10.1016/j.intmar.2021.03.001"
+  },
+  {
+    "ref_o": "Fluctuation between grandiose and vulnerable narcissism.",
+    "ref_r": "Ratings of affective and interpersonal tendencies differ for grandiose and vulnerable narcissism: A replication and extension of Gore and Widiger (2016)",
+    "apa_ref_o": "Gore, W. L., & Widiger, T. A. (2016). Fluctuation between grandiose and vulnerable narcissism. Personality Disorders: Theory, Research, and Treatment, 7(4), 363–371. https://doi.org/10.1037/per0000181",
+    "apa_ref_r": "Hyatt, C. S., Sleep, C. E., Lynam, D. R., Widiger, T. A., Campbell, W. K., & Miller, J. D. (2017). Ratings of affective and interpersonal tendencies differ for grandiose and vulnerable narcissism: A replication and extension of Gore and Widiger (2016). Journal of Personality, 86(3), 422–434. Portico. https://doi.org/10.1111/jopy.12325",
+    "journal": "Personality Disorders: Theory, Research, and Treatment",
+    "impact_factor": 1.2,
+    "abstract": "Current literature on narcissistic personality disorder has emphasized a distinction between grandiose and vulnerable narcissism. Some researchers have further suggested that narcissistic persons fluctuate between grandiose and vulnerable narcissism. However, this perception has been confined largely to clinical experience with no systematic research testing the hypothesis. Clinicians and clinical psychology professors in the current study identified 143 persons who fit a description of either a grandiose or a vulnerable narcissist and indicated the extent to which these persons ever demonstrated traits of the complementary variant. The results supported the fluctuation hypothesis, particularly for episodes of vulnerable narcissism in persons identified as a grandiose narcissist. Correlations of the grandiose and vulnerable narcissism traits with a brief five-factor model measure corroborated past trait descriptions of the 2 respective variants of narcissism. The results of the current study are compared with existing cross-sectional and longitudinal research, and suggestions for future research are provided. (PsycINFO Database Record",
+    "outcome": "success",
+    "outcome_quote": "Grandiose and vulnerable narcissistic individuals both exhibit anger in response to ego threat, but sadness/shame responses are more characteristic of vulnerable narcissism.",
+    "doi_o": "10.1037/per0000181",
+    "doi_r": "10.1111/jopy.12325"
+  },
+  {
+    "ref_o": "Measuring cognitive reserve based on the decomposition of episodic memory variance",
+    "ref_r": "Quantifying Cognitive Reserve in Older Adults by Decomposing Episodic Memory Variance: Replication and Extension",
+    "apa_ref_o": "Reed, B. R., Mungas, D., Farias, S. T., Harvey, D., Beckett, L., Widaman, K., Hinton, L., & DeCarli, C. (2010). Measuring cognitive reserve based on the decomposition of episodic memory variance. Brain, 133(8), 2196–2209. https://doi.org/10.1093/brain/awq154",
+    "apa_ref_r": "Zahodne, L. B., Manly, J. J., Brickman, A. M., Siedlecki, K. L., DeCarli, C., & Stern, Y. (2013). Quantifying Cognitive Reserve in Older Adults by Decomposing Episodic Memory Variance: Replication and Extension. Journal of the International Neuropsychological Society, 19(8), 854–862. https://doi.org/10.1017/s1355617713000738",
+    "journal": "Brain",
+    "impact_factor": 2.55,
+    "abstract": "In later adulthood brain pathology becomes common and trajectories of cognitive change are heterogeneous. Among the multiple determinants of late-life cognitive course, cognitive reserve has been proposed as an important factor that modifies or buffers the impact of brain pathology on cognitive function. This article presents and investigates a novel method for measuring and investigating such factors. The core concept is that in a population where pathology is common and variably present, 'reserve' may be defined as the difference between the cognitive performance predicted by an individual's level of pathology and that individual's actual performance. By this definition, people whose measured cognitive performance is better than predicted by pathology have high reserve, whereas those who perform worse than predicted have low reserve. To test this hypothesis, we applied a latent variable model to data from a diverse ageing cohort and decomposed the variance in a measure of episodic memory into three components, one predicted by demographics, one predicted by pathology as measured by structural MRI and a 'residual' or 'reserve' term that included all remaining variance. To investigate the plausibility of this approach, we then tested the residual component as an operational measure of reserve. Specific predictions about the effects of this putative reserve measure were generated from a general conceptual model of reserve. Each was borne from the results. The results show that the current level of reserve, as measured by this decomposition approach, modifies rates of conversion from mild cognitive impairment to dementia, modifies rates of longitudinal decline in executive function and, most importantly, attenuates the effect of brain atrophy on cognitive decline such that atrophy is more strongly associated with cognitive decline in subjects with low reserve than in those with high reserve. Decomposing the variance in cognitive function scores offers a promising new approach to the measure and study of cognitive reserve.",
+    "outcome": "success",
+    "outcome_quote": "Results support this operational measure of reserve.",
+    "doi_o": "10.1093/brain/awq154",
+    "doi_r": "10.1017/s1355617713000738"
+  },
+  {
+    "ref_o": "Reference Group Influence on Product and Brand Purchase Decisions",
+    "ref_r": "Reference Group Influence and Perceived Risk in Services Among Working Women in Singapore: A Replication and Extension",
+    "apa_ref_o": "Bearden, W. O., & Etzel, M. J. (1982). Reference Group Influence on Product and Brand Purchase Decisions. Journal of Consumer Research, 9(2), 183. https://doi.org/10.1086/208911",
+    "apa_ref_r": "Mehta, S. C., Lalwani, A. K., & Ping, L. (2018). Reference Group Influence and Perceived Risk in Services Among Working Women in Singapore: A Replication and Extension. Asian Dimensions of Services Marketing, 43–65. https://doi.org/10.4324/9781315864952-3",
+    "journal": "Journal of Consumer Research",
+    "impact_factor": 5.51,
+    "abstract": "Consumer perceptions of reference group influence on product and brand decisions were examined using 645 members of a consumer panel and 151 respondents in a followup study. Differences for 16 products in informational, value expressive, and utilitarian influence were investigated in a nested repeated measures design. The results support hypothesized differences in reference group influence between publicly and privately consumed products and luxuries and necessities.",
+    "outcome": "success",
+    "outcome_quote": "Results indicated that informational reference group was the most pervasive form of influence for all types of services studied.",
+    "doi_o": "10.1086/208911",
+    "doi_r": "10.4324/9781315864952-3"
   },
   {
     "ref_o": "Distortions of mind perception in psychopathology",
@@ -8296,6 +8465,19 @@
     "doi_r": "10.1017/s0142716414000137"
   },
   {
+    "ref_o": "Dealing with betrayal in close relationships: Does commitment promote forgiveness?",
+    "ref_r": "Registered Replication Report",
+    "apa_ref_o": "Finkel, E. J., Rusbult, C. E., Kumashiro, M., & Hannon, P. A. (2002). Dealing with betrayal in close relationships: Does commitment promote forgiveness? Journal of Personality and Social Psychology, 82(6), 956–974. https://doi.org/10.1037/0022-3514.82.6.956",
+    "apa_ref_r": "Cheung, I., Campbell, L., LeBel, E. P., Ackerman, R. A., Aykutoğlu, B., Bahník, Š., Bowen, J. D., Bredow, C. A., Bromberg, C., Caprariello, P. A., Carcedo, R. J., Carson, K. J., Cobb, R. J., Collins, N. L., Corretti, C. A., DiDonato, T. E., Ellithorpe, C., Fernández-Rouco, N., Fuglestad, P. T., … Yong, J. C. (2016). Registered Replication Report. Perspectives on Psychological Science, 11(5), 750–764. https://doi.org/10.1177/1745691616664694",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "This work complements existing research regarding the forgiveness process by highlighting the role of commitment in motivating forgiveness. On the basis of an interdependence-theoretic analysis, the authors suggest that (a) victims' self-oriented reactions to betrayal are antithetical to forgiveness, favoring impulses such as grudge and vengeance, and (b) forgiveness rests on prorelationship motivation, one cause of which is strong commitment. A priming experiment, a cross-sectional survey study, and an interaction record study revealed evidence of associations (or causal effects) of commitment with forgiveness. The commitment-forgiveness association appeared to rest on intent to persist rather than long-term orientation or psychological attachment. In addition, the commitment-forgiveness association was mediated by cognitive interpretations of betrayal incidents; evidence for mediation by emotional reactions was inconsistent.",
+    "outcome": "failure",
+    "outcome_quote": "The results showed little effect of the priming manipulation on the forgiveness outcome measures, but it also did not observe an effect of priming on subjective commitment",
+    "doi_o": "10.1037/0022-3514.82.6.956",
+    "doi_r": "10.1177/1745691616664694"
+  },
+  {
     "ref_o": "Unit Asking",
     "ref_r": "Unit Asking — a method for increasing donations: A replication and extension",
     "apa_ref_o": "Hsee, C. K., Zhang, J., Lu, Z. Y., & Xu, F. (2013). Unit Asking. Psychological Science, 24(9), 1801–1808. https://doi.org/10.1177/0956797613482947",
@@ -8307,6 +8489,45 @@
     "outcome_quote": "Across three domains, we find that unit asking increased donations, suggesting that this method can be used to increase giving to different charitable causes.",
     "doi_o": "10.1177/0956797613482947",
     "doi_r": "10.1017/s1930297500008184"
+  },
+  {
+    "ref_o": "Role of consciousness and accessibility of death-related thoughts in mortality salience effects.",
+    "ref_r": "Many Labs 4: Failure to Replicate Mortality Salience Effect With and Without Original Author Involvement",
+    "apa_ref_o": "Greenberg, J., Pyszczynski, T., Solomon, S., Simon, L., & Breus, M. (1994). Role of consciousness and accessibility of death-related thoughts in mortality salience effects. Journal of Personality and Social Psychology, 67(4), 627–637. https://doi.org/10.1037/0022-3514.67.4.627",
+    "apa_ref_r": "Klein, R. A., Cook, C. L., Ebersole, C. R., Vitiello, C., Nosek, B. A., Hilgard, J., Ahn, P. H., Brady, A. J., Chartier, C. R., Christopherson, C. D., Clay, S., Collisson, B., Crawford, J. T., Cromar, R., Gardiner, G., Gosnell, C. L., Grahe, J., Hall, C., Howard, I., … Ratliff, K. A. (2022). Many Labs 4: Failure to Replicate Mortality Salience Effect With and Without Original Author Involvement. Collabra: Psychology, 8(1). https://doi.org/10.1525/collabra.35271",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "On the basis of terror management theory, research has shown that subtle mortality salience inductions engender increased prejudice, nationalism, and intergroup bias. Study 1 replicated this effect (increased preference for a pro-U.S. author over an anti-U.S. author) and found weaker effects when Ss are led to think more deeply about mortality or about the death of a loved one. Study 2 showed that this effect is not produced by thoughts of non-death-related aversive events. Studies 2 and 3 demonstrated that this effect occurs only if Ss are distracted from mortality salience before assessment of its effects. Study 4 revealed that although the accessibility of death-related thoughts does not increase immediately after mortality salience, it does increase after Ss are distracted from mortality salience. These findings suggest that mortality salience effects are unique to thoughts of death and occur primarily when such thoughts are highly accessible but outside of consciousness.",
+    "outcome": "failure",
+    "outcome_quote": "Our results were non-diagnostic of whether original author involvement improves replicability because we were unable to replicate the finding under any conditions.",
+    "doi_o": "10.1037/0022-3514.67.4.627",
+    "doi_r": "10.1525/collabra.35271"
+  },
+  {
+    "ref_o": "Improving Quantitative Studies of International Conflict: A Conjecture",
+    "ref_r": "Untangling Neural Nets",
+    "apa_ref_o": "Beck, N. L., King, G., &amp; Zeng, L. (2000). <i>Improving Quantitative Studies of International Conflict: A Conjecture<\/i> [Data set]. ICPSR - Interuniversity Consortium for Political and Social Research. https://doi.org/10.3886/ICPSR01218.V1",
+    "apa_ref_r": "DE MARCHI, S., GELPI, C., & GRYNAVISKI, J. D. (2004). Untangling Neural Nets. American Political Science Review, 98(2), 371–378. https://doi.org/10.1017/s0003055404001200",
+    "journal": "ICPSR Data Holdings",
+    "impact_factor": 0.03,
+    "abstract": "e address a well-known but inffequently discussed problem in the quantitative study of international conpict: Despite immense data collections, prestigious journals, and sophisticated analyses, empirical findings in the literature on international conflict are often unsatisfying.Many statistical results change ffom article to article and specijication to specijication.Accurate forecasts are nonexistent.In this article we offer a conjecture about one source of this problem: The causes of conflict, theorized to be important but often found to be small or ephemeral, are indeed tiny for the vast majority of dyads, but they are large, stable, and replicable wherever the ex ante probability of conflict is large.This simple idea has an unexpectedly rich array of observable implications, all consistent with the literature.We directly test our conjecture by formulating a statistical model that includes its critical features.Our approach, a version of a \"neural network\" model, uncovers some interesting structural features of international conflict and, as one evaluative measure, forecasts substantially better than any previous effort.Moreover, this im~rovement comes at little cost, and it is easv to evaluate whether the model is a statistical improvement over the simpler models commonly used.",
+    "outcome": "failure",
+    "outcome_quote": "Our work reveals that neural networks do not perform substantially better than either the logit or the linear discriminant estimators.",
+    "doi_o": "10.3886/icpsr01218.v1",
+    "doi_r": "10.1017/s0003055404001200"
+  },
+  {
+    "ref_o": "Descriptive Representation, Judicial Nominations, and Perceptions of Presidential Accomplishment",
+    "ref_r": "Public Perceptions of Minority Inclusion and Feelings of Political Efficacy: A Replication, Validation, and Extension",
+    "apa_ref_o": "Badas, A., & Stauffer, K. E. (2022). Descriptive Representation, Judicial Nominations, and Perceptions of Presidential Accomplishment. Representation, 59(2), 249–270. https://doi.org/10.1080/00344893.2022.2037699",
+    "apa_ref_r": "CLARK, C. J., & ROGERS, S. (2025). Public Perceptions of Minority Inclusion and Feelings of Political Efficacy: A Replication, Validation, and Extension. American Political Science Review, 119(4), 2019–2026. https://doi.org/10.1017/s0003055424001308",
+    "journal": "Representation",
+    "impact_factor": 2.3,
+    "abstract": "Some narratives claim that American presidents can increase their approval ratings by nominating members of underrepresented groups to positions within the judiciary. Indeed, public opinion polls frequently show that members of the public think presidents should consider individuals from underrepresented groups when making judicial appointments. Despite the prevalence of these narratives, little research investigates how the descriptive characteristics of judicial appointments influence public evaluations of the president. We find that the public views presidents more favourably when they are more inclusive of women and minorities in their judicial appointments, and this effect is particularly strong for Democrats. The results demonstrate that presidents can increase public support by appointing individuals from underrepresented groups. This research has implications for representation and judicial selection in the United States.",
+    "outcome": "success",
+    "outcome_quote": "We successfully replicate Stauffers analyses.",
+    "doi_o": "10.1080/00344893.2022.2037699",
+    "doi_r": "10.1017/s0003055424001308"
   },
   {
     "ref_o": "Does the Local Candidate Matter? Candidate Effects in the Canadian Election of 2000",
@@ -8336,6 +8557,17 @@
     "doi_r": "10.1017/s0008423924000234"
   },
   {
+    "ref_o": "Drones and Support for the Use of Force",
+    "ref_r": "The Costs of Conflict and Support for the Use of Force: Accounting for Information Equivalence in Survey Experiments",
+    "apa_ref_o": "Walsh, J., & Schulzke, M. (2018). Drones and Support for the Use of Force. https://doi.org/10.3998/mpub.9946611",
+    "apa_ref_r": "McDonald, J., & Walsh, J. I. (2020). The Costs of Conflict and Support for the Use of Force: Accounting for Information Equivalence in Survey Experiments. Journal of Experimental Political Science, 8(2), 195–202. https://doi.org/10.1017/xps.2020.18",
+    "abstract": "Drones and Support for the Use of Force utilizes experimental research to analyze the effects of combat drones on Americans' support for the use of force. The authors develop expectations drawn from social science theory and then assess these conjectures using a series of survey experiments. Their findingsâ€”that drones have had important but nuanced effects on support for the use of forceâ€”have implications for democratic control of military action and civil-military relations, and provide insight into how the development and proliferation of current and future military technologies influence the domestic politics of foreign policy.",
+    "outcome": "failure",
+    "outcome_quote": "We find that support for military action does not differ across treatments in which subjects are told that the attack involves drone strikes or ground troops.",
+    "doi_o": "10.3998/mpub.9946611",
+    "doi_r": "10.1017/xps.2020.18"
+  },
+  {
     "ref_o": "The Effects of Making Public Service Employees Aware of Their Prosocial and Societal Impact: A Microintervention study",
     "ref_r": "A replication of “the effects of making public service employees aware of their prosocial and societal impact”",
     "apa_ref_o": "Vogel, D., & Willems, J. (2022). The Effects of Making Public Service Employees Aware of Their Prosocial and Societal Impact: A Microintervention study. https://doi.org/10.31235/osf.io/xatcn",
@@ -8358,6 +8590,19 @@
     "outcome_quote": "we find that citizens sector preference does indeed impact their interpretation of performance information, corresponding to the original study.",
     "doi_o": "10.1111/puar.12406",
     "doi_r": "10.1111/padm.12970"
+  },
+  {
+    "ref_o": "Unconscious Bias in Citizens’ Evaluations of Public Sector Performance",
+    "ref_r": "A replication of “unconscious bias in citizens' evaluations of public sector performance”",
+    "apa_ref_o": "Marvel, J. D. (2015). Unconscious Bias in Citizens’ Evaluations of Public Sector Performance. Journal of Public Administration Research and Theory, muu053. https://doi.org/10.1093/jopart/muu053",
+    "apa_ref_r": "Chen, G., Zhang, S., Chen, W., Li, Q., & Liang, P. (2024). A replication of “unconscious bias in citizens’’ evaluations of public sector performance”.” Public Administration, 102(4), 1745–1764. Portico. https://doi.org/10.1111/padm.13031",
+    "journal": "Journal of Public Administration Research and Theory",
+    "impact_factor": 3.74,
+    "abstract": "The premise of our article is that repeated exposure to antipublic sector messages affects the way people evaluate the performance of public sector organizations. More specifically, we argue that individuals' implicit attitudes regarding public sector organizations are biased: Citizens automatically and unconsciously associate public sector organizations with inefficiency, inflexibility, and other pejoratives, and these automatic associations color their assessments of public sector performance. Implicit antipublic sector bias has important theoretical implications. It may help to explain whether, and to what degree, individuals respond favorably to positive public sector performance information. More specifically, it suggests that individuals' evaluations of government performance will be weighed down by their deep-seated, unconscious views of the public sector; that the effect of information on individuals' performance evaluations will be short-lived; and that individuals' underlying beliefs about public sector performance will be difficult to change. We design three survey experiments to investigate these propositions, focusing on individuals' evaluations of United States Postal Service (USPS) performance. We find evidence for each proposition.",
+    "outcome": "success",
+    "outcome_quote": "The results reaffirm the negative influence of APSB on citizens assessments of public sector performance.",
+    "doi_o": "10.1093/jopart/muu053",
+    "doi_r": "10.1111/padm.13031"
   },
   {
     "ref_o": "Stability and change in the opinion-policy relationship: Evidence from state minimum wage laws",
@@ -8436,6 +8681,17 @@
     "doi_r": "10.1177/2053168018787119"
   },
   {
+    "ref_o": "Populist Authoritarianism",
+    "ref_r": "Making the List: Reevaluating Political Trust and Social Desirability in China",
+    "apa_ref_o": "Tang, W. (2016). Populist Authoritarianism. https://doi.org/10.1093/acprof:oso/9780190205782.001.0001",
+    "apa_ref_r": "NICHOLSON, S. P., & HUANG, H. (2022). Making the List: Reevaluating Political Trust and Social Desirability in China. American Political Science Review, 117(3), 1158–1165. https://doi.org/10.1017/s0003055422000946",
+    "abstract": "This book is about how the Chinese Communist Party (CCP) governs the world’s largest population in a single-party authoritarian state. It attempts to explain the seemingly contradictory trends of the increasing number of protests, on the one hand, and the results of public opinion surveys that consistently show strong government support on the other hand. It accentuates the continuity of the political culture from the CCP’s revolutionary experiences to its present-day governing style, even though China has changed in many ways on the surface in the post-Mao era. The book proposes a theoretical framework of populist authoritarianism with six key elements, including the Mass Line ideology, accumulation of social capital, public political activism and contentious politics, a hyper-responsive government, weak political and civil institutions, and a high level of political trust. These traits of populist authoritarianism are supported by empirical evidence drawn from multiple public opinion surveys conducted from 1987 to 2014. Although the CCP currently enjoys strong public support, such a system is inherently vulnerable due to its institutional deficiency. Public opinion can swing violently due to policy failure and the up and down of a leader or an elite faction. The drastic change of public opinion cannot be filtered through political institutions such as elections and the rule of law, creating system-wide political earthquakes.",
+    "outcome": "success",
+    "outcome_quote": "We replicated previous list experiment results confirming that a majority trusts the central government despite overreports.",
+    "doi_o": "10.1093/acprof:oso/9780190205782.001.0001",
+    "doi_r": "10.1017/s0003055422000946"
+  },
+  {
     "ref_o": "Responsiveness without Representation: Evidence from Minimum Wage Laws in U.S. States",
     "ref_r": "Stability and change in the opinion–policy relationship: Evidence from minimum wage laws",
     "apa_ref_o": "Simonovits, G., Guess, A. M., & Nagler, J. (2018). Responsiveness without Representation: Evidence from Minimum Wage Laws in U.S. States. American Journal of Political Science, 63(2), 401–410. Portico. https://doi.org/10.1111/ajps.12412",
@@ -8502,6 +8758,44 @@
     "doi_r": "10.7554/elife.17044"
   },
   {
+    "ref_o": "Further Evidence for an External Focus of Attention in Running: Looking at Specific Focus Instructions and Individual Differences",
+    "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
+    "apa_ref_o": "Hill, A., Schücker, L., Hagemann, N., & Strauß, B. (2017). Further Evidence for an External Focus of Attention in Running: Looking at Specific Focus Instructions and Individual Differences. Journal of Sport and Exercise Psychology, 39(5), 352–365. https://doi.org/10.1123/jsep.2016-0272",
+    "apa_ref_r": "Murphy, J., Caldwell, A. R., Mesquida, C., Ladell, A. J. M., Encarnación-Martínez, A., Tual, A., Denys, A., Cameron, B., Van Hooren, B., Parr, B., DeLucia, B., Mason, B. R. J., Clark, B., Egan, B., Brown, C., Ade, C., Sforza, C., Taber, C. B., Kirk, C., … Warne, J. P. (2025). Estimating the Replicability of Sports and Exercise Science Research. Sports Medicine, 55(10), 2659–2679. https://doi.org/10.1007/s40279-025-02201-w",
+    "journal": "Journal of Sport and Exercise Psychology",
+    "impact_factor": 1.33,
+    "abstract": "Although attentional focusing in sports has been broadly investigated, the findings vary when it comes to endurance sports. This study provides a comparison between relevant foci in the literature of running economy. These include two internal foci-one addressing automated processes (running movement) and the other nonautomated processes (internal body signals and perceived exertion), an external focus (video) and a control condition. Furthermore, we investigated the influence of interoceptive sensitivity on oxygen consumption within the different attention conditions. Thirty recreational runners performed a four 6-min run at moderate intensity consisting of the four counterbalanced conditions. Running economy was assessed by spiroergometry, and interoception was measured using a heartbeat tracking task. Results revealed a significantly better running economy for the external focus of attention compared with all other conditions. No significant correlations were observed between the heartbeat perception score and oxygen consumption in any condition.",
+    "outcome": "failure",
+    "outcome_quote": "Replication non-significant or opposite direction, effect sizes incompatible (z=5.7, p=0.001)",
+    "doi_o": "10.1123/jsep.2016-0272",
+    "doi_r": "10.1007/s40279-025-02201-w"
+  },
+  {
+    "ref_o": "Maximizing Performance",
+    "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
+    "apa_ref_o": "WÄLCHLI, M., RUFFIEUX, J., BOURQUIN, Y., KELLER, M., & TAUBE, W. (2016). Maximizing Performance. Medicine &amp; Science in Sports &amp; Exercise, 48(4), 714–719. https://doi.org/10.1249/mss.0000000000000818",
+    "apa_ref_r": "Murphy, J., Caldwell, A. R., Mesquida, C., Ladell, A. J. M., Encarnación-Martínez, A., Tual, A., Denys, A., Cameron, B., Van Hooren, B., Parr, B., DeLucia, B., Mason, B. R. J., Clark, B., Egan, B., Brown, C., Ade, C., Sforza, C., Taber, C. B., Kirk, C., … Warne, J. P. (2025). Estimating the Replicability of Sports and Exercise Science Research. Sports Medicine, 55(10), 2659–2679. https://doi.org/10.1007/s40279-025-02201-w",
+    "journal": "Medicine &amp; Science in Sports &amp; Exercise",
+    "abstract": "This is the first study showing superior performance when combining aF with EF. As reduced muscular activity was found only in conditions with EF, it is argued in line with the constrained action hypothesis that adopting an EF improves movement efficiency. In contrast, aF seems to rather enhance (intrinsic) motivation. However, monetary reward did not further amplify performance.",
+    "outcome": "failure",
+    "outcome_quote": "Replication non-significant or opposite direction, effect sizes incompatible (z=7.71, p=0.001)",
+    "doi_o": "10.1249/mss.0000000000000818",
+    "doi_r": "10.1007/s40279-025-02201-w"
+  },
+  {
+    "ref_o": "A real-time feedback method to reduce loading rate during running: Effect of combining direct and indirect feedback",
+    "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
+    "apa_ref_o": "Garofolini, A., Oppici, L., & Taylor, S. (2020). A real-time feedback method to reduce loading rate during running: Effect of combining direct and indirect feedback. Journal of Sports Sciences, 38(21), 2446–2453. https://doi.org/10.1080/02640414.2020.1788288",
+    "apa_ref_r": "Murphy, J., Caldwell, A. R., Mesquida, C., Ladell, A. J. M., Encarnación-Martínez, A., Tual, A., Denys, A., Cameron, B., Van Hooren, B., Parr, B., DeLucia, B., Mason, B. R. J., Clark, B., Egan, B., Brown, C., Ade, C., Sforza, C., Taber, C. B., Kirk, C., … Warne, J. P. (2025). Estimating the Replicability of Sports and Exercise Science Research. Sports Medicine, 55(10), 2659–2679. https://doi.org/10.1007/s40279-025-02201-w",
+    "journal": "Journal of Sports Sciences",
+    "impact_factor": 2.5,
+    "abstract": "Impact loading plays a key role in the pathophysiology of running-related injuries. Providing real-time feedback may be an effective strategy to reduce impact loading; however, it is currently unclear what an effective training method to help runners achieve a habitual low loading rate is. We subjected 20 healthy non-runners to a structured sequence of direct and indirect biofeedback designed to facilitate broader exploration of neuro-mechanical workspace for potential movement solutions (indirect feedback on cadence and foot-strike angle) and to refine and converge upon an optimal sub-set of that space to match the task goal (direct feedback on loading rate). While indirect biofeedback on foot-strike angle yielded a lower impact load than providing direct biofeedback on loading rate, compared to indirect biofeedback on foot-strike angle, providing direct feedback on loading rate statistically increased (+58%, p = 0.007) the range of goal-relevant solutions participants used to lower their impact loading. Results showed that structured feedback was effective in increasing the range of input parameters that match the task goal, hence expanding the size of goal-relevant solutions, which may benefit running performance under changing environmental constraints.",
+    "outcome": "failure",
+    "outcome_quote": "Replication significant but effect sizes incompatible (z=2.71, p=0.003)",
+    "doi_o": "10.1080/02640414.2020.1788288",
+    "doi_r": "10.1007/s40279-025-02201-w"
+  },
+  {
     "ref_o": "Beep Test Performance Is Influenced by 30 Minutes of Cognitive Work",
     "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
     "apa_ref_o": "MACMAHON, C., HAWKINS, Z., & SCHÜCKER, L. (2019). Beep Test Performance Is Influenced by 30 Minutes of Cognitive Work. Medicine &amp; Science in Sports &amp; Exercise, 51(9), 1928–1934. https://doi.org/10.1249/mss.0000000000001982",
@@ -8512,6 +8806,19 @@
     "outcome": "failure",
     "outcome_quote": "Replication significant but effect sizes incompatible (z=2.17, p=0.015)",
     "doi_o": "10.1249/mss.0000000000001982",
+    "doi_r": "10.1007/s40279-025-02201-w"
+  },
+  {
+    "ref_o": "Altering Work to Rest Ratios Differentially Influences Fatigue Indices During Repeated Sprint Ability Testing",
+    "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
+    "apa_ref_o": "La Monica, M. B., Fukuda, D. H., Beyer, K. S., Hoffman, M. W., Miramonti, A. A., Riffe, J. J., Baker, K. M., Fragala, M. S., Hoffman, J. R., & Stout, J. R. (2016). Altering Work to Rest Ratios Differentially Influences Fatigue Indices During Repeated Sprint Ability Testing. Journal of Strength and Conditioning Research, 30(2), 400–406. https://doi.org/10.1519/jsc.0000000000001122",
+    "apa_ref_r": "Murphy, J., Caldwell, A. R., Mesquida, C., Ladell, A. J. M., Encarnación-Martínez, A., Tual, A., Denys, A., Cameron, B., Van Hooren, B., Parr, B., DeLucia, B., Mason, B. R. J., Clark, B., Egan, B., Brown, C., Ade, C., Sforza, C., Taber, C. B., Kirk, C., … Warne, J. P. (2025). Estimating the Replicability of Sports and Exercise Science Research. Sports Medicine, 55(10), 2659–2679. https://doi.org/10.1007/s40279-025-02201-w",
+    "journal": "Journal of Strength and Conditioning Research",
+    "impact_factor": 1.88,
+    "abstract": "This study examined the influence of recovery time on fatigue indices, performance (total work [TW], peak power [PP], and mean power [MP]), and oxygen consumption during repeated sprint ability (RSA) on a cycle ergometer. Eight recreationally-trained men performed 3 RSA protocols consisting of 10 × 6 s sprints with 12 s, 18 s, and 24 s rest intervals between each sprint. Fatigue indices were determined as percent decrement (%Dec) and rate of decline using either a log transform method or standard slope approach for TW, PP, and MP during respective RSA protocols. The maximal VO2 value in response to given sprint intervals and the minimal VO2 value in response to given rest periods (VO2 work and VO2 rest, respectively) were recorded. A repeated measures analysis of variance was used to analyze all variables. Average VO2 work was not different among rest interval trials. Average VO2 rest with 12 s rest was greater than 18 s and 24 s (2.16 ± 0.17 L · min(-1), 1.91 ± 0.18 L · min(-1), 1.72 ± 0.15 L · min(-1), respectively), while 18 s was greater than 24 s. Average TW and MP were greater with 24 s rest than 12 s (4,604.44 ± 915.98 J vs. 4,305.46 ± 727.17 J, respectively), with no differences between RSA protocols for PP. No differences in %Dec were observed. Both methods of calculating rates of decline per sprint for PP and TW were greater during 12 s than 18 s or 24 s. Since changes were only noted between the 12 s and 24 s protocols, a 6 s differential in rest intervals may not be enough to elicit alterations in TW, PP, MP, or %Dec in RSA performance. Rate of decline may be a more sensitive measure of fatigue than %Dec.",
+    "outcome": "failure",
+    "outcome_quote": "Replication significant but effect sizes incompatible (z=1.96, p=0.025)",
+    "doi_o": "10.1519/jsc.0000000000001122",
     "doi_r": "10.1007/s40279-025-02201-w"
   },
   {
@@ -8616,6 +8923,19 @@
     "outcome": "failure",
     "outcome_quote": "Replication non-significant or opposite direction, effect sizes incompatible (z=2.16, p=0.02)",
     "doi_o": "10.1519/jsc.0000000000001503",
+    "doi_r": "10.1007/s40279-025-02201-w"
+  },
+  {
+    "ref_o": "Associated ACL risk factors differences during an unanticipated volleyball blocking movement",
+    "ref_r": "Estimating the Replicability of Sports and Exercise Science Research",
+    "apa_ref_o": "Zahradnik, D., Jandacka, D., Beinhauerova, G., & Hamill, J. (2020). Associated ACL risk factors differences during an unanticipated volleyball blocking movement. Journal of Sports Sciences, 38(20), 2367–2373. https://doi.org/10.1080/02640414.2020.1785727",
+    "apa_ref_r": "Murphy, J., Caldwell, A. R., Mesquida, C., Ladell, A. J. M., Encarnación-Martínez, A., Tual, A., Denys, A., Cameron, B., Van Hooren, B., Parr, B., DeLucia, B., Mason, B. R. J., Clark, B., Egan, B., Brown, C., Ade, C., Sforza, C., Taber, C. B., Kirk, C., … Warne, J. P. (2025). Estimating the Replicability of Sports and Exercise Science Research. Sports Medicine, 55(10), 2659–2679. https://doi.org/10.1007/s40279-025-02201-w",
+    "journal": "Journal of Sports Sciences",
+    "impact_factor": 2.5,
+    "abstract": "The lateral tilt of the arms accompanied by trunk lateral tilt is a typical blocking manoeuvre in volleyball. However, during this unanticipated blocking movement, an associated risk of ACL injury may result. The aim of the present study was to compare associative ACL risk factors at the initial contact and the first and second peak of VGRF during an unanticipated blocking movement with different arm positions. Synchronized kinematic and kinetic data were collected for each trial of each condition. Student paired t-tests and effect size were used to determine differences between two conditions (S - with arms straight up from the body) and (T - with the arms and trunk laterally tilted). The results showed that the T condition significantly decreases knee flexion, increases VGRF at the foot contact, first peak force and increases the valgus moment at the first peak force. The values of the associated risk factors for a non-contact ACL injury appear to be related to the tilted arm position accompanied by trunk tilt towards to right lower limb during landing. The players should be taught to land with greater knee flexion and, if possible, a double-leg landing to decrease right lower limb loading during the blocking manoeuvre.",
+    "outcome": "failure",
+    "outcome_quote": "Neither significant nor effect sizes significantly different (z=1.14, p=0.127)",
+    "doi_o": "10.1080/02640414.2020.1785727",
     "doi_r": "10.1007/s40279-025-02201-w"
   },
   {
@@ -8734,6 +9054,45 @@
     "doi_r": "10.1007/s40279-025-02201-w"
   },
   {
+    "ref_o": "The surprise of reaching out: Appreciated more than we think.",
+    "ref_r": "Replication of a study from \"The Surprise of Reaching Out: Appreciated More Than We Think\" (JPSP | Liu et al. 2023)",
+    "apa_ref_o": "Liu, P. J., Rim, S., Min, L., & Min, K. E. (2023). The surprise of reaching out: Appreciated more than we think. Journal of Personality and Social Psychology, 124(4), 754–771. https://doi.org/10.1037/pspi0000402",
+    "apa_ref_r": "Transparent Replications, &amp; Metskas, A. (2023). <i>Replication of a study from \"The Surprise of Reaching Out: Appreciated More Than We Think\" (JPSP | Liu et al. 2023)<\/i>. Clearer Thinking. https://doi.org/10.5281/ZENODO.17715275",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "People are fundamentally social beings and enjoy connecting with others. Sometimes, people reach out to others-whether simply to check-in on how others are doing with brief messages or to show that they are thinking of others by sending small gifts to them. Yet, despite the importance and enjoyment of social connection, do people accurately understand how much other people value being reached out to by someone in their social circle? Across a series of preregistered experiments, we document a robust underestimation of how much other people appreciate being reached out to. We find evidence compatible with an account wherein one reason this underestimation of appreciation occurs is because responders (vs. initiators) are more focused on their feelings of surprise at being reached out to. A focus on feelings of surprise in turn predicts greater appreciation. We further identify process-consistent moderators of the underestimation of reach-out appreciation, finding that it is magnified when the reach-out context is more surprising: when it occurs within a surprising (vs. unsurprising) context for the recipient and when it occurs between more socially distant (vs. socially close) others. Altogether, this research thus identifies when and why we underestimate how much other people appreciate us reaching out to them, implicating a heightened focus on feelings of surprise as one underlying explanation. (PsycInfo Database Record (c) 2023 APA, all rights reserved).",
+    "outcome": "success",
+    "outcome_quote": "This finding was replicated in our study.",
+    "doi_o": "10.1037/pspi0000402",
+    "doi_r": "10.5281/zenodo.17715275"
+  },
+  {
+    "ref_o": "Counterfeit diversity: How strategically misrepresenting gender diversity dampens organizations’ perceived sincerity and elevates women’s identity threat concerns.",
+    "ref_r": "Replication of a study from \"Counterfeit Diversity: How Strategically Misrepresenting Gender Diversity Dampens Organizations' Perceived Sincerity and Elevates Women's Identity Threat Concerns\" (JPSP | Kroeper, Williams & Murphy 2022)",
+    "apa_ref_o": "Kroeper, K. M., Williams, H. E., & Murphy, M. C. (2022). Counterfeit diversity: How strategically misrepresenting gender diversity dampens organizations’ perceived sincerity and elevates women’s identity threat concerns. Journal of Personality and Social Psychology, 122(3), 399–426. https://doi.org/10.1037/pspi0000348",
+    "apa_ref_r": "Transparent Replications, &amp; Harris, C. D. (2022). <i>Replication of a study from \"Counterfeit Diversity: How Strategically Misrepresenting Gender Diversity Dampens Organizations' Perceived Sincerity and Elevates Women's Identity Threat Concerns\" (JPSP | Kroeper, Williams &amp; Murphy 2022)<\/i>. Clearer Thinking. https://doi.org/10.5281/ZENODO.17716306",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "Women remain underrepresented in technology and computing fields. Aware of this problem, many tech organizations seek diversification strategies. Several academic sources recommend including gender diverse images in recruitment materials as a low-cost way to potentially attract female workers. However, for gender nondiverse organizations, this strategy means misrepresenting the current on-the-ground diversity of their organization. Four experiments investigate how women and men perceive organizations that <i>counterfeit diversity<\/i> (i.e., exaggerate gender diversity in recruitment advertisements) relative to organizations that (a) authentically portray a <i>high<\/i> degree of gender diversity (<i>authentic diversity<\/i>; Experiments 1-3); (b) authentically portray a low degree of gender diversity (authentic nondiversity; Experiments 2 and 3); and (c) acknowledge a lack of diversity in the present, but aspire to increase diversity in the future (<i>aspirational diversity<\/i>; Experiment 3). Results reveal that women and men perceive counterfeit diversity as insincere. This perceived insincerity, in turn, decreases women's and men's interest in the organization and engenders identity threat concerns among women (Experiments 1-4). Taken together, these findings complicate scholarly discussions of diversity and inclusion strategies by highlighting the role of perceived sincerity. When recruitment strategies are deemed insincere, these strategies can backfire-decreasing interest in the organization, fomenting threat, and perpetuating underrepresentation. (PsycInfo Database Record (c) 2022 APA, all rights reserved).",
+    "outcome": "success",
+    "outcome_quote": "Our findings were mostly consistent with those of the original study (see full report), except that we did not find that gender moderated the indirect effects of company diversity on interest in working for the company.",
+    "doi_o": "10.1037/pspi0000348",
+    "doi_r": "10.5281/zenodo.17716306"
+  },
+  {
+    "ref_o": "Collective transcendence beliefs shape the sacredness of objects: The case of art.",
+    "ref_r": "Replication of a study from \"Collective transcendence beliefs shape the sacredness of objects: the case of art\" (JPSP | Chen, Ruttan & Feinberg, 2022)",
+    "apa_ref_o": "Chen, S., Ruttan, R. L., & Feinberg, M. (2023). Collective transcendence beliefs shape the sacredness of objects: The case of art. Journal of Personality and Social Psychology, 124(3), 521–543. https://doi.org/10.1037/pspa0000319",
+    "apa_ref_r": "Transparent Replications, &amp; Harris, C. D. (2023). <i>Replication of a study from \"Collective transcendence beliefs shape the sacredness of objects: the case of art\" (JPSP | Chen, Ruttan &amp; Feinberg, 2022)<\/i>. Clearer Thinking. https://doi.org/10.5281/ZENODO.17715400",
+    "journal": "Journal of Personality and Social Psychology",
+    "impact_factor": 2.3,
+    "abstract": "Many objects are viewed as sacred even though few people have a strong personal connection to them. To explain this phenomenon, we used art as a case study to develop and test a theory wherein collective transcendence beliefs-beliefs that an object links the collective to something larger and more important than the self, spanning space and time-are a key determinant of the sacredness of objects. Initial inductive studies pointed to perceptions of collective spirituality, collective meaning, and historical significance to humanity as the primary collective transcendence beliefs underlying the sacredness of art (Study 1), and subsequent exploration indicated that collective meaning was a mechanism by which collective spirituality and historical significance to humanity influenced sacredness judgments (Study 2). In support of this, six experimental studies demonstrated that heightening the collective spirituality and historical significance of an artwork resulted in participants viewing the artwork as more collectively meaningful, and subsequently more sacred (Studies 3-6), worthy of protection from the profane (Studies 3c and 6), and eliciting moral outrage in the face of desecration (Study 5). In all, across these studies (<i>N<\/i> = 5,304), we found converging evidence that collective transcendence beliefs elevate various forms of art (sculpture, music, and painting) to be held as sacred, even an amateur sketch done by the first author. Our findings uncover a novel mechanism underlying sacredness judgments, theoretically advancing our understanding of the sacred while pointing to a number of important real-world implications. (PsycInfo Database Record (c) 2023 APA, all rights reserved).",
+    "outcome": "success",
+    "outcome_quote": "In both the original study and our replication, collective meaning (i.e., the perception that the artwork has a deeper meaning to a vast number of people) was found to mediate the relationships between all the experimental conditions.",
+    "doi_o": "10.1037/pspa0000319",
+    "doi_r": "10.5281/zenodo.17715400"
+  },
+  {
     "ref_o": "Loss aversion, the endowment effect, and gain-loss framing shape preferences for noninstrumental information",
     "ref_r": "Replication of a study from \"Loss Aversion, the Endowment Effect, and Gain-Loss Framing Shape Preferences for Noninstrumental Information\" (PNAS | Litovsky et al. 2022)",
     "apa_ref_o": "Litovsky, Y., Loewenstein, G., Horn, S., & Olivola, C. Y. (2022). Loss aversion, the endowment effect, and gain-loss framing shape preferences for noninstrumental information. Proceedings of the National Academy of Sciences, 119(34). https://doi.org/10.1073/pnas.2202700119",
@@ -8799,6 +9158,19 @@
     "doi_r": "10.5281/zenodo.17716155"
   },
   {
+    "ref_o": "Stuck in Time: Negative Income Shock Constricts the Temporal Window of Valuation Spanning the Future and the Past",
+    "ref_r": "Empirical audit and review and an assessment of evidentiary value in research on the psychological consequences of scarcity",
+    "apa_ref_o": "Bickel, W. K., Wilson, A. G., Chen, C., Koffarnus, M. N., & Franck, C. T. (2016). Stuck in Time: Negative Income Shock Constricts the Temporal Window of Valuation Spanning the Future and the Past. PLOS ONE, 11(9), e0163051. https://doi.org/10.1371/journal.pone.0163051",
+    "apa_ref_r": "O’Donnell, M., Dev, A. S., Antonoplis, S., Baum, S. M., Benedetti, A. H., Brown, N. D., Carrillo, B., Choi, A. L., Connor, P., Donnelly, K., Ellwood-Lowe, M. E., Foushee, R., Jansen, R., Jarvis, S. N., Lundell-Creagh, R., Ocampo, J. M., Okafor, G. N., Azad, Z. R., Rosenblum, M., … Nelson, L. D. (2021). Empirical audit and review and an assessment of evidentiary value in research on the psychological consequences of scarcity. Proceedings of the National Academy of Sciences, 118(44). https://doi.org/10.1073/pnas.2103313118 Individual report available at https://osf.io/74byu/files/ecvfa",
+    "journal": "PLOS ONE",
+    "impact_factor": 2.4,
+    "abstract": "Insufficient resources are associated with negative consequences including decreased valuation of future reinforcers. To determine if these effects result from scarcity, we examined the consequences of acute, abrupt changes in resource availability on delay discounting-the subjective devaluation of rewards as delay to receipt increases. In the current study, 599 individuals recruited from Amazon Mechanical Turk read a narrative of a sudden change (positive, neutral, or negative) to one's hypothetical future income and completed a delay discounting task examining future and past monetary gains and losses. The effects of the explicit zero procedure, a framing manipulation, was also examined. Negative income shock significantly increased discounting rates for gains and loses occurring both in the future and the past. Positive income windfalls significantly decreased discounting to a lesser extent. The framing procedure significantly reduced discounting under all conditions. Negative income shocks may result in short-term choices.",
+    "outcome": "failure",
+    "outcome_quote": "Eta-square in our study consistently fell outside of the 95% CI of effect sizes of the original authors, as shown in Table 2.",
+    "doi_o": "10.1371/journal.pone.0163051",
+    "doi_r": "10.1073/pnas.2103313118"
+  },
+  {
     "ref_o": "Choice Boosts Curiosity",
     "ref_r": "Eleven years of student replication projects provide evidence on the correlates of replicability in psychology",
     "apa_ref_o": "Romero Verdugo, P., van Lieshout, L. L. F., de Lange, F. P., & Cools, R. (2022). Choice Boosts Curiosity. Psychological Science, 34(1), 99–110. https://doi.org/10.1177/09567976221082637",
@@ -8824,5 +9196,18 @@
     "outcome_quote": "These findings confirm those of Woolgar and Baldock (Child and Adolescent Mental Health, 20, 2015, 34–40).",
     "doi_o": "10.1111/camh.12052",
     "doi_r": "10.1111/camh.12338"
+  },
+  {
+    "ref_o": "Thresholds and mechanisms of human magnetophosphene perception induced by low frequency sinusoidal magnetic fields",
+    "ref_r": "Reproducible magnetophosphene thresholds induced by transcranial alternating magnetic stimulation in humans: a replication study",
+    "apa_ref_o": "Legros, A., Nissi, J., Laakso, I., Duprez, J., Kavet, R., & Modolo, J. (2024). Thresholds and mechanisms of human magnetophosphene perception induced by low frequency sinusoidal magnetic fields. Brain Stimulation, 17(3), 668–675. https://doi.org/10.1016/j.brs.2024.05.004",
+    "apa_ref_r": "Fresnel, E., Penault, M., Moulin, M., Blaquart, J., Carvallo, A., & Bouisset, N. (2026). Reproducible magnetophosphene thresholds induced by transcranial alternating magnetic stimulation in humans: a replication study. Scientific Reports. https://doi.org/10.1038/s41598-026-44440-5",
+    "journal": "Brain Stimulation",
+    "impact_factor": 1.38,
+    "abstract": "Beyond fundamental and immediate implications for international safety guidelines, and for identifying the interaction site underlying phosphene perception (ubiquitous in tACS experiments), our results support exploring the potential of tAMS for the differential diagnosis of retinal disorders and neuromodulation therapy.",
+    "outcome": "success",
+    "outcome_quote": "Regression slopes from the original and replication datasets showed high concordance (r = 0.965), confirming reproducibility.",
+    "doi_o": "10.1016/j.brs.2024.05.004",
+    "doi_r": "10.1038/s41598-026-44440-5"
   }
 ]

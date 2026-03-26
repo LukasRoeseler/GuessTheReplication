@@ -231,9 +231,11 @@ if (dir.exists("../Game")) {
 
 json_path <- file.path(out_dir, "dataset.json")
 csv_path <- file.path(out_dir, "dataset.csv")
+dataset_path <- file.path(out_dir, "journaldata.csv")
 
 cat("Writing files...\n")
 write_json(final_data, json_path, pretty = TRUE)
 write_csv(final_data, csv_path)
+write_csv(journal_jifs, dataset_path)
 
 cat(sprintf("Success! Exported %d fully complete trials to %s and %s\n", nrow(final_data), json_path, csv_path))

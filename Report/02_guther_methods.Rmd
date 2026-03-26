@@ -13,12 +13,30 @@ r_citations <- papaja::cite_r(file = "r-references.bib")
 
 ```
 
-```{r methods-descriptive-information}
+```{r methods-jifopenalex}
 
-# Calculate the age and sd of the participants
+# Compare OpenAlex Mean Citedness with JIF
 
-# mean_age <- mean(dataSCR$age_T0, na.rm = TRUE)
-# sd_age <- sd(dataSCR$age_T0, na.rm = TRUE)
+
+# Journal Data (OpenAlex mean citedness)
+mc <- read.csv("./Game/journaldata.csv")
+mc <- read_csv("Study/scimagojr 2024.csv")
+
+# Scimago Journal Rank (free and similar to JIF whereas Clarivates Journal Citation Report is paywalled)
+jr <- openxlsx::read.xlsx("./Study/scimagojr 2024.csv")
+
+# Merge datasets by journal name
+mcjr <- merge(mc, jr, by = "issn")
+
+# number of journals for which both values are available
+nrow(mc)
+nrow(mcjr)
+
+# Relationship
+cor.test(mcjr$sjr, mcjr$mc)
+
+# Plot
+ggplot(mcjr, aes(x = sjr, y = mc)) + geom_point() + xlab("Scimago Journal Rank") + ylab("OpenAlex Mean Citedness") + theme_bw()
 
 ```
 
@@ -31,7 +49,7 @@ We collected predictions of replication success using an existing community reso
 Past studies have used prediction markets with monetary rewards and often before the replication success was known. Table X provides an overview of past studies.
 
 | Reference | Number of Studies | Field | Number of Transactions | Accuracy and Metric |
-|----|----|----|----|----|
+|---------------|---------------|---------------|---------------|---------------|
 | @Dreber2015 | 44 | Psychology (RPP) | 2,496 | 39% actual success rate versus 55% predicted success rate |
 | @Camerer2016 | 18 | Economics (EERP) | NA | 61.1% actual success rate versus 75.2% predicted success |
 | @Camerer2018 | 21 | Social sciences | NA | 62% actual success rate versus 63.4% predicted success |

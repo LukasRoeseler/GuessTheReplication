@@ -73,6 +73,8 @@ library(papaja)       # for generating the APA manuscript
 library(tidyverse)    # for data analysis (and beautiful plots -> ggplot2)
 library(prmisc)       # for printing stats
 library(grateful)       # for citing r packages
+library(openxlsx)       # to open Excel files
+library(ggplot2)        # for plots
 # library(effectsize)   # for calculating effect sizes
 # library(car)          # for calculating Levene's Test
 
