@@ -1,5 +1,6 @@
 # Compare OpenAlex Mean Citedness with JIF
-
+library(ggplot2)
+library(patchwork)
 
 # Journal Data (OpenAlex mean citedness)
 mc <- read.csv("Game/journaldata.csv")
