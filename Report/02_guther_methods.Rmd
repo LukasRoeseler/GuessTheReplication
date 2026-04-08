@@ -49,7 +49,7 @@ We collected predictions of replication success using an existing community reso
 Past studies have used prediction markets with monetary rewards and often before the replication success was known. Table X provides an overview of past studies.
 
 | Reference | Number of Studies | Field | Number of Transactions | Accuracy and Metric |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | @Dreber2015 | 44 | Psychology (RPP) | 2,496 | 39% actual success rate versus 55% predicted success rate |
 | @Camerer2016 | 18 | Economics (EERP) | NA | 61.1% actual success rate versus 75.2% predicted success |
 | @Camerer2018 | 21 | Social sciences | NA | 62% actual success rate versus 63.4% predicted success |

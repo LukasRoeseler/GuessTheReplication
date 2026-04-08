@@ -11,7 +11,8 @@ library(stringr)
 
 cat("Downloading flora.csv...\n")
 url <- "https://raw.githubusercontent.com/forrtproject/FReD-data/refs/heads/main/output/flora.csv"
-data <- read_csv(url, show_col_types = FALSE)
+raw_data <- read_csv(url, show_col_types = FALSE) %>% 
+  mutate(row_id = row_number()) # Track rows for the included_in_guther variable later
 
 # Clean DOI prefix so we just have the raw 10.xxxx/...
 clean_doi <- function(doi_string) {
@@ -37,6 +38,7 @@ get_crossref_abstract <- function(doi) {
         clean_abs <- str_squish(clean_abs)
         # Remove the word "Abstract" if it is the very first word
         clean_abs <- str_replace(clean_abs, "^(?i)abstract\\s*[:\\.\\-]?\\s*", "")
+        
         return(clean_abs)
       }
     }
@@ -74,10 +76,11 @@ get_openalex_abstract <- function(doi) {
 # Helper function to fetch Impact Factor equivalent from OpenAlex
 get_openalex_jif <- function(journal_name) {
   if (is.na(journal_name) || journal_name == "") return(NA)
+  
   api_url <- paste0("https://api.openalex.org/sources?search=", URLencode(journal_name))
   
   tryCatch({
-    res <- GET(api_url, user_agent("GuessTheReplication/1.0 (mailto:your-email@example.com)"), timeout(5))
+    res <- GET(api_url, user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"), timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
       if (length(content$results) > 0) {
@@ -90,9 +93,28 @@ get_openalex_jif <- function(journal_name) {
   }, error = function(e) { return(NA) })
 }
 
-cat("Filtering dataset...\n")
+cat("Fetching Impact Factors for all unique journals in FLoRA...\n")
 
-# DOIs to explicitly drop
+# --- Fetch Impact Factors for Unique Journals ---
+unique_journals <- unique(raw_data$journal_o[!is.na(raw_data$journal_o)])
+cat(sprintf("Fetching Impact Factors via OpenAlex for %d unique journals...\n", length(unique_journals)))
+
+journal_jifs <- data.frame(journal_o = unique_journals, impact_factor = NA, stringsAsFactors = FALSE)
+pb_jif <- txtProgressBar(min = 0, max = nrow(journal_jifs), style = 3)
+
+for(i in seq_len(nrow(journal_jifs))) {
+  Sys.sleep(0.1) # Polite delay
+  journal_jifs$impact_factor[i] <- get_openalex_jif(journal_jifs$journal_o[i])
+  setTxtProgressBar(pb_jif, i)
+}
+close(pb_jif)
+
+# Merge the Impact Factors back into the FULL raw dataset
+full_data_with_if <- raw_data %>% left_join(journal_jifs, by = "journal_o")
+
+cat("Filtering dataset for the game...\n")
+
+# DOIs to explicitly consider "bad" for quote replacement
 bad_dois <- c(
   "10.1037/cou0000131",
   "10.1017/s1930297500001170",
