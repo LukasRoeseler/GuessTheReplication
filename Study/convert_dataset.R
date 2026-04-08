@@ -38,7 +38,6 @@ get_crossref_abstract <- function(doi) {
         clean_abs <- str_squish(clean_abs)
         # Remove the word "Abstract" if it is the very first word
         clean_abs <- str_replace(clean_abs, "^(?i)abstract\\s*[:\\.\\-]?\\s*", "")
-        
         return(clean_abs)
       }
     }
@@ -80,7 +79,7 @@ get_openalex_jif <- function(journal_name) {
   api_url <- paste0("https://api.openalex.org/sources?search=", URLencode(journal_name))
   
   tryCatch({
-    res <- GET(api_url, user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"), timeout(5))
+    res <- GET(api_url, user_agent("GuessTheReplication/1.0 (mailto:your-email@example.com)"), timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
       if (length(content$results) > 0) {
