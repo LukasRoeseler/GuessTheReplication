@@ -326,6 +326,9 @@ final_data <- clean_data %>%
   select(ref_o, ref_r, apa_ref_o, apa_ref_r, journal, impact_factor,
          study_o, abstract, outcome, outcome_quote, doi_o, doi_r)
 
+# drop studies with missing impact factor
+final_data <- final_data[!is.na(final_data$impact_factor), ]
+
 # --- Write output files ---
 json_path    <- file.path(out_dir, "dataset.json")
 csv_path     <- file.path(out_dir, "dataset.csv")
