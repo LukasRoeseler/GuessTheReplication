@@ -34,7 +34,7 @@ get_crossref_abstract <- function(doi) {
   
   tryCatch({
     res <- GET(api_url,
-               user_agent("GuessTheReplication/1.0 (mailto:roeseler.lukas@gmail.com)"),
+               user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"),
                timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
@@ -56,11 +56,11 @@ get_openalex_abstract <- function(doi) {
   if (is.na(doi) || doi == "") return(NA)
   api_url <- paste0("https://api.openalex.org/works/https://doi.org/",
                     URLencode(doi),
-                    "?mailto=roeseler.lukas@gmail.com")
+                    "?mailto=lukas.roeseler@uni-muenster.de")
   
   tryCatch({
     res <- GET(api_url,
-               user_agent("GuessTheReplication/1.0 (mailto:roeseler.lukas@gmail.com)"),
+               user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"),
                timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
@@ -90,7 +90,7 @@ get_semanticscholar_abstract <- function(doi) {
   
   tryCatch({
     res <- GET(api_url,
-               user_agent("GuessTheReplication/1.0 (mailto:roeseler.lukas@gmail.com)"),
+               user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"),
                timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
@@ -113,7 +113,7 @@ get_openalex_jif <- function(journal_name) {
   
   tryCatch({
     res <- GET(api_url,
-               user_agent("GuessTheReplication/1.0 (mailto:roeseler.lukas@gmail.com)"),
+               user_agent("GuessTheReplication/1.0 (mailto:lukas.roeseler@uni-muenster.de)"),
                timeout(5))
     if (status_code(res) == 200) {
       content <- content(res, as = "parsed", type = "application/json")
