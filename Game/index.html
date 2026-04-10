@@ -836,8 +836,9 @@
 
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, round_number: roundNumber,
+            career: career, education: education, research_experience: experience, round_number: roundNumber,
             ref_o: decodeHTML(currentStudy.ref_o), ref_r: decodeHTML(currentStudy.ref_r), 
+            doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r, abstract: decodeHTML(currentStudy.abstract),
             journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '', 
             journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
             impact_factor: safeIF, player_guess: guess, true_outcome: actualOutcome,
