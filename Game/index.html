@@ -8,31 +8,31 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme */
-            --bg-body: #f4f1ea;          
+            /* Light Theme - Pokemon Gameboy Vibrant */
+            --bg-body: #f8f8d8;          
             --bg-container: #ffffff;     
-            --text-main: #4b3621;        
-            --royal-blue: #002366;       
-            --dark-brown: #4b3621;       
-            --dark-green: #1a4314;       
-            --border-color: #002366;     
-            --heart-color: #e74c3c;
-            --btn-info: #5f9ea0;
-            --btn-tutorial: #cd853f;
+            --text-main: #202020;        
+            --royal-blue: #2850a0;       
+            --dark-brown: #603810;       
+            --dark-green: #289030;       
+            --border-color: #2850a0;     
+            --heart-color: #e02020;      
+            --btn-info: #4898d8;         
+            --btn-tutorial: #e88828;     
         }
 
         [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-body: #0d1117;
-            --bg-container: #161b22;
-            --text-main: #e6e1d8;
-            --royal-blue: #4169e1;       
-            --dark-brown: #a07a58;
-            --dark-green: #3cb371;
-            --border-color: #4169e1;
-            --heart-color: #ff4444;
-            --btn-info: #4682b4;
-            --btn-tutorial: #d2691e;
+            /* Dark Theme - Vibrant Night */
+            --bg-body: #101820;
+            --bg-container: #202838;
+            --text-main: #e8e8e8;
+            --royal-blue: #6888f0;       
+            --dark-brown: #a06850;
+            --dark-green: #48c858;
+            --border-color: #6888f0;
+            --heart-color: #ff5050;
+            --btn-info: #58a8f0;
+            --btn-tutorial: #f0a048;
         }
 
         body {
@@ -60,7 +60,7 @@
         a:hover { color: var(--text-main); }
 
         .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase;}
-        .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
+        .study-abstract { font-family: Calibri, 'Segoe UI', Arial, sans-serif; text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.15rem; line-height: 1.4; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
         input[type="text"], select {
@@ -127,7 +127,7 @@
         .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
         
         .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
-        #citation-links { font-size: 1.1rem; line-height: 1.4; }
+        #citation-links { font-size: 1.1rem; line-height: 1.4; font-family: Calibri, 'Segoe UI', Arial, sans-serif; }
 
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
@@ -137,7 +137,6 @@
         .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px; margin-top: 30px;}
         .main-game-logo { height: 90px; width: auto; object-fit: contain; }
         
-        /* Logos Wrapper */
         .logos-wrapper { position: absolute; bottom: 15px; width: 100%; left: 0; display: flex; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
         .corner-logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .corner-img { height: 45px; width: auto; object-fit: contain; }
@@ -178,20 +177,8 @@
         /* Responsive Fixes */
         @media (max-width: 768px) {
             .key-hint { display: none; }
-            /* Force logos to stack vertically and center gracefully */
-            .logos-wrapper { 
-                position: relative !important; 
-                flex-direction: column !important; 
-                align-items: center !important; 
-                gap: 30px !important; 
-                margin-top: 40px !important; 
-                bottom: auto !important; 
-                left: auto !important;
-                width: 100%;
-            }
-            .corner-logo-container { position: static; justify-content: center; width: 100%; }
-
-            .container { padding: 20px 15px 40px; border-width: 4px; } 
+            .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
+            .container { padding: 20px 15px 30px; border-width: 4px; } 
             .header-container { flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
             .header-title { font-size: 2.4rem !important; text-align: center; }
             .main-game-logo { height: 60px !important; }
@@ -199,13 +186,13 @@
             .hearts { font-size: 1.2rem; }
             .study-title { font-size: 1.2rem; margin-bottom: 10px; }
             .journal-box { font-size: 1rem; margin-bottom: 10px; padding-bottom: 2px;}
-            .study-abstract { font-size: 1rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
+            .study-abstract { font-size: 1.05rem; max-height: 35vh; padding: 10px; margin-bottom: 15px; }
             .button-container { display: flex; justify-content: space-between; gap: 10px; }
             .btn-large { width: 50%; height: 50px; font-size: 1.2rem; padding: 5px; margin: 0; }
             .big-result { font-size: 2rem; margin: 5px 0; }
             #feedback-comparison { font-size: 1rem !important; }
             .quote { font-size: 0.95rem; padding: 10px; margin-bottom: 10px; }
-            #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.85rem !important; padding: 10px; margin-top: 10px; }
+            #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.9rem !important; padding: 10px; margin-top: 10px; }
             .info-box { font-size: 0.95rem; padding: 10px; }
             .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
             .consent-box { padding: 15px; font-size: 1.1rem; border-width: 4px; max-width: 90%;}
@@ -353,10 +340,7 @@
             </label>
         </div><br>
 
-        <label>4. What is your primary research discipline? (Optional)</label><br>
-        <input type="text" id="discipline" placeholder="e.g. Psychology, Economics" style="text-transform: none;"><br>
-
-        <button onclick="submitDemographics()" style="margin-top: 5px;">Start Game</button>
+        <button onclick="submitDemographics()">Start Game</button>
     </div>
 
     <!-- TUTORIAL SCREEN -->
@@ -499,6 +483,7 @@
 
         <div class="info-box">
             <p style="font-weight: bold; color: var(--royal-blue); margin-top:0;">Want to learn more?</p>
+            <a href="https://doi.org/10.5281/zenodo.19854040" target="_blank">Use GutheR for teaching with our free slides</a><br><br>
             <a href="https://forrt.org/flora_zotero/" target="_blank">Never miss a replication with the Zotero Replication Checker</a><br><br>
             <a href="https://forrt.org/replication_handbook/" target="_blank">Learn how to conduct a replication with our free Handbook</a><br><br>
             <a href="https://forrt.org/rjf/" target="_blank">Get to know high-quality, non-commercial academic journals that specialise on replications</a><br><br>
@@ -530,7 +515,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let fullDataset = [], activeSuccesses = [], activeFailures = [], currentStudy = null;
-    let nickname = '', personalCode = '', career = '', education = '', experience = '', discipline = '', sessionId = Date.now();
+    let nickname = '', personalCode = '', career = '', education = '', experience = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 5, roundNumber = 0, currentLevel = 'Junior Reviewer';
@@ -635,9 +620,6 @@
         const savedEdu = localStorage.getItem('gtr_education');
         if(savedEdu) document.getElementById('education').value = savedEdu;
 
-        const savedDisc = localStorage.getItem('gtr_discipline');
-        if(savedDisc) document.getElementById('discipline').value = savedDisc;
-
         const savedExp = localStorage.getItem('gtr_experience');
         if(savedExp) {
             const exps = savedExp.split(", ");
@@ -715,7 +697,6 @@
     }
 
     function submitPlayer() {
-        initAudio(); 
         showScreen('player-screen'); 
     }
 
@@ -732,7 +713,6 @@
     function submitDemographics() {
         career = document.getElementById('career').value;
         education = document.getElementById('education').value;
-        discipline = document.getElementById('discipline').value.trim();
         
         const expBoxes = document.querySelectorAll('#experience-checks input:checked');
         if (expBoxes.length === 0) return alert("Please select your familiarity with research.");
@@ -741,15 +721,14 @@
         expBoxes.forEach(box => expArray.push(box.value));
         experience = expArray.join(", ");
 
-        if (!career || !education) {
-            return alert("Please answer all required demographic questions.");
+        if (!career || !education || !experience) {
+            return alert("Please answer all demographic questions.");
         }
 
         localStorage.setItem('gtr_nickname', nickname);
         localStorage.setItem('gtr_code', personalCode);
         localStorage.setItem('gtr_career', career);
         localStorage.setItem('gtr_education', education);
-        localStorage.setItem('gtr_discipline', discipline);
         localStorage.setItem('gtr_experience', experience);
 
         startGameplay();
@@ -950,9 +929,8 @@
 
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, research_experience: experience, discipline: discipline, round_number: roundNumber,
+            career: career, education: education, research_experience: experience, round_number: roundNumber,
             ref_o: decodeHTML(currentStudy.ref_o), ref_r: decodeHTML(currentStudy.ref_r), 
-            doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r, abstract: decodeHTML(currentStudy.abstract),
             journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '', 
             journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
             impact_factor: safeIF, player_guess: guess, true_outcome: actualOutcome,
@@ -972,7 +950,7 @@
     async function saveScoreToDB(keepData) {
         const payload = { 
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, research_experience: experience, discipline: discipline, final_score: score, 
+            career: career, education: education, research_experience: experience, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, data_integrity_keep: keepData,
             ref_o: currentStudy.ref_o ? decodeHTML(currentStudy.ref_o) : '',
@@ -1002,10 +980,10 @@
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
         
-        ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
+        ctx.fillStyle = '#f8f8d8'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#2850a0'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
         
-        ctx.fillStyle = '#002366'; ctx.textAlign = 'center';
+        ctx.fillStyle = '#2850a0'; ctx.textAlign = 'center';
         ctx.font = 'bold 50px "VT323", monospace'; 
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
         
@@ -1015,16 +993,16 @@
             ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 120, size, size);
         }
 
-        ctx.fillStyle = '#4b3621';
+        ctx.fillStyle = '#202020';
         ctx.font = '32px "VT323", monospace';
         ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 380);
         ctx.fillText(`outcomes correctly and achieved the rank`, canvas.width / 2, 420);
         
-        ctx.fillStyle = '#002366';
+        ctx.fillStyle = '#2850a0';
         ctx.font = 'bold 42px "VT323", monospace';
         ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 480);
 
-        ctx.fillStyle = '#1a4314';
+        ctx.fillStyle = '#289030';
         ctx.font = '30px "VT323", monospace'; 
         ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
@@ -1034,11 +1012,12 @@
         const targetH = 45; 
         const bottomY = 635;
         
+        ctx.fillStyle = '#202020';
+
         if (muecosImg) {
             const w = muecosImg.width * (targetH / muecosImg.height);
             ctx.drawImage(muecosImg, 40, bottomY, w, targetH);
             
-            ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'left';
             ctx.font = '900 16px Arial, sans-serif';
             ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
@@ -1051,7 +1030,6 @@
         if (forrtImg) {
             const logoW = forrtImg.width * (targetH / forrtImg.height);
             
-            ctx.fillStyle = '#4b3621'; 
             ctx.textAlign = 'right';
             
             ctx.font = 'bold 26px "Century Schoolbook", serif';
@@ -1069,7 +1047,7 @@
             ctx.moveTo(lineX, bottomY);
             ctx.lineTo(lineX, bottomY + targetH);
             ctx.lineWidth = 1;
-            ctx.strokeStyle = '#4b3621';
+            ctx.strokeStyle = '#202020';
             ctx.stroke();
 
             ctx.font = '12px "Century Schoolbook", serif';
