@@ -192,6 +192,7 @@
 </head>
 <body>
 
+<!-- CONSENT MODAL -->
 <div id="consent-modal" class="hidden">
     <div class="consent-box">
         <h2>Participant Consent</h2>
@@ -237,6 +238,7 @@
             <button class="btn-info" onclick="showScreen('info-screen')">About</button>
         </div>
 
+        <!-- Corner Logos -->
         <div class="logos-wrapper">
             <a href="https://www.uni-muenster.de/MueCOS/en/index.html" target="_blank" class="corner-logo-container muecos-corner">
                 <img src="Images/muecos_logo.png" alt="Muecos Logo" class="corner-img">
@@ -304,6 +306,9 @@
             <option value="Masters degree">Masters degree</option>
             <option value="PhD">PhD</option>
         </select><br>
+        
+        <label>3. What is your primary research discipline? (Optional)</label><br>
+        <input type="text" id="discipline" placeholder="e.g. Psychology" style="text-transform: none;"><br>
 
         <button onclick="submitDemographics()" style="margin-top: 15px;">Start Game</button>
     </div>
@@ -480,7 +485,8 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let fullDataset = [], activeSuccesses = [], activeFailures = [], currentStudy = null;
-    let nickname = '', personalCode = '', career = '', education = '', sessionId = Date.now();
+    // NOTE: 'experience' variable was completely removed here and in the DB payloads
+    let nickname = '', personalCode = '', career = '', education = '', discipline = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 5, roundNumber = 0, currentLevel = 'Junior Reviewer';
@@ -491,6 +497,7 @@
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
+    // Web Audio API Synthesizer
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -584,6 +591,9 @@
         const savedEdu = localStorage.getItem('gtr_education');
         if(savedEdu) document.getElementById('education').value = savedEdu;
 
+        const savedDisc = localStorage.getItem('gtr_discipline');
+        if(savedDisc) document.getElementById('discipline').value = savedDisc;
+
         try {
             const res = await fetch('dataset.json');
             fullDataset = await res.json();
@@ -669,15 +679,17 @@
     function submitDemographics() {
         career = document.getElementById('career').value;
         education = document.getElementById('education').value;
-
+        discipline = document.getElementById('discipline').value.trim();
+        
         if (!career || !education) {
-            return alert("Please answer all demographic questions.");
+            return alert("Please answer all required demographic questions.");
         }
 
         localStorage.setItem('gtr_nickname', nickname);
         localStorage.setItem('gtr_code', personalCode);
         localStorage.setItem('gtr_career', career);
         localStorage.setItem('gtr_education', education);
+        localStorage.setItem('gtr_discipline', discipline);
 
         startGameplay();
     }
@@ -877,7 +889,7 @@
 
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, round_number: roundNumber,
+            career: career, education: education, discipline: discipline, round_number: roundNumber,
             ref_o: decodeHTML(currentStudy.ref_o), abstract_o: decodeHTML(currentStudy.abstract), 
             ref_r: decodeHTML(currentStudy.ref_r), doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r, 
             journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '', 
@@ -899,7 +911,7 @@
     async function saveScoreToDB(keepData) {
         const payload = { 
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, final_score: score, 
+            career: career, education: education, discipline: discipline, final_score: score, 
             final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
             tab_switches: totalTabSwitches, data_integrity_keep: keepData,
             timestamp: new Date().toISOString() 
