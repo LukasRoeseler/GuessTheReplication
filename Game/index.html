@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
-    <!-- Retro Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Light Theme */
-            --bg-body: #f4f1ea;          
-            --bg-container: #ffffff;     
-            --text-main: #4b3621;        
-            --royal-blue: #2563eb;       
-            --dark-brown: #dc2626;       
-            --dark-green: #16a34a;       
-            --border-color: #2563eb;     
-            --heart-color: #e74c3c;
-            --btn-info: #0891b2;
-            --btn-tutorial: #ea580c;
+            --bg-body: #f4f1ea;
+            --bg-container: #ffffff;
+            --text-main: #4b3621;
+            --royal-blue: #3457a6;       /* refined mid-tone royal blue */
+            --dark-brown: #b5333a;       /* warm crimson, not garish */
+            --dark-green: #2d7d50;       /* forest green, professional */
+            --border-color: #3457a6;
+            --heart-color: #c0392b;
+            --btn-info: #2a7a9b;         /* teal-blue, calm */
+            --btn-tutorial: #c96b1a;     /* warm terracotta-orange */
         }
 
         [data-theme="dark"] {
@@ -26,13 +25,13 @@
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
-            --royal-blue: #3b82f6;       
-            --dark-brown: #ef4444;       
-            --dark-green: #22c55e;       
-            --border-color: #3b82f6;     
-            --heart-color: #ff4444;
-            --btn-info: #06b6d4;
-            --btn-tutorial: #f97316;
+            --royal-blue: #6b8cd4;       /* soft periwinkle blue */
+            --dark-brown: #d96060;       /* muted red */
+            --dark-green: #4aab78;       /* medium sage-green */
+            --border-color: #6b8cd4;
+            --heart-color: #e06060;
+            --btn-info: #4d9ab5;         /* dusty teal */
+            --btn-tutorial: #d98833;     /* warm amber */
         }
 
         body {
@@ -45,7 +44,7 @@
 
         .container {
             width: 100%; max-width: 800px; background: var(--bg-container);
-            padding: 40px 30px 140px; border-radius: 0; 
+            padding: 40px 30px 140px; border-radius: 0;
             border: 6px solid var(--border-color);
             box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
             position: relative; min-height: 500px;
@@ -59,7 +58,6 @@
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
         a:hover { color: var(--text-main); }
 
-        /* CHANGED: font-family to normal Arial for title and abstract */
         .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
         .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto; font-family: Arial, Helvetica, sans-serif; }
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
@@ -72,18 +70,18 @@
 
         /* Custom Pixel Checkboxes */
         .checkbox-group { text-align: left; display: inline-block; margin-bottom: 20px; font-size: 1.3rem; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--border-color);}
-        
+
         .pixel-checkbox { display: block; position: relative; padding-left: 36px; margin-bottom: 12px; cursor: pointer; user-select: none; min-height: 24px; line-height: 24px;}
         .pixel-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
         .checkmark { position: absolute; top: 0; left: 0; height: 24px; width: 24px; background-color: var(--bg-body); border: 4px solid var(--border-color); box-shadow: 2px 2px 0 var(--border-color); transition: 0.1s;}
-        
+
         .pixel-checkbox:hover input ~ .checkmark { background-color: rgba(0,0,0,0.1); }
         .pixel-checkbox input:checked ~ .checkmark { background-color: var(--bg-body); }
         .pixel-checkbox input:active ~ .checkmark { box-shadow: 0 0 0 var(--border-color); transform: translate(2px, 2px); }
-        
+
         .checkmark:after { content: ""; position: absolute; display: none; }
         .pixel-checkbox input:checked ~ .checkmark:after { display: block; }
-        
+
         .pixel-checkbox .checkmark:after {
             left: 3px; top: 3px; width: 18px; height: 18px;
             background-color: var(--royal-blue);
@@ -97,11 +95,11 @@
         button:active { box-shadow: 0 0 0 var(--border-color); transform: translate(6px, 6px); }
         button:disabled { background: #888; border-color: #555; box-shadow: 6px 6px 0 #555; cursor: not-allowed; }
         button:disabled:active { transform: none; box-shadow: 6px 6px 0 #555; }
-        
+
         .btn-info { background: var(--btn-info); }
         .btn-tutorial { background: var(--btn-tutorial); }
         .btn-start { background: var(--dark-green); }
-        
+
         .menu-btn-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;}
         .menu-btn-stack button { width: 250px; }
 
@@ -109,7 +107,7 @@
         .btn-large { width: 180px; height: 80px; margin: 10px; font-size: 1.5rem; }
         .btn-success-retro { background: var(--dark-green); }
         .btn-danger-retro { background: var(--dark-brown); }
-        
+
         .social-btn { display: inline-block; padding: 10px 20px; margin: 5px; border: 4px solid var(--border-color); background: var(--bg-container); color: var(--text-main); text-decoration: none; cursor: pointer; box-shadow: 4px 4px 0 var(--border-color); transition: 0.1s; text-transform: uppercase;}
         .social-btn:active { box-shadow: 0 0 0 var(--border-color); transform: translate(4px, 4px); }
 
@@ -119,16 +117,34 @@
             font-size: 1.6rem; text-transform: uppercase; color: var(--text-main); font-weight: bold;
         }
         .hearts { color: var(--heart-color); }
-        
+
         .big-result { font-size: 3.5rem; font-weight: bold; margin: 15px 0; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);}
         .correct-text { color: var(--dark-green); }
         .wrong-text { color: var(--dark-brown); }
         .quote { font-style: italic; background: rgba(0,0,0,0.05); padding: 15px; text-align: left; border-left: 6px solid var(--dark-brown);}
         .info-box { font-size: 1.2rem; text-align: left; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 15px; border: 4px dashed var(--border-color);}
         .hint-box { font-size: 1.3rem; text-align: left; background: rgba(0,0,0,0.05); border-left: 6px solid var(--royal-blue); padding: 15px; margin: 15px 0; }
-        
+
         .help-text { font-size: 1.1rem; text-align: left; max-width: 600px; margin: 0 auto 25px; line-height: 1.2; background: rgba(0,0,0,0.03); padding: 10px; border-left: 4px solid var(--royal-blue);}
         #citation-links { font-size: 1.1rem; line-height: 1.4; font-family: Calibri, 'Segoe UI', Arial, sans-serif; }
+
+        /* Personal code validation feedback */
+        .code-error {
+            display: none;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.95rem;
+            color: #b5333a;
+            background: #fff5f5;
+            border: 3px solid #b5333a;
+            padding: 12px 15px;
+            text-align: left;
+            max-width: 500px;
+            margin: -10px auto 15px;
+            line-height: 1.5;
+        }
+        .code-error.visible { display: block; }
+        .code-error ul { margin: 6px 0 0 0; padding-left: 20px; }
+        .code-error li { margin-bottom: 3px; }
 
         .leaderboard { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.3rem; }
         .leaderboard th, .leaderboard td { border: 3px solid var(--border-color); padding: 8px; text-align: center; }
@@ -137,16 +153,16 @@
         /* Logos & Header */
         .header-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px; margin-top: 30px;}
         .main-game-logo { height: 90px; width: auto; object-fit: contain; }
-        
+
         /* Mobile layout fixes for logos */
         .logos-wrapper { position: absolute; bottom: 15px; width: 100%; left: 0; display: flex; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
         .corner-logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none;}
         .corner-img { height: 45px; width: auto; object-fit: contain; }
-        
+
         .muecos-text-block { display: flex; flex-direction: column; text-align: left; justify-content: center; line-height: 1.1; }
         .muecos-title { font-family: 'Arial', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--text-main); }
         .muecos-subtitle { font-family: 'Arial', sans-serif; font-size: 0.8rem; color: var(--text-main); margin-top: 2px;}
-        
+
         .forrt-long-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-size: 0.8rem; text-align: right; line-height: 1.1; color: var(--text-main); }
         .forrt-divider { width: 1px; height: 45px; background-color: var(--text-main); margin: 0 2px; opacity: 0.5; }
         .forrt-text { font-family: 'Century Schoolbook', 'Times New Roman', serif; font-weight: bold; font-size: 1.6rem; color: var(--text-main); letter-spacing: 1px; margin-left: -2px;}
@@ -159,7 +175,7 @@
 
         /* Badges & Game Over */
         .badge-img { width: 200px; height: 200px; object-fit: contain; margin: 15px auto; display: block; filter: drop-shadow(6px 6px 0 #ffffff); }
-        
+
         .certificate-preview {
             background: var(--bg-body);
             border: 6px solid var(--border-color);
@@ -188,7 +204,7 @@
         @media (max-width: 768px) {
             .key-hint { display: none; }
             .logos-wrapper { flex-direction: column; align-items: center; gap: 20px; position: static; margin-top: 40px; padding: 0; }
-            .container { padding: 20px 15px 30px; border-width: 4px; } 
+            .container { padding: 20px 15px 30px; border-width: 4px; }
             .header-container { flex-direction: column; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
             .header-title { font-size: 2.4rem !important; text-align: center; }
             .main-game-logo { height: 60px !important; }
@@ -205,8 +221,8 @@
             #citation-links { max-height: 25vh; overflow-y: auto; font-size: 0.85rem !important; padding: 10px; margin-top: 10px; }
             .info-box { font-size: 0.95rem; padding: 10px; }
             .mute-btn { font-size: 1.5rem; bottom: 5px; right: 5px; }
-            
             .consent-box { padding: 15px; font-size: 1.1rem; border-width: 4px; max-width: 90%;}
+            .code-error { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -217,15 +233,15 @@
     <div class="consent-box">
         <h2>Participant Consent</h2>
         <p style="font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
-            By playing Guess the Replication, you are granting us the permission to collect data from you. We will do so in a way that does not permit us to identify players. Participation in the study is voluntary. You must be at least 18 years old to participate. You can revoke your consent to participate in this study at any time and without giving reasons without any disadvantages to you. 
+            By playing Guess the Replication, you are granting us the permission to collect data from you. We will do so in a way that does not permit us to identify players. Participation in the study is voluntary. You must be at least 18 years old to participate. You can revoke your consent to participate in this study at any time and without giving reasons without any disadvantages to you.
         </p>
         <p style="font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
             Data is stored online via Supabase and will be published on Zenodo or OSF under a CC-BY license for at least ten years. Collected data includes the personal code that you generate, nickname, responses, response times, and demographics. You can request deletion of your data by sending an email with your code to the contact person, which will result in it not being included in the leaderboard and the published dataset. Feel free to reach out to us if you have any questions about the content of the project.
         </p>
-        
+
         <label class="pixel-checkbox" style="margin-top: 20px; font-family: Arial, sans-serif; font-size: 1rem; line-height: 1.4;">
             <input type="checkbox" id="consent-checkbox" onchange="toggleConsentBtn()">
-            <span class="checkmark" style="top: 5px;"></span> 
+            <span class="checkmark" style="top: 5px;"></span>
             I am at least 18 years old and I hereby voluntarily consent to the collection and processing of my personal data within the framework of the research project "Guess the Replication". I took note of the privacy policy for the project in question, was adequately informed, and had the opportunity to ask questions. I have been informed about the consequences of revoking my consent under data protection law at any time. I have been informed that my revocation of consent does not affect the lawfulness of the processing carried out on the basis of the consent until the revocation.
         </label>
 
@@ -244,14 +260,14 @@
     <!-- HOME SCREEN -->
     <div id="home-screen">
         <button class="theme-toggle-start" onclick="toggleTheme()" title="Toggle Dark Mode">🌓</button>
-        
+
         <div class="header-container">
             <img src="Images/logo.png" alt="Logo" class="main-game-logo">
             <h1 class="header-title">GUESS THE<br>REPLICATION</h1>
         </div>
-        
+
         <p>Can you predict which scientific studies replicate?</p>
-        
+
         <div class="menu-btn-stack">
             <button class="btn-start" onclick="submitPlayer()">Start Game</button>
             <button class="btn-tutorial" onclick="showScreen('tutorial-screen')">Tutorial</button>
@@ -279,7 +295,7 @@
     <!-- PLAYER INFO SCREEN -->
     <div id="player-screen" class="hidden">
         <h2>Player Profile</h2>
-        
+
         <label for="nickname">Nickname:</label><br>
         <input type="text" id="nickname" placeholder="PLAYER 1" required><br>
         <div class="help-text">
@@ -287,7 +303,22 @@
         </div>
 
         <label for="personal-code">Personal Code:</label><br>
-        <input type="text" id="personal-code" placeholder="e.g. AMin9302" required><br>
+        <input type="text" id="personal-code" placeholder="e.g. AMin9302" required
+               oninput="clearCodeError()"><br>
+
+        <!-- Inline validation feedback shown below the input -->
+        <div class="code-error" id="code-error">
+            <strong>⚠️ Your code doesn't match the required format.</strong>
+            <ul>
+                <li>It must be exactly <strong>8 characters</strong>: 4 letters followed by 4 digits.</li>
+                <li><strong>Letters (1–2):</strong> First two letters of your city of birth &nbsp;→ e.g. <em>Am</em> for Amsterdam</li>
+                <li><strong>Letters (3–4):</strong> Last two letters of your father's first name &nbsp;→ e.g. <em>in</em> for Martin</li>
+                <li><strong>Digits (5–6):</strong> Last two digits of your birth year &nbsp;→ e.g. <em>93</em> for 1993</li>
+                <li><strong>Digits (7–8):</strong> Day of the month you were born — <em>always two digits</em>, so add a leading zero for single-digit days &nbsp;→ e.g. <em>04</em> for the 4th, not <em>4</em></li>
+            </ul>
+            Example: <strong>AMin9304</strong>
+        </div>
+
         <div class="help-text">
             Please generate your anonymous and personal code. This will greatly help us connect your predictions if you play multiple times:<br><br>
             1. The first two letters of your city of birth (e.g. 'Am' for 'Amsterdam')<br>
@@ -337,15 +368,15 @@
     <div id="tutorial-screen" class="hidden" style="text-align: left;">
         <h2 style="text-align: center;">How to Play</h2>
         <p>In this game, we present you the title and abstract of a study that has been replicated. That means, after the study you are reading about has been published, a group of researchers has tested the same claim again. <strong>Your task is to guess the outcome of the replication based on only the information you have.</strong></p>
-        
+
         <div class="hint-box">
             💡 For every five correct predictions, you get a bonus live and your level increases. Start as a junior reviewer and see how far you can make it.
         </div>
-        
+
         <div class="hint-box">
             🖱️/⌨️ You can use the mouse to click on the buttons, or press <strong>1</strong> (Success), <strong>2</strong> (Failure), and the <strong>Spacebar</strong> to continue.
         </div>
-        
+
         <div style="text-align: center; margin-top: 30px;">
             <button onclick="showScreen('home-screen')">Back to Start</button>
         </div>
@@ -356,7 +387,7 @@
         <h2 style="text-align: center;">About the Game</h2>
         <p>Research is about truth and truth should be findable by everyone. One way to do this is to test again what others have claimed, that is, <i>to replicate</i>. In social science research, replications are often neglected, which is why we created this game: Our aim is for you to learn about replications in a fun and educational way.</p>
         <p>The game uses an excerpt from the FORRT Library of Reproduction and Replication Attempts - the world's largest study-based database of replications. Note that about one third of replications in the full database show mixed results, but these are excluded from this game for simplicity. Also, a single study may appear multiple times if it has been replicated by multiple independent groups. Finally, just because a replication failed, it does not automatically mean that the original study cannot be trusted. And just because it succeeded, it does not mean that the original study was definitely right. Things are complicated, welcome to the world of research!</p>
-        
+
         <h3 style="color: var(--royal-blue); margin-top: 30px; text-transform: uppercase;">Data Sharing</h3>
         <p>Gameplay data (guesses, reaction times) will be shared openly for research purposes, attached only to the nickname you provide. We use this game to learn more about how people predict replication outcomes.</p>
 
@@ -367,7 +398,7 @@
             <li style="margin-bottom: 10px;">The dataset is provided by a large community of scholars maintaining the Framework for Open and Reproducible Research Training: <a href="https://forrt.org/replication-hub/flora/" target="_blank">FLoRA Database</a>.</li>
             <li style="margin-bottom: 10px;">Journal Impact Factors are displayed neutrally to test prediction strategies and are fetched via <a href="https://openalex.org/" target="_blank">OpenAlex</a> (based on 2-year mean citedness).</li>
         </ul>
-        
+
         <div class="info-box" style="margin-top: 25px;">
             <strong>Recommended Citation:</strong><br>
             Röseler, L., & Röseler, J. (2026). <i>Guess the replication [Computer game]</i>. Retrieved from https://lukasroeseler.github.io/GuessTheReplication/
@@ -382,7 +413,7 @@
             <strong>Contact:</strong><br>
             Questions, feedback, criticism? Write us an email at lukas.roeseler [at] uni-muenster.de.
         </div>
-        
+
         <div style="text-align: center; margin-top: 30px;">
             <button onclick="showScreen('home-screen')">Back to Start</button>
         </div>
@@ -392,7 +423,7 @@
     <div id="integrity-screen" class="hidden">
         <h2>Data Quality Check</h2>
         <div class="info-box" style="margin-bottom: 30px; font-size: 1.4rem;">
-            Please let us know whether you looked up any of the studies before making a prediction or whether you just randomly pressed buttons without paying much attention. 
+            Please let us know whether you looked up any of the studies before making a prediction or whether you just randomly pressed buttons without paying much attention.
             <br><br>
             Note that this will <strong>not</strong> affect your potential position on the leaderboard and you will still get a certificate. However, we will remove this round of yours from the data analysis that is part of a research report.
         </div>
@@ -428,7 +459,7 @@
 
         <div id="feedback-comparison" style="font-size: 1.5rem; margin-bottom: 5px;"></div>
         <div class="big-result" id="big-result-text"></div>
-        
+
         <p style="font-weight: bold; text-align: left; margin-bottom: 8px; color: var(--royal-blue);">Quote from the replication authors:</p>
         <div class="quote" id="outcome-quote"></div>
 
@@ -451,13 +482,13 @@
 
     <!-- GAME OVER SCREEN -->
     <div id="gameover-screen" class="hidden">
-        
+
         <div class="certificate-preview">
             <h1 style="margin-bottom: 10px; font-size: 3rem; text-shadow:none;">GUESS THE REPLICATION</h1>
             <h2 style="font-size: 1.8rem; color: var(--text-main);">CERTIFICATE OF ACHIEVEMENT</h2>
-            
+
             <img id="final-badge" class="badge-img" src="" alt="Final Badge">
-            
+
             <p style="font-size: 1.6rem; margin: 20px 0;">
                 <strong id="go-nickname"></strong> predicted <strong id="go-score"></strong> out of <strong id="go-rounds"></strong> replication outcomes correctly and achieved the rank:
             </p>
@@ -476,7 +507,8 @@
             <a href="https://forrt.org/flora_zotero/" target="_blank">Never miss a replication with the Zotero Replication Checker</a><br><br>
             <a href="https://forrt.org/replication_handbook/" target="_blank">Learn how to conduct a replication with our free Handbook</a><br><br>
             <a href="https://forrt.org/rjf/" target="_blank">Get to know high-quality, non-commercial academic journals that specialise on replications</a><br><br>
-            <a href="https://forrt.org/about/get-involved/" target="_blank">Get involved and become one of over 600 contributors at FORRT</a>
+            <a href="https://forrt.org/about/get-involved/" target="_blank">Get involved and become one of over 600 contributors at FORRT</a><br><br>
+            Use GutheR for teaching with our CC0 licensed slides: <a href="https://zenodo.org/records/19854040" target="_blank">https://zenodo.org/records/19854040</a>
         </div>
 
         <h3>Leaderboard (Top 10)</h3>
@@ -495,27 +527,54 @@
             🐛 Report an Issue on GitHub
         </a>
     </div>
-    
+
     <canvas id="share-canvas" width="800" height="720"></canvas>
 </div>
 
 <script>
     const SUPABASE_URL = 'https://oahaowlrxgntoyhthuhr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
-    
+
     let fullDataset = [], activeSuccesses = [], activeFailures = [], currentStudy = null;
     let nickname = '', personalCode = '', career = '', education = '', discipline = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 5, roundNumber = 0, currentLevel = 'Junior Reviewer';
     let gameStartTime = 0, roundStartTime = 0, totalTabSwitches = 0, trialTabSwitches = 0;
-    
+
     let isMuted = false;
     let audioCtx = null;
 
     document.addEventListener('visibilitychange', () => { if (document.hidden) { totalTabSwitches++; trialTabSwitches++; } });
 
-    // Web Audio API Synthesizer
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    /**
+     * Returns true only when val is a real, finite number.
+     * Rejects null, undefined, "", "NA", NaN, Infinity, etc.
+     */
+    function isValidIF(val) {
+        if (val === null || val === undefined || val === "" || val === "NA") return false;
+        const num = parseFloat(val);
+        return !isNaN(num) && isFinite(num);
+    }
+
+    /**
+     * Validates the personal code format:
+     *   4 letters  (A-Z / a-z)  — city of birth (2) + father's name (2)
+     *   4 digits   (0-9)        — birth year last 2 + birth day 2 (with leading zero)
+     * Total: exactly 8 characters.
+     */
+    function isValidPersonalCode(code) {
+        return /^[A-Za-z]{4}\d{4}$/.test(code);
+    }
+
+    function clearCodeError() {
+        document.getElementById('code-error').classList.remove('visible');
+    }
+
+    // ── Web Audio API Synthesizer ─────────────────────────────────────────────
+
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -529,16 +588,16 @@
         if (isMuted || !audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
+
         osc.type = type;
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
-        
+
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime + startTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
-        
+
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        
+
         osc.start(audioCtx.currentTime + startTime);
         osc.stop(audioCtx.currentTime + startTime + duration);
     }
@@ -584,12 +643,12 @@
     }
 
     const LEVELS = [
-        { min: 0, name: 'Junior Reviewer', badge: 'Images/badge_1.png' }, 
-        { min: 5, name: 'Reviewer 1', badge: 'Images/badge_2.png' },
-        { min: 10, name: 'Reviewer 2', badge: 'Images/badge_3.png' }, 
-        { min: 15, name: 'Associate Editor', badge: 'Images/badge_4.png' },
-        { min: 20, name: 'Senior Editor', badge: 'Images/badge_5.png' }, 
-        { min: 25, name: 'Editor-in-Chief', badge: 'Images/badge_6.png' }
+        { min: 0,  name: 'Junior Reviewer',  badge: 'Images/badge_1.png' },
+        { min: 5,  name: 'Reviewer 1',        badge: 'Images/badge_2.png' },
+        { min: 10, name: 'Reviewer 2',        badge: 'Images/badge_3.png' },
+        { min: 15, name: 'Associate Editor',  badge: 'Images/badge_4.png' },
+        { min: 20, name: 'Senior Editor',     badge: 'Images/badge_5.png' },
+        { min: 25, name: 'Editor-in-Chief',   badge: 'Images/badge_6.png' }
     ];
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -598,19 +657,19 @@
         }
 
         const savedNick = localStorage.getItem('gtr_nickname');
-        if(savedNick) document.getElementById('nickname').value = savedNick;
+        if (savedNick) document.getElementById('nickname').value = savedNick;
 
         const savedCode = localStorage.getItem('gtr_code');
-        if(savedCode) document.getElementById('personal-code').value = savedCode;
+        if (savedCode) document.getElementById('personal-code').value = savedCode;
 
         const savedCareer = localStorage.getItem('gtr_career');
-        if(savedCareer) document.getElementById('career').value = savedCareer;
+        if (savedCareer) document.getElementById('career').value = savedCareer;
 
         const savedEdu = localStorage.getItem('gtr_education');
-        if(savedEdu) document.getElementById('education').value = savedEdu;
+        if (savedEdu) document.getElementById('education').value = savedEdu;
 
         const savedDisc = localStorage.getItem('gtr_discipline');
-        if(savedDisc) document.getElementById('discipline').value = savedDisc;
+        if (savedDisc) document.getElementById('discipline').value = savedDisc;
 
         try {
             const res = await fetch('dataset.json');
@@ -627,7 +686,7 @@
     }
 
     function acceptConsent() {
-        initAudio(); 
+        initAudio();
         localStorage.setItem('gtr_consent', 'true');
         document.getElementById('consent-modal').classList.add('hidden');
     }
@@ -656,9 +715,10 @@
     }
 
     function showScreen(id) {
-        ['home-screen', 'player-screen', 'demographics-screen', 'tutorial-screen', 'game-screen', 'feedback-screen', 'levelup-screen', 'integrity-screen', 'gameover-screen', 'info-screen'].forEach(s => {
+        ['home-screen','player-screen','demographics-screen','tutorial-screen','game-screen',
+         'feedback-screen','levelup-screen','integrity-screen','gameover-screen','info-screen'].forEach(s => {
             const el = document.getElementById(s);
-            if(el) el.classList.add('hidden');
+            if (el) el.classList.add('hidden');
         });
         document.getElementById(id).classList.remove('hidden');
     }
@@ -681,21 +741,25 @@
     }
 
     function submitPlayer() {
-        showScreen('player-screen'); 
+        showScreen('player-screen');
     }
 
     function goToDemographics() {
         const nickInput = document.getElementById('nickname').value.trim();
         nickname = nickInput !== '' ? nickInput : 'PLAYER 1';
         personalCode = document.getElementById('personal-code').value.trim();
-        
-        if (!personalCode) return alert("Please enter your Personal Code.");
-        
+
+        if (!personalCode || !isValidPersonalCode(personalCode)) {
+            document.getElementById('code-error').classList.add('visible');
+            document.getElementById('personal-code').focus();
+            return;
+        }
+
         showScreen('demographics-screen');
     }
 
     function submitDemographics() {
-        career = document.getElementById('career').value;
+        career    = document.getElementById('career').value;
         education = document.getElementById('education').value;
         discipline = document.getElementById('discipline').value.trim();
 
@@ -703,11 +767,11 @@
             return alert("Please answer all required demographic questions.");
         }
 
-        localStorage.setItem('gtr_nickname', nickname);
-        localStorage.setItem('gtr_code', personalCode);
-        localStorage.setItem('gtr_career', career);
-        localStorage.setItem('gtr_education', education);
-        localStorage.setItem('gtr_discipline', discipline);
+        localStorage.setItem('gtr_nickname',   nickname);
+        localStorage.setItem('gtr_code',        personalCode);
+        localStorage.setItem('gtr_career',      career);
+        localStorage.setItem('gtr_education',   education);
+        localStorage.setItem('gtr_discipline',  discipline);
 
         startGameplay();
     }
@@ -718,19 +782,16 @@
 
         score = 0; lives = 5; roundNumber = 0; currentLevel = 'Junior Reviewer';
         gameStartTime = Date.now(); totalTabSwitches = 0;
-        
+
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
-        
+
         let unseen = fullDataset.filter(s => !seen.includes(s.doi_o));
-        if(unseen.length === 0) {
-            seen = []; 
-            unseen = [...fullDataset];
-        }
+        if (unseen.length === 0) { seen = []; unseen = [...fullDataset]; }
 
         activeSuccesses = unseen.filter(s => s.outcome === 'success');
-        activeFailures = unseen.filter(s => s.outcome === 'failure');
-        
+        activeFailures  = unseen.filter(s => s.outcome === 'failure');
+
         activeSuccesses.sort(() => Math.random() - 0.5);
         activeFailures.sort(() => Math.random() - 0.5);
 
@@ -739,7 +800,7 @@
     }
 
     function playAgainFast() {
-        initAudio(); 
+        initAudio();
         startGameplay();
     }
 
@@ -747,14 +808,14 @@
         if (activeSuccesses.length === 0 && activeFailures.length === 0) {
             return showScreen('integrity-screen');
         }
-        
+
         let drawSuccess = Math.random() >= 0.5;
         if (drawSuccess) {
             currentStudy = activeSuccesses.length > 0 ? activeSuccesses.pop() : activeFailures.pop();
         } else {
             currentStudy = activeFailures.length > 0 ? activeFailures.pop() : activeSuccesses.pop();
         }
-        
+
         let seenKey = `gtr_seen_${nickname}`;
         let seen = JSON.parse(localStorage.getItem(seenKey) || "[]");
         seen.push(currentStudy.doi_o);
@@ -762,21 +823,21 @@
 
         roundNumber++;
         trialTabSwitches = 0;
-        
-        document.getElementById('study-title').innerText = decodeHTML(currentStudy.ref_o); 
-        
+
+        document.getElementById('study-title').innerText = decodeHTML(currentStudy.ref_o);
+
         let abstractHTML = decodeHTML(currentStudy.abstract);
         if (currentStudy.study_o && /\d/.test(currentStudy.study_o)) {
             abstractHTML = `<strong>Study ${currentStudy.study_o}</strong><br><br>${abstractHTML}`;
         }
         document.getElementById('study-abstract').innerHTML = abstractHTML;
-        
-        currentStudy.journal_visible = false; 
-        currentStudy.if_visible = Math.random() >= 0.5;
+
+        currentStudy.journal_visible = false;
+        // Only show IF when the value is genuinely present and finite
+        currentStudy.if_visible = isValidIF(currentStudy.impact_factor) && Math.random() >= 0.5;
 
         const journalBox = document.getElementById('journal-box');
-        
-        if (currentStudy.if_visible && currentStudy.impact_factor) {
+        if (currentStudy.if_visible) {
             journalBox.innerText = `Journal's Impact Factor: ${currentStudy.impact_factor}`;
             journalBox.classList.remove('hidden');
         } else {
@@ -791,7 +852,7 @@
     function formatCitation(text, fallbackDoi) {
         if (!text) return "";
         let decoded = decodeHTML(text);
-        
+
         let out = decoded;
         if (fallbackDoi && fallbackDoi !== "NA") {
             let rawDoi = fallbackDoi.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, "");
@@ -800,7 +861,7 @@
                 out += `<br><a href="${url}" target="_blank">${url}</a>`;
             }
         }
-        
+
         out = out.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
         return out;
     }
@@ -817,10 +878,10 @@
             const levelInfo = getLevelInfo(score);
             if (levelInfo.name !== currentLevel) {
                 currentLevel = levelInfo.name;
-                lives++; 
+                lives++;
                 triggeredLevelUp = true;
                 document.getElementById('levelup-badge').src = levelInfo.badge;
-                playSynth('levelUp'); 
+                playSynth('levelUp');
             } else {
                 playSynth('correct');
             }
@@ -835,9 +896,9 @@
         }
         renderHUD();
 
-        document.getElementById('feedback-comparison').innerHTML = 
+        document.getElementById('feedback-comparison').innerHTML =
             `You guessed: <strong>${guess.toUpperCase()}</strong>.<br>Replication Outcome: <strong>${actualOutcome.toUpperCase()}</strong>.`;
-        
+
         const bigRes = document.getElementById('big-result-text');
         if (isCorrect) {
             bigRes.innerText = "CORRECT!"; bigRes.className = "big-result correct-text";
@@ -846,17 +907,19 @@
         }
 
         document.getElementById('outcome-quote').innerText = `"${currentStudy.outcome_quote}"`;
-        
+
         const textO = currentStudy.apa_ref_o || currentStudy.ref_o;
         const textR = currentStudy.apa_ref_r || currentStudy.ref_r;
-        
+
         document.getElementById('citation-links').innerHTML = `
             <strong>Original Study:</strong> <br>${formatCitation(textO, currentStudy.doi_o)}<br><br>
             <strong>Replication Study:</strong> <br>${formatCitation(textR, currentStudy.doi_r)}
         `;
-        
+
         const nextBtn = document.getElementById('next-btn');
-        nextBtn.innerHTML = isGameOver ? "See Final Results <span class='key-hint'>(Space)</span>" : "Next Round <span class='key-hint'>(Space)</span>";
+        nextBtn.innerHTML = isGameOver
+            ? "See Final Results <span class='key-hint'>(Space)</span>"
+            : "Next Round <span class='key-hint'>(Space)</span>";
         nextBtn.dataset.state = isGameOver ? "integrity" : (triggeredLevelUp ? "levelup" : "next");
 
         showScreen('feedback-screen');
@@ -879,46 +942,51 @@
 
     async function finishGame(keepData) {
         showScreen('gameover-screen');
-        
+
         document.getElementById('go-nickname').innerText = nickname;
-        document.getElementById('go-score').innerText = score;
-        document.getElementById('go-rounds').innerText = roundNumber;
-        document.getElementById('go-level').innerText = `[ ${currentLevel.toUpperCase()} ]`;
-        document.getElementById('final-badge').src = getLevelInfo(score).badge;
+        document.getElementById('go-score').innerText   = score;
+        document.getElementById('go-rounds').innerText  = roundNumber;
+        document.getElementById('go-level').innerText   = `[ ${currentLevel.toUpperCase()} ]`;
+        document.getElementById('final-badge').src      = getLevelInfo(score).badge;
 
         await generateCanvas();
         prepareSocialLinks();
-        
+
         await saveScoreToDB(keepData);
         await loadLeaderboard();
     }
 
-    function getHeaders() { 
-        return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }; 
+    function getHeaders() {
+        return {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+        };
     }
 
     async function saveTrialToDB(guess, actualOutcome, isCorrect, rt) {
-        let safeIF = currentStudy.impact_factor;
-        if (safeIF === "NA" || safeIF === "" || safeIF === null || safeIF === undefined || isNaN(parseFloat(safeIF))) {
-            safeIF = null;
-        } else {
-            safeIF = parseFloat(safeIF);
-        }
+        // Use isValidIF to produce a clean numeric value or null for the DB
+        const safeIF = isValidIF(currentStudy.impact_factor)
+            ? parseFloat(currentStudy.impact_factor)
+            : null;
 
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, discipline: discipline, round_number: roundNumber,
-            ref_o: decodeHTML(currentStudy.ref_o), abstract_o: decodeHTML(currentStudy.abstract), 
-            ref_r: decodeHTML(currentStudy.ref_r), doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r, 
-            journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '', 
-            journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible, 
+            career, education, discipline, round_number: roundNumber,
+            ref_o: decodeHTML(currentStudy.ref_o), abstract_o: decodeHTML(currentStudy.abstract),
+            ref_r: decodeHTML(currentStudy.ref_r), doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r,
+            journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '',
+            journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible,
             impact_factor: safeIF, player_guess: guess, true_outcome: actualOutcome,
-            correct: isCorrect, lives_remaining: lives, reaction_time: rt, tab_switches: trialTabSwitches, 
+            correct: isCorrect, lives_remaining: lives, reaction_time: rt, tab_switches: trialTabSwitches,
             level: currentLevel, timestamp: new Date().toISOString()
         };
-        
+
         try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/trials`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) });
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/trials`, {
+                method: 'POST', headers: getHeaders(), body: JSON.stringify(payload)
+            });
             if (!response.ok) {
                 const errText = await response.text();
                 console.error("Supabase Trials Error:", errText);
@@ -927,47 +995,61 @@
     }
 
     async function saveScoreToDB(keepData) {
-        const payload = { 
+        const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
-            career: career, education: education, discipline: discipline, final_score: score, 
-            final_level: currentLevel, rounds_played: roundNumber, total_time_ms: Date.now() - gameStartTime, 
+            career, education, discipline, final_score: score,
+            final_level: currentLevel, rounds_played: roundNumber,
+            total_time_ms: Date.now() - gameStartTime,
             tab_switches: totalTabSwitches, data_integrity_keep: keepData,
-            timestamp: new Date().toISOString() 
+            timestamp: new Date().toISOString()
         };
-        await fetch(`${SUPABASE_URL}/rest/v1/scores`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(payload) }).catch(e => console.error("DB Error"));
+        await fetch(`${SUPABASE_URL}/rest/v1/scores`, {
+            method: 'POST', headers: getHeaders(), body: JSON.stringify(payload)
+        }).catch(e => console.error("DB Error"));
     }
 
     async function loadLeaderboard() {
         const tbody = document.getElementById('leaderboard-body');
         try {
-            const res = await fetch(`${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`, { headers: getHeaders() });
+            const res = await fetch(
+                `${SUPABASE_URL}/rest/v1/scores?select=nickname,final_score,final_level&order=final_score.desc&limit=10`,
+                { headers: getHeaders() }
+            );
             const data = await res.json();
             tbody.innerHTML = '';
-            if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`; return; }
-            data.forEach((row, i) => { tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`; });
-        } catch(e) { 
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4">No scores yet!</td></tr>`;
+                return;
+            }
+            data.forEach((row, i) => {
+                tbody.innerHTML += `<tr><td>${i+1}</td><td>${row.nickname}</td><td>${row.final_score}</td><td>${row.final_level}</td></tr>`;
+            });
+        } catch(e) {
             tbody.innerHTML = `<tr><td colspan="4">Could not load leaderboard.</td></tr>`;
         }
     }
 
     const loadImg = (src) => new Promise(resolve => {
-        const img = new Image(); img.onload = () => resolve(img); img.onerror = () => resolve(null); img.src = src;
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
     });
 
     async function generateCanvas() {
         const canvas = document.getElementById('share-canvas');
         const ctx = canvas.getContext('2d');
-        
+
         ctx.fillStyle = '#f4f1ea'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#002366'; ctx.lineWidth = 12; ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
-        
+
         ctx.fillStyle = '#002366'; ctx.textAlign = 'center';
-        ctx.font = 'bold 50px "VT323", monospace'; 
+        ctx.font = 'bold 50px "VT323", monospace';
         ctx.fillText('GUESS THE REPLICATION', canvas.width / 2, 80);
-        
+
         const badgeImg = await loadImg(getLevelInfo(score).badge);
         if (badgeImg) {
-            const size = 200; 
+            const size = 200;
             ctx.drawImage(badgeImg, (canvas.width / 2) - (size / 2), 120, size, size);
         }
 
@@ -975,51 +1057,51 @@
         ctx.font = '32px "VT323", monospace';
         ctx.fillText(`${nickname} predicted ${score} out of ${roundNumber} replication`, canvas.width / 2, 380);
         ctx.fillText(`outcomes correctly and achieved the rank`, canvas.width / 2, 420);
-        
+
         ctx.fillStyle = '#002366';
         ctx.font = 'bold 42px "VT323", monospace';
         ctx.fillText(`[ ${currentLevel.toUpperCase()} ]`, canvas.width / 2, 480);
 
         ctx.fillStyle = '#1a4314';
-        ctx.font = '30px "VT323", monospace'; 
+        ctx.font = '30px "VT323", monospace';
         ctx.fillText('Play at: https://t1p.de/guther', canvas.width / 2, 545);
 
         const muecosImg = await loadImg('Images/muecos_logo.png');
-        const forrtImg = await loadImg('Images/forrt_black.png');
-        
-        const targetH = 45; 
+        const forrtImg  = await loadImg('Images/forrt_black.png');
+
+        const targetH = 45;
         const bottomY = 635;
-        
+
         if (muecosImg) {
             const w = muecosImg.width * (targetH / muecosImg.height);
             ctx.drawImage(muecosImg, 40, bottomY, w, targetH);
-            
-            ctx.fillStyle = '#4b3621'; 
+
+            ctx.fillStyle = '#4b3621';
             ctx.textAlign = 'left';
             ctx.font = '900 16px Arial, sans-serif';
             ctx.fillText('MüCOS', 40 + w + 12, bottomY + 15);
-            
+
             ctx.font = '14px Arial, sans-serif';
             ctx.fillText('Münster Center', 40 + w + 12, bottomY + 32);
             ctx.fillText('for Open Science', 40 + w + 12, bottomY + 48);
         }
-        
+
         if (forrtImg) {
             const logoW = forrtImg.width * (targetH / forrtImg.height);
-            
-            ctx.fillStyle = '#4b3621'; 
+
+            ctx.fillStyle = '#4b3621';
             ctx.textAlign = 'right';
-            
+
             ctx.font = 'bold 26px "Century Schoolbook", serif';
-            const forrtX = canvas.width - 40; 
+            const forrtX = canvas.width - 40;
             ctx.fillText('FORRT', forrtX, bottomY + 32);
-            
+
             const forrtTextW = ctx.measureText('FORRT').width;
-            const totalForrtWidth = logoW + 15 + forrtTextW; 
+            const totalForrtWidth = logoW + 15 + forrtTextW;
             const forrtStartX = canvas.width - 40 - totalForrtWidth;
-            
+
             ctx.drawImage(forrtImg, forrtStartX, bottomY, logoW, targetH);
-            
+
             const lineX = forrtStartX - 10;
             ctx.beginPath();
             ctx.moveTo(lineX, bottomY);
@@ -1030,11 +1112,11 @@
 
             ctx.font = '12px "Century Schoolbook", serif';
             const textX = lineX - 10;
-            ctx.fillText('Framework for', textX, bottomY + 8);
-            ctx.fillText('Open and', textX, bottomY + 19);
-            ctx.fillText('Reproducible', textX, bottomY + 30);
-            ctx.fillText('Research', textX, bottomY + 41);
-            ctx.fillText('Training', textX, bottomY + 52);
+            ctx.fillText('Framework for',  textX, bottomY + 8);
+            ctx.fillText('Open and',       textX, bottomY + 19);
+            ctx.fillText('Reproducible',   textX, bottomY + 30);
+            ctx.fillText('Research',       textX, bottomY + 41);
+            ctx.fillText('Training',       textX, bottomY + 52);
         }
     }
 
@@ -1042,14 +1124,16 @@
         const canvas = document.getElementById('share-canvas');
         const link = document.createElement('a');
         link.download = `GuessTheReplication-${nickname}.png`;
-        link.href = canvas.toDataURL(); link.click();
+        link.href = canvas.toDataURL();
+        link.click();
     }
 
     function prepareSocialLinks() {
-        const url = "https://t1p.de/guther";
-        const text = `I predicted ${score} out of ${roundNumber} studies correctly in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}`;
-        
-        document.getElementById('bsky-btn').href = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
+        const url  = "https://t1p.de/guther";
+        // ── Hashtag added here ────────────────────────────────────────────────
+        const text = `I predicted ${score} out of ${roundNumber} studies correctly in Guess the Replication, reaching the rank of "${currentLevel}"!\n\nCan you do better?\nPlay here: ${url}\n\n#GuessTheReplication`;
+
+        document.getElementById('bsky-btn').href     = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
         document.getElementById('mastodon-btn').href = `https://mastodonshare.com/?text=${encodeURIComponent(text)}`;
     }
 </script>
