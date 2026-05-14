@@ -12,13 +12,13 @@
             --bg-body: #f4f1ea;          
             --bg-container: #ffffff;     
             --text-main: #4b3621;        
-            --royal-blue: #002366;       
-            --dark-brown: #4b3621;       
-            --dark-green: #1a4314;       
-            --border-color: #002366;     
+            --royal-blue: #2563eb;       
+            --dark-brown: #dc2626;       
+            --dark-green: #16a34a;       
+            --border-color: #2563eb;     
             --heart-color: #e74c3c;
-            --btn-info: #5f9ea0;
-            --btn-tutorial: #cd853f;
+            --btn-info: #0891b2;
+            --btn-tutorial: #ea580c;
         }
 
         [data-theme="dark"] {
@@ -26,13 +26,13 @@
             --bg-body: #0d1117;
             --bg-container: #161b22;
             --text-main: #e6e1d8;
-            --royal-blue: #4169e1;       
-            --dark-brown: #a07a58;
-            --dark-green: #3cb371;
-            --border-color: #4169e1;
+            --royal-blue: #3b82f6;       
+            --dark-brown: #ef4444;       
+            --dark-green: #22c55e;       
+            --border-color: #3b82f6;     
             --heart-color: #ff4444;
-            --btn-info: #4682b4;
-            --btn-tutorial: #d2691e;
+            --btn-info: #06b6d4;
+            --btn-tutorial: #f97316;
         }
 
         body {
@@ -59,8 +59,9 @@
         a { color: var(--royal-blue); text-decoration: underline; font-weight: bold; cursor: pointer;}
         a:hover { color: var(--text-main); }
 
-        .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase;}
-        .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto;}
+        /* CHANGED: font-family to normal Arial for title and abstract */
+        .study-title { font-weight: bold; font-size: 1.8rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
+        .study-abstract { text-align: left; background: rgba(0,0,0,0.03); padding: 15px; border: 4px dashed var(--royal-blue); font-size: 1.3rem; margin-bottom: 25px; max-height: 300px; overflow-y: auto; font-family: Arial, Helvetica, sans-serif; }
         .journal-box { font-weight: bold; font-size: 1.5rem; margin-bottom: 15px; color: var(--royal-blue); border-bottom: 3px solid var(--border-color); display: inline-block; padding-bottom: 5px;}
 
         input[type="text"], select {
@@ -326,31 +327,7 @@
             <option value="PhD">PhD</option>
         </select><br>
 
-        <label>3. Familiarity with social research:</label><br>
-        <div class="checkbox-group" id="experience-checks">
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I regularly read research articles">
-                <span class="checkmark"></span> I regularly read research articles
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I conduct research">
-                <span class="checkmark"></span> I conduct research
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I publish research">
-                <span class="checkmark"></span> I publish research
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I conduct replications">
-                <span class="checkmark"></span> I conduct replications
-            </label>
-            <label class="pixel-checkbox">
-                <input type="checkbox" value="I am unfamiliar with research">
-                <span class="checkmark"></span> I am unfamiliar with research
-            </label>
-        </div><br>
-
-        <label>4. If you do research, what discipline are you most familiar with? (Optional)</label><br>
+        <label>3. If you do research, what discipline are you most familiar with? (Optional)</label><br>
         <input type="text" id="discipline" placeholder="e.g. Psychology, Economics" style="text-transform: none;"><br>
 
         <button onclick="submitDemographics()" style="margin-top: 5px;">Start Game</button>
@@ -527,7 +504,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9haGFvd2xyeGdudG95aHRodWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAxMzEsImV4cCI6MjA4OTIzNjEzMX0.tic7Mdckz1c2KoNc8U7JG70W0KhE7_1vvmkwYoYtGNY';
     
     let fullDataset = [], activeSuccesses = [], activeFailures = [], currentStudy = null;
-    let nickname = '', personalCode = '', career = '', education = '', experience = '', discipline = '', sessionId = Date.now();
+    let nickname = '', personalCode = '', career = '', education = '', discipline = '', sessionId = Date.now();
     let playCount = parseInt(localStorage.getItem('gtr_play_count')) || 0;
 
     let score = 0, lives = 5, roundNumber = 0, currentLevel = 'Junior Reviewer';
@@ -635,14 +612,6 @@
         const savedDisc = localStorage.getItem('gtr_discipline');
         if(savedDisc) document.getElementById('discipline').value = savedDisc;
 
-        const savedExp = localStorage.getItem('gtr_experience');
-        if(savedExp) {
-            const exps = savedExp.split(", ");
-            document.querySelectorAll('#experience-checks input').forEach(box => {
-                if(exps.includes(box.value)) box.checked = true;
-            });
-        }
-
         try {
             const res = await fetch('dataset.json');
             fullDataset = await res.json();
@@ -730,13 +699,6 @@
         education = document.getElementById('education').value;
         discipline = document.getElementById('discipline').value.trim();
 
-        const expBoxes = document.querySelectorAll('#experience-checks input:checked');
-        if (expBoxes.length === 0) return alert("Please select your familiarity with research.");
-
-        let expArray = [];
-        expBoxes.forEach(box => expArray.push(box.value));
-        experience = expArray.join(", ");
-
         if (!career || !education) {
             return alert("Please answer all required demographic questions.");
         }
@@ -746,7 +708,6 @@
         localStorage.setItem('gtr_career', career);
         localStorage.setItem('gtr_education', education);
         localStorage.setItem('gtr_discipline', discipline);
-        localStorage.setItem('gtr_experience', experience);
 
         startGameplay();
     }
