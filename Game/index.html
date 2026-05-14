@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Replication</title>
+    <link rel="icon" type="image/png" href="Images/logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -929,8 +930,8 @@
         const payload = {
             session_id: sessionId, play_count: playCount, nickname, personal_code: personalCode,
             career, education, discipline, round_number: roundNumber,
-            ref_o: decodeHTML(currentStudy.ref_o), abstract_o: decodeHTML(currentStudy.abstract),
-            ref_r: decodeHTML(currentStudy.ref_r), doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r,
+            ref_o: decodeHTML(currentStudy.apa_ref_o), abstract_o: decodeHTML(currentStudy.abstract),
+            ref_r: decodeHTML(currentStudy.apa_ref_r), doi_o: currentStudy.doi_o, doi_r: currentStudy.doi_r,
             journal: currentStudy.journal ? decodeHTML(currentStudy.journal) : '',
             journal_visible: currentStudy.journal_visible, if_visible: currentStudy.if_visible,
             impact_factor: safeIF, player_guess: guess, true_outcome: actualOutcome,
