@@ -7,9 +7,6 @@
 # renv::snapshot()
 
 # Install required packages if missing
-# if(!require(readr)) install.packages("readr")
-# if(!require(dplyr)) install.packages("dplyr")
-# if(!require(ggplot2)) install.packages("ggplot2")
 # if(!require(skimr)) install.packages("skimr")
 # if(!require(tidyverse)) install.packages("tidyverse")
 # if(!require(quanteda)) install.packages("quanteda", type = "binary")
@@ -36,9 +33,6 @@
 # if(!require(ggcorrplot)) install.packages("ggcorrplot")
 # if(!require(hexbin)) install.packages("hexbin")
 
-library(readr)
-library(dplyr)
-library(ggplot2)
 library(skimr)
 library(tidyverse)
 library(quanteda)
@@ -71,12 +65,6 @@ options(scipen = 9999)
 # ==============================================================================
 # 2. DATA IMPORT AND INITIAL CLEANING ----
 # ==============================================================================
-
-# Load the data collected from the Game (Exported from Supabase)
-# Assumes you downloaded your Supabase 'trials' table as 'trials_data.csv'
-if(!file.exists("Study/trials_rows.csv")) {
-  stop("Please place the 'trials_data.csv' file in the Study folder before running.")
-}
 
 trials <- read_csv("Study/trials_rows.csv", show_col_types = FALSE)
 scores <- read_csv("Study/scores_rows.csv", show_col_types = FALSE)
@@ -152,7 +140,7 @@ ggplot(trials, aes(x = round_number, y = reaction_time)) +
   geom_smooth(method = "gam", color = "firebrick", size = 1.2) +
   labs(
     title = "Reaction Time Development Across Rounds",
-    subtitle = "Are reaction times deacreasing?",
+    subtitle = "Are reaction times decreasing?",
     x = "Round Number",
     y = "Reaction Time (ms)"
   ) +
@@ -209,7 +197,7 @@ session_flags <- trials %>%
     cv_rt = sd(reaction_time) / median(reaction_time),
     flag_bot = cv_rt < 0.1,  
     flag_straightliner = has_suspicious_run(player_guess, reaction_time,
-                                            min_run = 10, abs_rt_cutoff = 2000),# we believe its unlikely that one participant is guessing the same option 10 times in a row and is also doing that very quickly
+                                            min_run = 10, abs_rt_cutoff = 3000),# we believe its unlikely that one participant is guessing the same option 10 times in a row and is also doing that very quickly
     
     .groups = "drop"
   )
@@ -324,7 +312,17 @@ cor.test(trials_filtered$abstract_length, trials_filtered$abstract_SMOG, method 
 # 9. SAMPLE CHARACTERIZATION ----
 # ==============================================================================
 
-scores %>%
+scores_filtered <- scores %>% 
+  filter(session_id %in% sessions_valid)
+
+scores %>% 
+  summarise(
+    total_sample          = n(),
+    sample_filtered       = sum(session_id %in% sessions_valid),
+    sessions_dropped      = total_sample - sample_filtered
+  )
+
+scores_filtered %>%
   dplyr::select(career, education, discipline) %>%
   pivot_longer(cols = everything(), names_to = "Variable", values_to = "Category") %>%
   filter(!is.na(Category)) %>% # Handles the 4 missing values in discipline
@@ -333,7 +331,7 @@ scores %>%
   mutate(Relative_Percentage = (Absolute_Count / sum(Absolute_Count)) * 100) %>%
   arrange(Variable, desc(Absolute_Count))
 
-ggplot(scores, aes(x = career, fill = final_level)) +
+ggplot(scores_filtered, aes(x = career, fill = final_level)) +
   geom_bar(position = "stack") +
   labs(
     title = "Highest Game Level Achieved Across Career Stages",
@@ -349,7 +347,7 @@ ggplot(scores, aes(x = career, fill = final_level)) +
     legend.position = "right"
   )
 
-ggplot(scores, aes(x = education, fill = final_level)) +
+ggplot(scores_filtered, aes(x = education, fill = final_level)) +
   geom_bar(position = "stack") +
   labs(
     title = "Highest Game Level Achieved Across Highest Education",
@@ -365,7 +363,7 @@ ggplot(scores, aes(x = education, fill = final_level)) +
     legend.position = "right"
   )
 
-ggplot(scores, aes(x = factor(in_research), fill = final_level)) +
+ggplot(scores_filtered, aes(x = factor(in_research), fill = final_level)) +
   geom_bar(position = "stack") +
   labs(
     title = "Highest Game Level Achieved Experience in Research vs No experience",
@@ -603,7 +601,7 @@ plot_density_by <- function(var, group_var, data = model_data) {
 for (v in continuous_vars) {
   print(
     wrap_plots(lapply(group_vars, function(g) plot_density_by(v, g)),
-               ncol = 3, title = paste("Density:", v))
+               ncol = 3)+ plot_annotation(title = paste("Density:", v))
   )
 }
 
@@ -681,7 +679,7 @@ ggcorrplot(cor_l1,
            lab      = TRUE,
            lab_size = 3.5,
            colors   = c("firebrick", "white", "steelblue"),
-           title    = "Level 1 (Trial): Correlationmatrix",
+           title    = "Level 1 (Trial): Correlation matrix",
            ggtheme  = theme_minimal())
 
 #correlation matrices Level 2 (person level) / partly point biserial when binary variable is involved
@@ -708,7 +706,7 @@ ggcorrplot(cor_l2,
            lab      = TRUE,
            lab_size = 3.5,
            colors   = c("firebrick", "white", "steelblue"),
-           title    = "Level 2 (Person): Correlationmatrix",
+           title    = "Level 2 (Person): Correlation matrix",
            ggtheme  = theme_minimal())
 
 ###############################################################################
@@ -1053,8 +1051,10 @@ gam_check <- gam(
   family = binomial,
   method = "REML"
 )
-
-quad_abstract <- summary(gam_check)$s.table["s(abstract_length_z)", "p-value"] < .05
+s_tab <- summary(gam_check)$s.table 
+abs_row <- grep("abstract_length_z", rownames(s_tab), value = TRUE) 
+quad_abstract <- length(abs_row) > 0 && s_tab[abs_row[1], "p-value"] < .05 && 
+  s_tab[abs_row[1], "edf"] > 2
 if (quad_abstract) {
   cat(">> Linearity check: abstract_length_z is significant non linear",
       "– quadratic term is used.\n")
@@ -1181,10 +1181,13 @@ or_intermediate <- make_or_table(intermediate_model)
 or_final        <- make_or_table(final_model)
 print(round(or_final[, -1], 3))
 
-auc_for <- function(model, data) {
-  p <- predict(model, type = "response")
-  as.numeric(pROC::auc(pROC::roc(data$player_guess_numeric, p, quiet = TRUE)))
-}
+auc_for <- function(model, data) { 
+  p <- if (inherits(model, "glmerMod")) { 
+    predict(model, type = "response", re.form = NULL) 
+  } else { 
+      predict(model, type = "response") } 
+  as.numeric(pROC::auc(pROC::roc(data$player_guess_numeric, p, quiet = TRUE))) 
+  }
 
 fit_table <- tibble(
   Model = c("Null", "Intermediate", "Final"),
