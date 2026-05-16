@@ -6,19 +6,49 @@
 
 # Discussion
 
-Using an excerpt from the FORRT Library of Reproduction and Replication Attempts, we measured the relationship between an open and reproducible version of the journals' impact factor (JIF) and collected data to estimate the usage of this metric in predicting replication outcomes. JIF and replicability were [unrelated / positively correlated / negatively correlated]. Overall, participants [did not give higher or lower / gave higher / gave lower] replicability scores to studies with a high JIF. How JIF affected replicabiltiy ratings [differed / did not differ] between different groups of participants. [explain difference if present]
+*Note: This document is part of the preregistration of the study. No
+data has been collected for this project yet.*
+
+Using an excerpt from the FORRT Library of Reproduction and Replication
+Attempts, we measured the relationship between an open and reproducible
+version of the journals' impact factor (JIF) and collected data to
+estimate the usage of this metric in predicting replication outcomes.
+JIF and replicability were [unrelated / positively correlated /
+negatively correlated]. Overall, participants [did not give higher or
+lower / gave higher / gave lower] replicability scores to studies with a
+high JIF. How JIF affected replicabiltiy ratings [differed / did not
+differ] between different groups of participants. [explain difference if
+present]
 
 ## Limitations
 
-**Pseudo-prediction**: The most serious limitation of our study is that participants did not predict replication outcome because outcomes were already publicly available. Participants who new about replication studies could thus simply remember the outcomes. With over [400] studies from various fields and replications sometimes being less visible less cited than traditional research [@Hardwicke2021], we believe that this problem is negligible overall.
+**Pseudo-prediction**: The most serious limitation of our study is that
+participants did not predict replication outcome because outcomes were
+already publicly available. Participants who new about replication
+studies could thus simply remember the outcomes. With over [400] studies
+from various fields and replications sometimes being less visible less
+cited than traditional research [@Hardwicke2021], we believe that this
+problem is negligible overall.
 
-**Selective sample**: For the simplicity of the design, we excluded many studies such as those that did not have singular outcome statements (e.g., studies from [REF large scale project]) and those that had mixed findings, which were about 20% of the sample.
+**Selective sample**: For the simplicity of the design, we excluded many
+studies such as those that did not have singular outcome statements
+(e.g., studies from [REF large scale project]) and those that had mixed
+findings, which were about 20% of the sample.
 
-**Manipulation of JIF**: Hiding JIF may not have prevented researchers from relying on them if they knew the study or if the journal that published the original study was already known to them.
+**Manipulation of JIF**: Hiding JIF may not have prevented researchers
+from relying on them if they knew the study or if the journal that
+published the original study was already known to them.
 
-**Open Source Impact Factor**: The impact factors that we presented - though likely highly correlated with the Clarivate JIF and more transparent due to reliance on openly accessible data and reproducible - may not be those that authors actually use though this is secondary to the study's purpose.
+**Open Source Impact Factor**: The impact factors that we presented -
+though likely highly correlated with the Clarivate JIF and more
+transparent due to reliance on openly accessible data and reproducible -
+may not be those that authors actually use though this is secondary to
+the study's purpose.
 
-**The limitations of FLoRA:** FLoRA limitations were inherited in this project. For example, not all replications are indexed, replication authors' success judgments are sometimes difficult to categorize when authors could replicate one part but not another less important part.
+**The limitations of FLoRA:** FLoRA limitations were inherited in this
+project. For example, not all replications are indexed, replication
+authors' success judgments are sometimes difficult to categorize when
+authors could replicate one part but not another less important part.
 
 **Deviations from the Preregistration**.
 
@@ -36,11 +66,15 @@ Table X lists how and why we deviated from the preregistration.
 
 ## Acknowledgements
 
-We thank XXX for valuable feedback during the creation of Guess the Correlation.
+We thank XXX for valuable feedback during the creation of Guess the
+Correlation.
 
 ## Conflict of Interest and Funding
 
-LR is the EiC of Replication Research, an open access journal supporting replications and the managing director of the Münster Center for Open Science, which has the purpose of supporting researchers in applying open research techniques.
+LR is the EiC of Replication Research, an open access journal supporting
+replications and the managing director of the Münster Center for Open
+Science, which has the purpose of supporting researchers in applying
+open research techniques.
 
 ## Financial Support Statement
 
@@ -48,11 +82,14 @@ The authors report no financial support for this work.
 
 ## Data Availability
 
-The datasets (i.e., FLoRA data as of [XXX date] excerpt and newly collected data) used for this study is available on the OSF [LINK]. The up p-to-date version of FLoRA is available at [XXX Link].
+The datasets (i.e., FLoRA data as of [XXX date] excerpt and newly
+collected data) used for this study is available on the OSF [LINK]. The
+up p-to-date version of FLoRA is available at [XXX Link].
 
 ## Declaration of AI Use
 
-Gemini 3.1 Pro Preview was used to create Guess the Replication and to complement a manual literature search on prediction markets.
+Gemini 3.1 Pro Preview was used to create Guess the Replication and to
+complement a manual literature search on prediction markets.
 
 # References
 

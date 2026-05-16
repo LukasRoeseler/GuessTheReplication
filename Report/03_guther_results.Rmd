@@ -6,6 +6,9 @@
 
 # Results
 
+*Note: This document is part of the preregistration of the study. No
+data has been collected for this project yet.*
+
 -   FLoRA excerpt description
 
 -   Collected data description
@@ -26,6 +29,7 @@
 
 ## Exploratory Analyses
 
--   were there studies that could very well be predicted (well-known replications)?
+-   were there studies that could very well be predicted (well-known
+    replications)?
 
 -   

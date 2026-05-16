@@ -13,32 +13,6 @@ r_citations <- papaja::cite_r(file = "r-references.bib")
 
 ```
 
-```{r methods-jifopenalex}
-
-# Compare OpenAlex Mean Citedness with JIF
-
-
-# Journal Data (OpenAlex mean citedness)
-# mc <- read.csv("../Game/journaldata.csv")
-
-# Scimago Journal Rank (free and similar to JIF whereas Clarivates Journal Citation Report is paywalled)
-# jr <- read.csv("../Study/scimagojr 2024.csv")
-
-# Merge datasets by journal name
-# mcjr <- merge(mc, jr, by = "issn")
-
-# number of journals for which both values are available
-# nrow(mc)
-# nrow(mcjr)
-
-# Relationship
-# cor.test(mcjr$sjr, mcjr$mc)
-
-# Plot
-# ggplot(mcjr, aes(x = sjr, y = mc)) + geom_point() + xlab("Scimago Journal Rank") + ylab("OpenAlex Mean Citedness") + theme_bw()
-
-```
-
 # Methods
 
 We collected predictions of replication success using an existing
@@ -51,8 +25,38 @@ if they relied on journal impact factors for this.
 ## Predicting Replicability
 
 Past studies have used prediction markets with monetary rewards and
-often before the replication success was known. Table X provides an
+often before the replication success was known. Table \@ref(tab:prediction-studies) provides an
 overview of past studies.
+
+```{r prediction-studies, echo=FALSE}
+
+library(knitr)
+
+prediction_data <- data.frame(
+  Reference = c("@Dreber2015", "@Camerer2016", "@Camerer2018",
+                 "@Gordon2021", "@Forsell2019", "@Altmejd2019"),
+  `Number of Studies` = c(44, 18, 21, 103, 28, 144),
+  Field = c("Psychology (RPP)", "Economics (EERP)", "Social sciences",
+            "Social and behavioural sciences", "Many Labs 2",
+            "Combination of RPP, EERP, ML1"),
+  `Number of Transactions` = c("2,496", "NA", "NA", "NA", "NA",
+                                "None (AI models were used)"),
+  `Accuracy and Metric` = c(
+    "39% actual success rate versus 55% predicted success rate",
+    "61.1% actual success rate versus 75.2% predicted success",
+    "62% actual success rate versus 63.4% predicted success",
+    "73% accuracy",
+    "75% correct predictions",
+    "70% accuracy (AUC = 0.77)"
+  ),
+  check.names = FALSE
+)
+
+kable(prediction_data,
+      caption = "Overview of past studies predicting replication outcomes.",
+      col.names = c("Reference", "Number of Studies", "Field",
+                     "Number of Transactions", "Accuracy and Metric"))
+```
 
 | Reference | Number of Studies | Field | Number of Transactions | Accuracy and Metric |
 |---------------|---------------|---------------|---------------|---------------|
@@ -103,6 +107,18 @@ relationship between the journals' impact factors (defined as the 2-year
 mean citedness via OpenAlex) and replication rate based on this subset
 of the database.
 
+### Informed Consent
+
+Before accessing the game, participants were presented with a consent
+modal. They were informed that participation was voluntary, that they
+must be at least 18 years old, that data would be stored via Supabase
+and published on Zenodo or OSF under a CC-BY license for at least ten
+years, and that they could request deletion of their data by contacting
+the research team with their personal code. Participants had to check a
+box confirming they had read and understood the privacy policy before
+they could proceed. Consent status was stored locally in the browser so
+that returning players were not asked again.
+
 ### Procedure
 
 Players of Guther had the option to read a tutorial describing the
@@ -112,41 +128,43 @@ replications, FLoRA, data sharing, and credits/citation. When they
 played the game for the first time, they had to choose a nickname that
 would be presented on the leaderboard and create an anonymous personal
 code made out of the first two letters of their city of birth, the last
-wto letters of their father's first name, the last two digits of their
+two letters of their father's first name, the last two digits of their
 birth year, and the day of the month they were born. This would allow us
 to link players if they played on different devices at different times
 without having to collect sensitive data such as IP addresses.
 
-Subsequently, we asked players three questions: What is your current
-professional status (e.g., working outside of academia or being a PhD
-student), what is your highest level of education (e.g., no formal
-education, PhD), and how familiar are you with social research (e.g.,
-unfamiliar, publishing social science research). Familiarity was
-assessed using a multiple-choice format where participants could select
-all statements that applied to them. Demographic inputs were cached
-locally in the browser to prevent players from having to re-enter them
-during subsequent sessions.
+Subsequently, we asked players three questions: (1) What is your current
+professional status? (response options: student at university, PhD
+student, postdoc, professor, working outside of research, unemployed,
+other), (2) What is your highest level of education? (response options:
+no formal qualification, high school diploma, apprenticeship, bachelor's
+degree, master's degree, PhD), and (3) If you do research, what
+discipline are you most familiar with? (optional free-text field, e.g.,
+Psychology, Economics). Demographic inputs were cached locally in the
+browser to prevent players from having to re-enter them during
+subsequent sessions.
 
 During the game, players saw their nickname, current score (+1 for every
 correct response), their level (from "Junior Reviewer" to
 "Editor-in-Chief" with level increases for every five correct
-responses), and lives (3 at the beginning, losing one for every false
-prediction). For each trial, we presented the original study's title
-(e.g., "Turning the hands of time") and the corresponding abstract. For
-half of the trials, we presented the journal's impact factor as computed
-based on OpenAlex. Players had to predict "replicates" or "fails" by a
-mouse click or button press. After their prediction, their guess, the
-actual replication outcome, and whether they were correct or wrong,
-accompanied by a high- versus low-pitched sound was presented. They had
-the option to disable the sound. Moreover, we provided the quote from
-the replication authors' about the success (e.g., "the data were 10.76
-times more likely under the null hypothesis than under the alternative
-hypothesis") and provided links to the original and replication study
-[for this example @Topolinski2011 and @Wagenmakers2015]. Players
-initiated the subsequent trial by pressing space or clicking the
-respective button. Trials were drawn without replacement per user and
-manipulated so that they had a forced 50% chance of being a study that
-had successfully replicated versus failed.
+responses), and lives (5 at the beginning, losing one for every false
+prediction, and gaining one bonus life for every level-up, i.e., every
+five correct responses). For each trial, we presented the original
+study's title (e.g., "Turning the hands of time") and the corresponding
+abstract. For half of the trials, we presented the journal's impact
+factor as computed based on OpenAlex. Players had to predict
+"replicates" or "fails" by a mouse click or button press. After their
+prediction, their guess, the actual replication outcome, and whether
+they were correct or wrong, accompanied by a high- versus low-pitched
+sound was presented. They had the option to disable the sound. Moreover,
+we provided the quote from the replication authors' about the success
+(e.g., "the data were 10.76 times more likely under the null hypothesis
+than under the alternative hypothesis") and provided links to the
+original and replication study [for this example @Topolinski2011 and
+@Wagenmakers2015]. Players initiated the subsequent trial by pressing
+space or clicking the respective button. Trials were drawn without
+replacement per user and manipulated so that they had a forced 50%
+chance of being a study that had successfully replicated versus failed.
 
 Apart from the data that participants actively provided, we recorded
 time spend on each of the trials so that we could filter out cases of
@@ -156,11 +174,27 @@ available and some replication attempts have already gained much
 attention, players could otherwise look up the results. They could also
 already know the results.
 
-When losing all lives, a descending series of tones was played and
-players could proceed to viewing the final results. At the top of the
-page was an auto-generated Guther certificate of achievement, presenting
-them a badge for the level that they achieved similar to the Open
-Science Badges (for an example see
+When a player's score crossed a level threshold (every five correct
+predictions), a level-up screen was displayed showing their new rank
+badge, rank name, and a notification that one bonus life had been
+awarded, accompanied by a distinct ascending jingle. Players then
+continued to the next trial.
+
+When losing all lives (or when all available studies had been
+exhausted), a descending series of tones was played on the feedback
+screen. Before viewing their final results, players were presented with
+a data integrity check. They were asked to indicate whether they had
+looked up any of the studies before making a prediction or had randomly
+pressed buttons without paying attention. They were informed that their
+response would not affect their leaderboard position or certificate but
+that their data would be excluded from the research analysis if they
+indicated that they had looked up responses or clicked randomly. This
+self-report was stored as a boolean variable (`data_integrity_keep`)
+alongside each session's score data.
+
+At the top of the page was an auto-generated Guther certificate of
+achievement, presenting them a badge for the level that they achieved
+similar to the Open Science Badges (for an example see
 [https://www.cos.io/initiatives/badges](#0)) including how many
 replication outcomes they predicted correctly. They could download the
 certificate as a .png-file or share a text on Bluesky or Mastodon.
@@ -200,9 +234,9 @@ The data had a hierarchical structure: individual trials (Level 1) were
 nested within participants (Level 2), identified by their anonymous
 personal code. Because multiple participants could judge the same
 replication–original study pair, and each participant judged multiple
-studies, study identity and participant identity were crossed rather than
-nested. We included a crossed random effect for study identity only if
-the final analytic sample exceeded 5,000 observations; otherwise, we
+studies, study identity and participant identity were crossed rather
+than nested. We included a crossed random effect for study identity only
+if the final analytic sample exceeded 5,000 observations; otherwise, we
 retained a two-level model with participants as the sole grouping
 factor. Table \@ref(tab:multilevel-diagram) presents the multilevel
 diagram.
@@ -257,12 +291,12 @@ predicted "failure."
 *Primary predictors.* `if_visible` was a within-subject binary indicator
 of whether the journal's impact factor was displayed on a given trial.
 `in_research` was a between-subject binary indicator coded 1 if the
-participant reported being a PhD student, postdoc, or professor, or
-held a PhD, and 0 otherwise. `impact_factor` was the 2-year mean
-citedness of the original study's journal as obtained from OpenAlex;
-this value was present in the data for every trial regardless of whether
-it was shown to the participant, allowing us to model its influence on
-guessing behavior as a function of its visibility.
+participant reported being a PhD student, postdoc, or professor, or held
+a PhD, and 0 otherwise. `impact_factor` was the 2-year mean citedness of
+the original study's journal as obtained from OpenAlex; this value was
+present in the data for every trial regardless of whether it was shown
+to the participant, allowing us to model its influence on guessing
+behavior as a function of its visibility.
 
 *Control variables.* `true_outcome` indicated whether the original study
 actually replicated successfully. `reaction_time` was the time in
@@ -284,10 +318,10 @@ decision was transparent and reproducible.
 
 We additionally assessed the linearity of each continuous predictor on
 the logit scale by fitting a generalized additive model (GAM) with
-penalized splines using the `mgcv` package [@R-mgcv]. If the smooth
-term for `abstract_length` was statistically significant at
-$\alpha = .05$ (indicating meaningful nonlinearity), we included a
-quadratic term ($\text{abstract\_length}_z^2$) in the final model.
+penalized splines using the `mgcv` package [@R-mgcv]. If the smooth term
+for `abstract_length` was statistically significant at $\alpha = .05$
+(indicating meaningful nonlinearity), we included a quadratic term
+($\text{abstract\_length}_z^2$) in the final model.
 
 ### Descriptive Analyses
 
@@ -318,9 +352,9 @@ We also presented correlation matrices separately for Level 1
 
 We estimated three generalized linear mixed models (GLMMs) with a
 binomial distribution and logit link function, using maximum likelihood
-estimation via the Laplace approximation as implemented in
-`lme4::glmer` [@R-lme4]. All models used the `bobyqa` optimizer with a
-maximum of 100,000 function evaluations.
+estimation via the Laplace approximation as implemented in `lme4::glmer`
+[@R-lme4]. All models used the `bobyqa` optimizer with a maximum of
+100,000 function evaluations.
 
 *Null model.* The null model contained no predictors and included only a
 random intercept for participants:
@@ -371,8 +405,8 @@ where $\mathbf{u}_j$ denoted the vector of participant-level random
 effects. The three-way interaction
 $\text{in\_research} \times \text{if\_visible} \times \text{impact\_factor\_z}$
 was the term of primary theoretical interest: it tested whether the
-effect of the impact factor on participants' predictions depended on
-(a) whether the impact factor was actually shown and (b) whether the
+effect of the impact factor on participants' predictions depended on (a)
+whether the impact factor was actually shown and (b) whether the
 participant had research experience. If the three-way interaction model
 failed to converge under any random-effects structure (see below), we
 fell back to a two-way interaction model
@@ -382,25 +416,24 @@ and reported both attempts.
 ### Random-Effects Structure and Preregistered Fallback Chain
 
 Specifying the random-effects structure of GLMMs involved a trade-off
-between theoretical fidelity and empirical estimability. We preregistered
-a sequential fallback chain, attempting the most complex theoretically
-justified structure first and simplifying only upon convergence failure
-or singular fit (defined as any variance component estimated at or near
-zero, assessed via `isSingular()` with a tolerance of $10^{-4}$). The
-chain proceeded as follows:
+between theoretical fidelity and empirical estimability. We
+preregistered a sequential fallback chain, attempting the most complex
+theoretically justified structure first and simplifying only upon
+convergence failure or singular fit (defined as any variance component
+estimated at or near zero, assessed via `isSingular()` with a tolerance
+of $10^{-4}$). The chain proceeded as follows:
 
 1.  **Correlated random slopes:**
     $(1 + \text{if\_visible} + \text{if\_visible} \times \text{impact\_factor\_z} + \text{true\_outcome} \mid \text{personal\_code})$
 2.  **Uncorrelated random slopes:** same terms with $\|$ instead of
     $\mid$ (diagonal covariance matrix)
-3.  **Drop true\_outcome from random part:**
+3.  **Drop true_outcome from random part:**
     $(1 + \text{if\_visible} + \text{if\_visible} \times \text{impact\_factor\_z} \| \text{personal\_code})$
 4.  **Replace interaction with main effect:**
     $(1 + \text{if\_visible} + \text{impact\_factor\_z} \| \text{personal\_code})$
 5.  **Random slope for visibility only:**
     $(1 + \text{if\_visible} \| \text{personal\_code})$
-6.  **Random intercept only:**
-    $(1 \mid \text{personal\_code})$
+6.  **Random intercept only:** $(1 \mid \text{personal\_code})$
 7.  **No random effects (fallback):** ordinary logistic regression via
     `glm()`
 
@@ -428,9 +461,9 @@ We conducted the following checks on the final model:
     `car::vif` [@R-car]. Values exceeding 10 were flagged.
 4.  *Random-effects normality:* We inspected QQ plots of the estimated
     random effects (BLUPs) for each random-effects term.
-5.  *Linearity on the logit scale:* We compared the GLMM with a GAM
-    that replaced linear terms with penalized splines. Effective degrees
-    of freedom near 1 indicated linearity; values substantially above 1
+5.  *Linearity on the logit scale:* We compared the GLMM with a GAM that
+    replaced linear terms with penalized splines. Effective degrees of
+    freedom near 1 indicated linearity; values substantially above 1
     indicated potential nonlinearity.
 6.  *Residual diagnostics:* We used simulation-based residual
     diagnostics via the `DHARMa` package [@R-DHARMa], including tests
@@ -471,6 +504,6 @@ reported the median and range of trials per participant, as the number
 of trials varied across participants depending on their game performance
 (i.e., how many lives they retained). The VPCs estimated from the null
 model were used to compute post-hoc variance inflation factors
-($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, where
-$\bar{n}_j$ was the average number of trials per participant) to
-contextualize the effective sample size.
+($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, where $\bar{n}_j$
+was the average number of trials per participant) to contextualize the
+effective sample size.
