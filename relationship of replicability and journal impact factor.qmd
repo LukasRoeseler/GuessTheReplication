@@ -1,0 +1,751 @@
+---
+title: "Replicability and Journal Impact Factor"
+author: "Jessica Röseler"
+format: html
+editor: visual
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+#| message: false
+
+if(!require(readr)) install.packages("readr")
+if(!require(dplyr)) install.packages("dplyr")
+if(!require(ggplot2)) install.packages("ggplot2")
+if(!require(scales)) install.packages("scales")
+if(!require(quanteda)) install.packages("quanteda", type = "binary")
+if(!require(quanteda.textstats)) install.packages("quanteda.textstats")
+if(!require(mgcv)) install.packages("mgcv")
+if(!require(pROC)) install.packages("pROC")
+if(!require(lme4)) install.packages("lme4")
+if(!require(DHARMa)) install.packages("DHARMa")
+if(!require(detectseparation)) install.packages("detectseparation")
+if(!require(rms)) install.packages("rms")
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(quanteda)
+library(quanteda.textstats)
+library(mgcv)
+library(pROC)
+library(lme4)
+library(DHARMa)
+library(detectseparation)
+library(rms)
+
+set.seed(123)
+options(scipen = 999)
+
+#study data base we actually sample from for GutheR
+GutheR_studies <- read.csv("Game/dataset.csv")  
+
+#study data base available over FlorA (including studies that are actually excluded e.g. mixed replication outcome)
+flora_studies <- read.csv("Game/flora_with_if.csv")
+``` 
+
+```{r}
+###############################################################################
+# 1. filter irrelevant flora studies 
+###############################################################################
+
+flora_studies <- flora_studies[flora_studies$outcome %in% c("successful","failed"),]
+
+flora_studies <- flora_studies[flora_studies$impact_factor<35,]
+
+table(flora_studies$outcome)
+table(flora_studies$outcome)/length(flora_studies$outcome)
+
+
+###############################################################################
+# 2. descriptive analysis with 2 outcomes(failed vs successful) -------------
+###############################################################################
+flora_studies$outcome_fac_bin <- factor(flora_studies$outcome, 
+                                      levels = c("failed", "successful"))
+plot_data <- flora_studies[flora_studies$outcome %in% c("failed", "successful"),]
+ggplot(plot_data, aes(x = impact_factor, fill = outcome_fac_bin)) +
+  geom_density(position = "fill", alpha = 0.8) +
+  scale_fill_manual(values = c("failed" = "#e41a1c", "successful" = "#4daf4a"),
+                    name = "Replikations-Ergebnis") +
+  labs(title = "Anteil der Replikationsergebnisse nach Impact Factor",
+       x = "Impact Factor",
+       y = "Anteil (Proportion)") +
+  theme_minimal()
+
+ggplot(plot_data, aes(x = impact_factor, fill = outcome_fac_bin)) +
+  geom_histogram(position = "stack", binwidth = 1, alpha = 0.8, color = "white", linewidth = 0.1) +
+  scale_fill_manual(values = c("failed" = "#e41a1c", 
+                               "successful" = "#4daf4a"),
+                    name = "Replikations-Ergebnis") +
+  labs(title = "Absolute Verteilung der Ergebnisse nach Impact Factor",
+       x = "Impact Factor",
+       y = "Anzahl der Studien (Count)") +
+  theme_minimal()
+
+###############################################################################
+# 3. Model 2 outcomes(failed vs successful) -------------
+###############################################################################
+
+flora_studies$outcome_binary <- ifelse(flora_studies$outcome == "failed", 0, ifelse(flora_studies$outcome == "successful", 1, NA))
+flora_studies$impact_factor_log <- log(flora_studies$impact_factor+1)
+
+sum(is.na(flora_studies$impact_factor))
+sum(flora_studies$impact_factor == 0, na.rm = TRUE) 
+
+# is log impact factor necessary for logreg?
+flora_bt2 <- flora_studies[flora_studies$impact_factor > 0, ]
+flora_bt2$bt_term_raw <- flora_bt2$impact_factor * log(flora_bt2$impact_factor)
+
+log_reg_bt_raw <- glm(outcome_binary ~ impact_factor + bt_term_raw,
+                      family = binomial(link = "logit"),
+                      data = flora_bt2)
+summary(log_reg_bt_raw) #yes because bt_term is sig
+
+ggplot(flora_studies, aes(x = impact_factor, y = outcome_binary)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              method.args = list(family = binomial), color = "blue") +
+  labs(title = "Linearity Check: Impact Factor vs. Binary Outcome",
+       x = "Impact Factor", y = "Predicted Probability")
+
+# is logreg generally possible for log impact factor or is the preassumption of linearity between predictor and logodds still not met
+flora_bt <- flora_studies[flora_studies$impact_factor_log > 0, ]
+flora_bt$bt_term <- flora_bt$impact_factor_log * log(flora_bt$impact_factor_log)
+
+log_reg_bt <- glm(outcome_binary ~ impact_factor_log + bt_term,
+                  family = binomial(link = "logit"),
+                  data = flora_bt)
+summary(log_reg_bt)# pre requirement is given, logreg is possible
+
+ggplot(flora_studies, aes(x = impact_factor_log, y = outcome_binary)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              method.args = list(family = binomial), color = "blue") +
+  labs(title = "Linearity Check: Log Impact Factor vs. Binary Outcome",
+       x = "Impact Factor", y = "Predicted Probability")
+
+
+# logistic regression with log impact factor
+log_reg_FLorA_log <- glm(outcome_binary~impact_factor_log, family = binomial(link = "logit"), data = flora_studies)
+summary(log_reg_FLorA_log)
+
+
+#omni bus test
+modelchi <- log_reg_FLorA_log$null.deviance - log_reg_FLorA_log$deviance
+chidf <- log_reg_FLorA_log$df.null - log_reg_FLorA_log$df.residual
+chisqp <- 1-pchisq(modelchi, chidf)
+chisqp # model is significant overall
+# OR and 95% KI
+exp(cbind(OR = coef(log_reg_FLorA_log), confint(log_reg_FLorA_log)))
+
+#model visualisation
+pred_data <- data.frame(
+  impact_factor = seq(min(flora_studies$impact_factor, na.rm = TRUE),
+                      max(flora_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_data$impact_factor_log <- log(pred_data$impact_factor + 1)
+
+pred <- predict(log_reg_FLorA_log, newdata = pred_data, 
+                type = "link", se.fit = TRUE)
+pred_data$prob    <- plogis(pred$fit)
+pred_data$lower   <- plogis(pred$fit - 1.96 * pred$se.fit)
+pred_data$upper   <- plogis(pred$fit + 1.96 * pred$se.fit)
+
+# P=0.5 Threshold: β0 + β1*log(IF+1) = 0 → IF = exp(-β0/β1) - 1
+b0 <- coef(log_reg_FLorA_log)[1]
+b1 <- coef(log_reg_FLorA_log)[2]
+threshold_IF <- exp(-b0 / b1) - 1
+cat("P(success) = 0.5 | Impact Factor:", round(threshold_IF, 2), "\n")
+
+ggplot(pred_data, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob), color = "blue", linewidth = 1) +
+  geom_jitter(data = flora_studies,
+              aes(x = impact_factor, y = outcome_binary),
+              alpha = 0.15, height = 0.03, width = 0) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = threshold_IF, linetype = "dashed", color = "red",
+             linewidth = 0.8) +
+  annotate("text", x = threshold_IF + 0.5, y = 0.45,
+           label = paste0("IF = ", round(threshold_IF, 2)),
+           color = "red", hjust = 0) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  labs(title = "Logistic Regression: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(successful replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+#GAM model
+modell_gam <- gam(outcome_binary ~ s(impact_factor_log), data = flora_studies, family = binomial)
+summary(modell_gam)
+plot(modell_gam, shade = TRUE, 
+     xlab = "impact factor (log)", 
+     ylab = "Effect on log-Odds")
+
+# model prediction on original Impact Factor scale
+pred_gam <- data.frame(
+  impact_factor = seq(min(flora_studies$impact_factor, na.rm = TRUE),
+                      max(flora_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_gam$impact_factor_log <- log(pred_gam$impact_factor + 1)
+
+# calculate CI on link scale, then transform on probabilities
+pred <- predict(modell_gam, newdata = pred_gam, type = "link", se.fit = TRUE)
+pred_gam$prob  <- plogis(pred$fit)
+pred_gam$lower <- plogis(pred$fit - 1.96 * pred$se.fit)
+pred_gam$upper <- plogis(pred$fit + 1.96 * pred$se.fit)
+
+ggplot(pred_gam, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob), color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_jitter(data = flora_studies,
+              aes(x = impact_factor, y = outcome_binary),
+              alpha = 0.15, height = 0.03, width = 0) +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "GAM: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(successful replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+## illustrating studies that are only incldued in flora but not in guther:
+flora_studies$in_guther <- paste(flora_studies$doi_o, flora_studies$doi_r) %in%
+                           paste(GutheR_studies$doi_o, GutheR_studies$doi_r)
+
+ggplot(pred_gam, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob), color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_jitter(data = flora_studies,
+              aes(x = impact_factor, y = outcome_binary, color = in_guther),
+              alpha = 0.5, height = 0.2, width = 0) +
+  scale_color_manual(values = c("TRUE" = "gray40", "FALSE" = "orange"),
+                     labels = c("TRUE" = "in GutheR", "FALSE" = "only in FLorA"),
+                     name = "") +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "GAM: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(successful replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+# Comparison of Models
+
+##AIC
+AIC(log_reg_FLorA_log, modell_gam)
+
+##McFadden R2
+null_model <- glm(outcome_binary ~ 1, family = binomial, data = flora_studies)
+
+r2_logreg <- 1 - logLik(log_reg_FLorA_log) / logLik(null_model)
+r2_gam    <- 1 - logLik(modell_gam)         / logLik(null_model)
+
+cat("McFadden R² LogReg:", round(r2_logreg, 4), "\n")
+cat("McFadden R² GAM:   ", round(r2_gam, 4),    "\n")
+
+##AUC
+roc_logreg <- roc(log_reg_FLorA_log$y, fitted(log_reg_FLorA_log))
+auc(roc_logreg)
+
+roc_gam <- roc(modell_gam$y, predict(modell_gam, type = "response"))
+auc(roc_gam)
+
+###############################################################################
+# Does discipline confound relationship of impact factor and replicability?
+###############################################################################
+
+DISCIPLINES <- readRDS("disciplines.rds")
+
+normalize <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9 ]", " ", x) 
+  x <- gsub("\\s+", " ", x)        
+  x <- trimws(x)
+  return(x)
+}
+
+# 3. Lookup-Table: 
+lookup <- data.frame(
+  journal_norm = normalize(unlist(DISCIPLINES)),
+  discipline   = rep(names(DISCIPLINES), lengths(DISCIPLINES)),
+  stringsAsFactors = FALSE
+)
+
+# 4. Matching
+flora_studies$journal_norm <- normalize(flora_studies$journal_o)
+flora_studies$discipline   <- lookup$discipline[
+  match(flora_studies$journal_norm, lookup$journal_norm)
+]
+
+# 5. Diagnostics
+cat("Matched:    ", sum(!is.na(flora_studies$discipline)), "\n")
+cat("Not found:", sum( is.na(flora_studies$discipline)), "\n")
+cat("Proportion NA:     ", round(mean(is.na(flora_studies$discipline)) * 100, 1), "%\n")
+
+
+# How many cases per discipline
+table(flora_studies$discipline, useNA = "always")
+
+# Basic Model (only random intercept)
+modell_null <- glmer(outcome_binary ~ 1 + (1 | discipline),
+                     family = binomial,
+                     data = flora_studies)
+
+# Multilevel-Model with Impact Factor
+modell_ml <- glmer(outcome_binary ~ impact_factor_log + (1 | discipline),
+                   family = binomial,
+                   data = flora_studies)
+
+summary(modell_ml)
+
+# ICC: Proportion of Variance explained by discipline
+# binary models: Level-1-Variance = π²/3 ≈ 3.29
+tau2 <- as.numeric(VarCorr(modell_ml)$discipline)
+icc  <- tau2 / (tau2 + (pi^2 / 3))
+cat("ICC:", round(icc, 3), "\n")
+
+# comparison: does impact factor explain variance when discipline is included?
+anova(modell_null, modell_ml)
+
+# AIC-comparison with simple LogReg without random effect
+AIC(log_reg_FLorA_log, modell_null, modell_ml)#attention with interpretation it's not sound
+
+########################### Check of Prerequirements
+
+#singularity
+cat("Singular?:", isSingular(modell_ml, tol = 1e-4), "\n")
+
+#convergence
+if (!is.null(modell_ml@optinfo$conv$lme4$messages))
+  warning(paste(modell_ml@optinfo$conv$lme4$messages, collapse = " | "))
+
+#separation
+detect_sep <- glm(outcome_binary ~ impact_factor_log,
+                  data   = flora_studies,
+                  family = binomial,
+                  method = "detect_separation")
+if (detect_sep$outcome == TRUE) {
+  warning("Perfect separation detected - coefficients and SE not valid")
+  print(detect_sep)
+} else {
+  cat("No separation detected.\n")
+}
+
+# QQ-Plot Random Effects (discipline) - check for normal distribution of random effect
+re <- ranef(modell_ml)$discipline
+qqnorm(re[["(Intercept)"]], main = "QQ-Plot: Random Intercept (discipline)")
+qqline(re[["(Intercept)"]], col = "firebrick")
+
+# Linearity of Predictor
+flora_studies$discipline <- as.factor(flora_studies$discipline)
+
+gam_check <- gam(
+  outcome_binary ~ s(impact_factor_log) + s(discipline, bs = "re"),
+  data   = flora_studies,
+  family = binomial,
+  method = "REML"
+)
+summary(gam_check)  # edf ~1 → linear; > 2-3 → non-linear
+plot(gam_check, pages = 1, residuals = TRUE, shade = TRUE)
+
+#DHARMa Residuals
+sim_res <- simulateResiduals(modell_ml, n = 500)
+plot(sim_res)
+testDispersion(sim_res)
+testOutliers(sim_res)
+```
+
+
+Although impact factor emerged as a statistically significant predictor of replication success, its practical relevance is negligible. Both logistic regression and the more flexible GAM yielded AUC values barely above chance level (0.56 and 0.58, respectively), with McFadden's pseudo-R² below .02 across all models. Multilevel modeling further revealed that impact factor and scientific discipline are partially confounded (ICC = .046), yet impact factor retained a small but significant independent effect after accounting for disciplinary clustering. Taken together, while the effect is statistically detectable, its explanatory power is too limited for impact factor to serve as a meaningful heuristic for judging the replicability of individual studies.
+
+
+```{r}
+###############################################################################
+# 4. GutheR studies analysis desciptive analysis with 2 outcomes(failed vs successful) -------------
+
+###############################################################################
+###############################################################################
+# 1. filter irrelevant GutheR studies 
+###############################################################################
+
+GutheR_studies <- GutheR_studies[GutheR_studies$outcome %in% c("success","failure"),]
+
+GutheR_studies <- GutheR_studies[GutheR_studies$impact_factor<35,]
+
+table(GutheR_studies$outcome)
+table(GutheR_studies$outcome)/length(GutheR_studies$outcome)
+
+
+###############################################################################
+# 2. descriptive analysis with 2 outcomes(failure vs success) -------------
+###############################################################################
+GutheR_studies$outcome_fac_bin <- factor(GutheR_studies$outcome, 
+                                      levels = c("failure", "success"))
+plot_data <- GutheR_studies[GutheR_studies$outcome %in% c("failure", "success"),]
+ggplot(plot_data, aes(x = impact_factor, fill = outcome_fac_bin)) +
+  geom_density(position = "fill", alpha = 0.8) +
+  scale_fill_manual(values = c("failure" = "#e41a1c", "success" = "#4daf4a"),
+                    name = "Replication Result") +
+  labs(title = "Proportion of Replicationresult per Impact Factor",
+       x = "Impact Factor",
+       y = "Proportion") +
+  theme_minimal()
+
+ggplot(plot_data, aes(x = impact_factor, fill = outcome_fac_bin)) +
+  geom_histogram(position = "stack", binwidth = 1, alpha = 0.8, color = "white", linewidth = 0.1) +
+  scale_fill_manual(values = c("failure" = "#e41a1c", 
+                               "success" = "#4daf4a"),
+                    name = "Replication Result") +
+  labs(title = "Absolute Distribution of Replicationresult per Impact Factor",
+       x = "Impact Factor",
+       y = "Study Count") +
+  theme_minimal()
+
+###############################################################################
+# 3. Model 2 outcomes(failed vs successful) -------------
+###############################################################################
+
+GutheR_studies$outcome_binary <- ifelse(GutheR_studies$outcome == "failure", 0, ifelse(GutheR_studies$outcome == "success", 1, NA))
+GutheR_studies$impact_factor_log <- log(GutheR_studies$impact_factor+1)
+
+sum(is.na(GutheR_studies$impact_factor))
+sum(GutheR_studies$impact_factor == 0, na.rm = TRUE) 
+
+# is log impact factor necessary for logreg?
+GutheR_bt2 <- GutheR_studies[GutheR_studies$impact_factor > 0, ]
+GutheR_bt2$bt_term_raw <- GutheR_bt2$impact_factor * log(GutheR_bt2$impact_factor)
+
+log_reg_bt_raw <- glm(outcome_binary ~ impact_factor + bt_term_raw,
+                      family = binomial(link = "logit"),
+                      data = GutheR_bt2)
+summary(log_reg_bt_raw) #yes because bt_term is sig
+
+ggplot(GutheR_studies, aes(x = impact_factor, y = outcome_binary)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              method.args = list(family = binomial), color = "blue") +
+  labs(title = "Linearity Check: Impact Factor vs. Binary Outcome",
+       x = "Impact Factor", y = "Predicted Probability")
+
+# is logreg generally possible for log impact factor or is the preassumption of linearity between predictor and logodds still not met
+GutheR_bt <- GutheR_studies[GutheR_studies$impact_factor_log > 0, ]
+GutheR_bt$bt_term <- GutheR_bt$impact_factor_log * log(GutheR_bt$impact_factor_log)
+
+log_reg_bt <- glm(outcome_binary ~ impact_factor_log + bt_term,
+                  family = binomial(link = "logit"),
+                  data = GutheR_bt)
+summary(log_reg_bt)# pre requirement is not given, look at GAM and watch out for differences
+
+ggplot(GutheR_studies, aes(x = impact_factor_log, y = outcome_binary)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              method.args = list(family = binomial), color = "blue") +
+  labs(title = "Linearity Check: Log Impact Factor vs. Binary Outcome",
+       x = "Impact Factor", y = "Predicted Probability")
+
+
+# logistic regression with log impact factor
+log_reg_GutheR_log <- glm(outcome_binary~impact_factor_log, family = binomial(link = "logit"), data = GutheR_studies)
+summary(log_reg_GutheR_log)
+
+
+#omni bus test
+modelchi <- log_reg_GutheR_log$null.deviance - log_reg_GutheR_log$deviance
+chidf <- log_reg_GutheR_log$df.null - log_reg_GutheR_log$df.residual
+chisqp <- 1-pchisq(modelchi, chidf)
+chisqp # model is significant overall
+# OR and 95% KI
+exp(cbind(OR = coef(log_reg_GutheR_log), confint(log_reg_GutheR_log)))
+
+#model visualisation
+pred_data <- data.frame(
+  impact_factor = seq(min(GutheR_studies$impact_factor, na.rm = TRUE),
+                      max(GutheR_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_data$impact_factor_log <- log(pred_data$impact_factor + 1)
+
+pred <- predict(log_reg_GutheR_log, newdata = pred_data, 
+                type = "link", se.fit = TRUE)
+pred_data$prob    <- plogis(pred$fit)
+pred_data$lower   <- plogis(pred$fit - 1.96 * pred$se.fit)
+pred_data$upper   <- plogis(pred$fit + 1.96 * pred$se.fit)
+
+# P=0.5 Threshold: β0 + β1*log(IF+1) = 0 → IF = exp(-β0/β1) - 1
+b0 <- coef(log_reg_GutheR_log)[1]
+b1 <- coef(log_reg_GutheR_log)[2]
+threshold_IF <- exp(-b0 / b1) - 1
+cat("P(success) = 0.5 | Impact Factor:", round(threshold_IF, 2), "\n")
+
+ggplot(pred_data, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob), color = "blue", linewidth = 1) +
+  geom_jitter(data = GutheR_studies,
+              aes(x = impact_factor, y = outcome_binary),
+              alpha = 0.15, height = 0.03, width = 0) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = threshold_IF, linetype = "dashed", color = "red",
+             linewidth = 0.8) +
+  annotate("text", x = threshold_IF + 0.5, y = 0.45,
+           label = paste0("IF = ", round(threshold_IF, 2)),
+           color = "red", hjust = 0) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  labs(title = "Logistic Regression: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(success replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+#ALTERNATIVE: Restricted Cubic Splines Logistic Regression Cause box tidwell test was significant even with log impact factor:
+
+guther_rcs_data <- GutheR_studies[!is.na(GutheR_studies$outcome_binary) & 
+                                   !is.na(GutheR_studies$impact_factor_log), ]
+
+dd <- datadist(guther_rcs_data)
+options(datadist = "dd")
+
+log_reg_rcs <- lrm(outcome_binary ~ rcs(impact_factor_log, 4), 
+                   data = guther_rcs_data)
+
+# Visualisierung
+ggplot(Predict(log_reg_rcs, impact_factor_log, fun = plogis))
+
+pred_data$impact_factor_log <- log(pred_data$impact_factor + 1)
+
+pred_rcs <- predict(log_reg_rcs, 
+                    newdata = pred_data, 
+                    type = "lp",  # link scale
+                    se.fit = TRUE)
+
+pred_data$prob_rcs  <- plogis(pred_rcs$linear.predictors)
+pred_data$lower_rcs <- plogis(pred_rcs$linear.predictors - 1.96 * pred_rcs$se.fit)
+pred_data$upper_rcs <- plogis(pred_rcs$linear.predictors + 1.96 * pred_rcs$se.fit)
+
+# P=0.5 Threshold: numerical identification
+crossings <- which(diff(sign(pred_data$prob_rcs - 0.5)) != 0)
+threshold_IF <- pred_data$impact_factor[crossings[1]]
+cat("P(success) = 0.5 | Impact Factor:", round(threshold_IF, 2), "\n")
+
+ggplot(pred_data, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower_rcs, ymax = upper_rcs), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob_rcs), color = "blue", linewidth = 1) +
+  geom_jitter(data = GutheR_studies,
+              aes(x = impact_factor, y = outcome_binary),
+              alpha = 0.15, height = 0.03, width = 0) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = threshold_IF, linetype = "dashed", color = "red",
+             linewidth = 0.8) +
+  annotate("text", x = threshold_IF + 0.5, y = 0.45,
+           label = paste0("IF = ", round(threshold_IF, 2)),
+           color = "red", hjust = 0) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  labs(title = "Restricted Cubic Splines Logistic Regression: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(success replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+#GAM model
+modell_gam <- gam(outcome_binary ~ s(impact_factor_log), data = GutheR_studies, family = binomial)
+summary(modell_gam)
+plot(modell_gam, shade = TRUE, 
+     xlab = "impact factor (log)", 
+     ylab = "Effect on log-Odds")
+
+# model prediction on original Impact Factor scale
+pred_gam <- data.frame(
+  impact_factor = seq(min(GutheR_studies$impact_factor, na.rm = TRUE),
+                      max(GutheR_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_gam$impact_factor_log <- log(pred_gam$impact_factor + 1)
+
+# calculate CI on link scale, then transform on probabilities
+pred <- predict(modell_gam, newdata = pred_gam, type = "link", se.fit = TRUE)
+pred_gam$prob  <- plogis(pred$fit)
+pred_gam$lower <- plogis(pred$fit - 1.96 * pred$se.fit)
+pred_gam$upper <- plogis(pred$fit + 1.96 * pred$se.fit)
+
+ggplot(pred_gam, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = prob), color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_jitter(data = GutheR_studies,
+              aes(x = impact_factor, y = outcome_binary),
+              alpha = 0.15, height = 0.03, width = 0) +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "GAM: Impact Factor vs. probability of replication",
+       x = "Impact Factor",
+       y = "P(success replication)",
+       caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  theme_minimal()
+
+# Comparison of Models
+
+##AIC
+AIC(log_reg_GutheR_log, modell_gam, log_reg_rcs)
+
+##McFadden R2
+null_model <- glm(outcome_binary ~ 1, family = binomial, data = GutheR_studies)
+
+r2_logreg <- 1 - logLik(log_reg_GutheR_log) / logLik(null_model)
+r2_gam    <- 1 - logLik(modell_gam)         / logLik(null_model)
+r2_rcs    <- 1 - logLik(log_reg_rcs)         / logLik(null_model)
+
+cat("McFadden R² LogReg:", round(r2_logreg, 4), "\n")
+cat("McFadden R² GAM:   ", round(r2_gam, 4),    "\n")
+cat("McFadden R² RCS:   ", round(r2_rcs,    4), "\n")
+
+##AUC
+roc_logreg <- roc(log_reg_GutheR_log$y, fitted(log_reg_GutheR_log))
+auc(roc_logreg)
+
+roc_gam <- roc(modell_gam$y, predict(modell_gam, type = "response"))
+auc(roc_gam)
+
+roc_rcs <- roc(guther_rcs_data$outcome_binary,
+               plogis(log_reg_rcs$linear.predictors))
+auc(roc_rcs)
+###############################################################################
+# Does discipline confound relationship of impact factor and replicability?
+###############################################################################
+
+DISCIPLINES <- readRDS("disciplines.rds")
+
+normalize <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9 ]", " ", x) 
+  x <- gsub("\\s+", " ", x)        
+  x <- trimws(x)
+  return(x)
+}
+
+# 3. Lookup-Table: 
+lookup <- data.frame(
+  journal_norm = normalize(unlist(DISCIPLINES)),
+  discipline   = rep(names(DISCIPLINES), lengths(DISCIPLINES)),
+  stringsAsFactors = FALSE
+)
+
+# 4. Matching
+GutheR_studies$journal_norm <- normalize(GutheR_studies$journal)
+GutheR_studies$discipline   <- lookup$discipline[
+  match(GutheR_studies$journal_norm, lookup$journal_norm)
+]
+
+# 5. Diagnostics
+cat("Matched:    ", sum(!is.na(GutheR_studies$discipline)), "\n")
+cat("Not found:", sum( is.na(GutheR_studies$discipline)), "\n")
+cat("Proportion NA:     ", round(mean(is.na(GutheR_studies$discipline)) * 100, 1), "%\n")
+
+
+# How many cases per discipline
+table(GutheR_studies$discipline, useNA = "always")
+
+# Basic Model (only random intercept)
+modell_null <- glmer(outcome_binary ~ 1 + (1 | discipline),
+                     family = binomial,
+                     data = GutheR_studies)
+
+# Multilevel-Model with Impact Factor
+modell_ml <- glmer(outcome_binary ~ impact_factor_log + (1 | discipline),
+                   family = binomial,
+                   data = GutheR_studies)
+
+summary(modell_ml)
+
+# ICC: Proportion of Variance explained by discipline
+# binary models: Level-1-Variance = π²/3 ≈ 3.29
+tau2 <- as.numeric(VarCorr(modell_ml)$discipline)
+icc  <- tau2 / (tau2 + (pi^2 / 3))
+cat("ICC:", round(icc, 3), "\n")
+
+# comparison: does impact factor explain variance when discipline is included?
+anova(modell_null, modell_ml)
+
+# AIC-comparison with simple LogReg without random effect
+AIC(log_reg_GutheR_log, modell_null, modell_ml)#attention with interpretation it's not sound
+
+########################### Check of Prerequirements
+
+#singularity
+cat("Singular?:", isSingular(modell_ml, tol = 1e-4), "\n")
+
+#convergence
+if (!is.null(modell_ml@optinfo$conv$lme4$messages))
+  warning(paste(modell_ml@optinfo$conv$lme4$messages, collapse = " | "))
+
+#separation
+detect_sep <- glm(outcome_binary ~ impact_factor_log,
+                  data   = GutheR_studies,
+                  family = binomial,
+                  method = "detect_separation")
+if (detect_sep$outcome == TRUE) {
+  warning("Perfect separation detected - coefficients and SE not valid")
+  print(detect_sep)
+} else {
+  cat("No separation detected.\n")
+}
+
+# QQ-Plot Random Effects (discipline) - check for normal distribution of random effect
+re <- ranef(modell_ml)$discipline
+qqnorm(re[["(Intercept)"]], main = "QQ-Plot: Random Intercept (discipline)")
+qqline(re[["(Intercept)"]], col = "firebrick")
+
+# Linearity of Predictor
+GutheR_studies$discipline <- as.factor(GutheR_studies$discipline)
+
+gam_check <- gam(
+  outcome_binary ~ s(impact_factor_log) + s(discipline, bs = "re"),
+  data   = GutheR_studies,
+  family = binomial,
+  method = "REML"
+)
+summary(gam_check)  # edf ~1 → linear; > 2-3 → non-linear
+plot(gam_check, pages = 1, residuals = TRUE, shade = TRUE)
+
+#DHARMa Residuals
+sim_res <- simulateResiduals(modell_ml, n = 500)
+plot(sim_res)
+testDispersion(sim_res)
+testOutliers(sim_res)
+
+
+```
+
+Although impact factor emerged as a statistically significant predictor of replication success over different models like logistic regression, GAM and restricted cubic splines logistic regression, its practical relevance is negligible. The Box-Tidwell test indicated a violation of the linearity assumption for logistic regression even after log-transformation, favoring more flexible approaches. Nonetheless, GAM and Restricted Cubic Splines yielded no meaningful improvement over simple logistic regression, with AUC values across all three models hovering around 0.56 and McFadden's pseudo-R² ranging from .008 to .013. The RCS model identified a threshold of P(success) = 0.5 at an impact factor of approximately 3.1, though the wide confidence intervals and negligible model fit limit the interpretability of this estimate. Multilevel modeling revealed that scientific discipline accounts for a small but non-trivial share of variance in replication success (ICC = .052), and impact factor and discipline are partially confounded. Nevertheless, impact factor retained a small independent effect after accounting for disciplinary clustering (β = −0.40, p < .001). Model diagnostics indicated no issues with overdispersion, outliers, or separation. Taken together, while the effect of impact factor is statistically detectable and robust across model specifications, its explanatory power is too limited to serve as a meaningful heuristic for judging the replicability of individual studies.
+
+```{r}
+
+#####################################################################
+# Where are differences between the two datasets
+#####################################################################
+
+# Distribution of impact_factor_log
+summary(GutheR_studies$impact_factor_log)
+summary(flora_studies$impact_factor_log)
+
+# Visual comparison
+par(mfrow = c(1, 2))
+hist(GutheR_studies$impact_factor_log, main = "GutheR (n=1171)")
+hist(flora_studies$impact_factor_log, main = "flora (n=1515)")
+par(mfrow = c(1, 1))
+
+# Density comparison
+plot(density(GutheR_studies$impact_factor_log, na.rm = TRUE), col = "blue", main = "Comparison impact_factor_log")
+lines(density(flora_studies$impact_factor_log, na.rm = TRUE), col = "red")
+legend("topright", c("GutheR", "flora"), col = c("blue", "red"), lty = 1)
+
+# outcome_binary distribution
+prop.table(table(GutheR_studies$outcome_binary))
+prop.table(table(flora_studies$outcome_binary))
+
+```
