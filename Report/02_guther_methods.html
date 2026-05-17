@@ -352,32 +352,8 @@ display: none;
 </div>
 
 
-<pre class="r"><code># This file only contains the methods</code></pre>
-<pre class="r"><code># Create a bib-file for R citations
-# grateful::cite_packages(output = &quot;file&quot;, bib.file = &quot;r-references.bib&quot;)
-papaja::r_refs(file = &quot;r-references.bib&quot;)
-r_citations &lt;- papaja::cite_r(file = &quot;r-references.bib&quot;)</code></pre>
-<pre class="r"><code># Compare OpenAlex Mean Citedness with JIF
-
-
-# Journal Data (OpenAlex mean citedness)
-# mc &lt;- read.csv(&quot;../Game/journaldata.csv&quot;)
-
-# Scimago Journal Rank (free and similar to JIF whereas Clarivates Journal Citation Report is paywalled)
-# jr &lt;- read.csv(&quot;../Study/scimagojr 2024.csv&quot;)
-
-# Merge datasets by journal name
-# mcjr &lt;- merge(mc, jr, by = &quot;issn&quot;)
-
-# number of journals for which both values are available
-# nrow(mc)
-# nrow(mcjr)
-
-# Relationship
-# cor.test(mcjr$sjr, mcjr$mc)
-
-# Plot
-# ggplot(mcjr, aes(x = sjr, y = mc)) + geom_point() + xlab(&quot;Scimago Journal Rank&quot;) + ylab(&quot;OpenAlex Mean Citedness&quot;) + theme_bw()</code></pre>
+<hr />
+<pre><code></code></pre>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
 <p>We collected predictions of replication success using an existing
@@ -564,36 +540,30 @@ the final manuscript. The analysis plan, including the complete R code,
 was preregistered prior to data collection and analysis [OSF
 LINK].</em></p>
 <p>All analyses were conducted in R <span class="citation">[Version
-4.5.0\; @R-base]</span> and the R-packages <em>apaTables</em> <span class="citation">[Version 2.0.8\; @R-apaTables]</span>, <em>beepr</em>
-<span class="citation">[@R-beepr]</span>, <em>car</em> <span class="citation">[Version 3.1.5\; @R-car; @R-carData]</span>,
+4.5.3\; @R-base]</span> and the R-packages <em>apaTables</em> <span class="citation">[@R-apaTables]</span>, <em>beepr</em> <span class="citation">[@R-beepr]</span>, <em>car</em> <span class="citation">[Version 3.1.5\; @R-car; @R-carData]</span>,
 <em>carData</em> <span class="citation">[Version 3.0.6\;
 @R-carData]</span>, <em>citr</em> <span class="citation">[@R-citr]</span>, <em>cowplot</em> <span class="citation">[Version 1.2.0\; @R-cowplot]</span>, <em>devtools</em>
-<span class="citation">[Version 2.4.5\; @R-devtools]</span>,
-<em>dplyr</em> <span class="citation">[Version 1.2.1\; @R-dplyr]</span>,
-<em>effectsize</em> <span class="citation">[Version 1.0.2\;
-@R-effectsize]</span>, <em>flextable</em> <span class="citation">[Version 0.9.10\; @R-flextable]</span>,
+<span class="citation">[@R-devtools]</span>, <em>dplyr</em> <span class="citation">[Version 1.2.0\; @R-dplyr]</span>, <em>effectsize</em>
+<span class="citation">[Version 1.0.2\; @R-effectsize]</span>,
+<em>flextable</em> <span class="citation">[@R-flextable]</span>,
 <em>forcats</em> <span class="citation">[Version 1.0.1\;
-@R-forcats]</span>, <em>FReD</em> <span class="citation">[Version
-0.0.0.9001\; @R-FReD]</span>, <em>ggplot2</em> <span class="citation">[Version 4.0.3\; @R-ggplot2]</span>, <em>ggpubr</em>
+@R-forcats]</span>, <em>FReD</em> <span class="citation">[@R-FReD]</span>, <em>ggplot2</em> <span class="citation">[Version 4.0.2\; @R-ggplot2]</span>, <em>ggpubr</em>
 <span class="citation">[@R-ggpubr]</span>, <em>grateful</em> <span class="citation">[Version 0.3.0\; @R-grateful]</span>,
-<em>kableExtra</em> <span class="citation">[Version 1.4.0\;
-@R-kableExtra]</span>, <em>lubridate</em> <span class="citation">[Version 1.9.5\; @R-lubridate]</span>,
-<em>openxlsx</em> <span class="citation">[Version 4.2.8.1\;
-@R-openxlsx]</span>, <em>papaja</em> <span class="citation">[Version
-0.1.4\; @R-papaja]</span>, <em>patchwork</em> <span class="citation">[Version 1.3.2\; @R-patchwork]</span>, <em>prmisc</em>
-<span class="citation">[Version 0.0.3\; @R-prmisc]</span>,
-<em>psych</em> <span class="citation">[Version 2.5.6\; @R-psych]</span>,
-<em>purrr</em> <span class="citation">[Version 1.2.2\; @R-purrr]</span>,
-<em>readr</em> <span class="citation">[Version 2.2.0\; @R-readr]</span>,
-<em>rticles</em> <span class="citation">[@R-rticles]</span>,
-<em>stringr</em> <span class="citation">[Version 1.6.0\;
-@R-stringr]</span>, <em>tibble</em> <span class="citation">[Version
-3.3.1\; @R-tibble]</span>, <em>tidyr</em> <span class="citation">[Version 1.3.2\; @R-tidyr]</span>, <em>tidyverse</em>
-<span class="citation">[Version 2.0.0\; @R-tidyverse]</span>,
-<em>tinylabels</em> <span class="citation">[Version 0.2.5\;
-@R-tinylabels]</span>, <em>usethis</em> <span class="citation">[Version
-3.1.0\; @R-usethis]</span>, and <em>zcurve</em> <span class="citation">[Version 2.4.3\; @R-zcurve]</span>. We followed the
-LEVEL reporting guidelines for multilevel analyses <span class="citation">[@Monsalves2020]</span>.</p>
+<em>kableExtra</em> <span class="citation">[@R-kableExtra]</span>,
+<em>lubridate</em> <span class="citation">[Version 1.9.5\;
+@R-lubridate]</span>, <em>openxlsx</em> <span class="citation">[Version
+4.2.8.1\; @R-openxlsx]</span>, <em>papaja</em> <span class="citation">[Version 0.1.4\; @R-papaja]</span>, <em>patchwork</em>
+<span class="citation">[Version 1.3.2\; @R-patchwork]</span>,
+<em>prmisc</em> <span class="citation">[Version 0.0.3\;
+@R-prmisc]</span>, <em>psych</em> <span class="citation">[@R-psych]</span>, <em>purrr</em> <span class="citation">[Version 1.2.1\; @R-purrr]</span>, <em>readr</em> <span class="citation">[Version 2.2.0\; @R-readr]</span>, <em>rticles</em>
+<span class="citation">[@R-rticles]</span>, <em>stringr</em> <span class="citation">[Version 1.6.0\; @R-stringr]</span>, <em>tibble</em>
+<span class="citation">[Version 3.3.1\; @R-tibble]</span>,
+<em>tidyr</em> <span class="citation">[Version 1.3.2\; @R-tidyr]</span>,
+<em>tidyverse</em> <span class="citation">[Version 2.0.0\;
+@R-tidyverse]</span>, <em>tinylabels</em> <span class="citation">[Version 0.2.5\; @R-tinylabels]</span>,
+<em>usethis</em> <span class="citation">[@R-usethis]</span>, and
+<em>zcurve</em> <span class="citation">[@R-zcurve]</span>. We followed
+the LEVEL reporting guidelines for multilevel analyses <span class="citation">[@Monsalves2020]</span>.</p>
 <div id="data-exclusion-criteria" class="section level3">
 <h3>Data Exclusion Criteria</h3>
 <p>We applied exclusion criteria at two levels. At the session level, we
@@ -601,7 +571,7 @@ flagged and removed sessions with fewer than five completed trials,
 sessions exhibiting bot-like behavior (coefficient of variation of
 reaction times below 0.10), and sessions showing straightlining (10 or
 more identical consecutive responses with a median reaction time below
-2,000 ms). At the trial level, we excluded individual trials in which
+3,000 ms). At the trial level, we excluded individual trials in which
 the participant switched browser tabs (indicating possible look-up of
 the replication outcome), trials with reaction times below 2,000 ms
 (insufficient time to read the abstract), and trials with reaction times
@@ -655,8 +625,8 @@ yes/no), impact_factor (journal mean citedness), true_outcome
 </tr>
 </tbody>
 </table>
-<p>The dependent variable—the participant’s binary prediction of
-replication success—was measured at Level 1. Because the outcome was at
+<p>The dependent variable, the participant’s binary prediction of
+replication success, was measured at Level 1. Because the outcome was at
 a lower level than the grouping variable, a multilevel analysis was
 required. The within-subject manipulation of impact factor visibility
 and the between-subject variation in research experience motivated the
@@ -698,14 +668,15 @@ transparent and reproducible.</p>
 <p>We additionally assessed the linearity of each continuous predictor
 on the logit scale by fitting a generalized additive model (GAM) with
 penalized splines using the <code>mgcv</code> package <span class="citation">[@R-mgcv]</span>. If the smooth term for
-<code>abstract_length</code> was statistically significant at <span class="math inline">\(\alpha = .05\)</span> (indicating meaningful
-nonlinearity), we included a quadratic term (<span class="math inline">\(\text{abstract\_length}_z^2\)</span>) in the final
-model.</p>
+<code>abstract_length</code> was statistically significant at <span class="math inline">\(\alpha = .05\)</span> and exhibited meaningful
+nonlinearity, operationalzed as estimated degrees of freedom &gt;2, we
+included a quadratic term <span class="math inline">\((\text{abstract_length}_{z})^{2}\)</span> in the
+final model.</p>
 </div>
 <div id="descriptive-analyses" class="section level3">
 <h3>Descriptive Analyses</h3>
-<p>Following the LEVEL recommendations, we reported descriptive
-statistics at each level of the data hierarchy.</p>
+<p>We conducted descriptive statistics at each level of the data
+hierarchy.</p>
 <p>At Level 1 (trial level), we reported the proportion of “success”
 predictions, the proportion of trials in which the impact factor was
 visible, the proportion of trials with a successful true outcome, and
@@ -733,12 +704,13 @@ binomial distribution and logit link function, using maximum likelihood
 estimation via the Laplace approximation as implemented in
 <code>lme4::glmer</code> <span class="citation">[@R-lme4]</span>. All
 models used the <code>bobyqa</code> optimizer with a maximum of 100,000
-function evaluations.</p>
+function evaluations. Following the LEVEL recommendations, we report
+null model and intermediate model, so that the impact of explanatory
+variables on variance components can be easily identified.</p>
 <p><em>Null model.</em> The null model contained no predictors and
 included only a random intercept for participants:</p>
-<p><span class="math display">\[
-\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + u_{0j}
-\]</span></p>
+<p><span class="math display">\[\text{logit}\bigl(P(Y_{ij} = 1)\bigr) =
+\beta_0 + u_{0j}\]</span></p>
 <p>where <span class="math inline">\(Y_{ij}\)</span> was the binary
 prediction of participant <span class="math inline">\(j\)</span> on
 trial <span class="math inline">\(i\)</span>, <span class="math inline">\(\beta_0\)</span> was the fixed intercept, and
@@ -752,12 +724,11 @@ between-subject predictor (research experience), the within-subject
 experimental manipulation (impact factor visibility), their interaction,
 and the true replication outcome as a control, with a random intercept
 for participants:</p>
-<p><span class="math display">\[
-\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + \beta_1 \cdot
-\text{in\_research}_j + \beta_2 \cdot \text{if\_visible}_{ij} + \beta_3
-\cdot \text{in\_research}_j \times \text{if\_visible}_{ij} + \beta_4
-\cdot \text{true\_outcome}_{ij} + u_{0j}
-\]</span></p>
+<p><span class="math display">\[\text{logit}\bigl(P(Y_{ij} = 1)\bigr) =
+\beta_0 + \beta_1 \cdot
+\text{in_research}_j + \beta_2 \cdot \text{if_visible}_{ij} + \beta_3
+\cdot \text{in_research}_j \times \text{if_visible}_{ij} + \beta_4
+\cdot \text{true_outcome}_{ij} + u_{0j}\]</span></p>
 <p>This model tested whether the experimental manipulation and research
 experience affected predictions before introducing continuous
 covariates.</p>
@@ -765,25 +736,25 @@ covariates.</p>
 with the three-way interaction between research experience, impact
 factor visibility, and the (standardized) impact factor value, plus
 continuous control variables:</p>
-<p><span class="math display">\[
-\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + (\beta_1 \cdot
-\text{in\_research}_j \times \text{if\_visible}_{ij} \times
-\text{impact\_factor\_z}_{ij}) + \beta_2 \cdot
-\text{true\_outcome}_{ij} + \beta_3 \cdot
-\text{reaction\_time\_z}_{ij} + \beta_4 \cdot
-\text{abstract\_length\_z}_{ij} + \mathbf{u}_j
-\]</span></p>
+<p><span class="math display">\[\text{logit}\bigl(P(Y_{ij} = 1)\bigr) =
+\beta_0 + (\beta_1 \cdot
+\text{in_research}_j \times \text{if_visible}_{ij} \times
+\text{impact_factor_z}_{ij}) + \beta_2 \cdot
+\text{true_outcome}_{ij} + \beta_3 \cdot
+\text{reaction_time_z}_{ij} + \beta_4 \cdot
+\text{abstract_length_z}_{ij} + \mathbf{u}_j\]</span></p>
 <p>where <span class="math inline">\(\mathbf{u}_j\)</span> denoted the
 vector of participant-level random effects. The three-way interaction
-<span class="math inline">\(\text{in\_research} \times
-\text{if\_visible} \times \text{impact\_factor\_z}\)</span> was the term
-of primary theoretical interest: it tested whether the effect of the
-impact factor on participants’ predictions depended on (a) whether the
-impact factor was actually shown and (b) whether the participant had
-research experience. If the three-way interaction model failed to
-converge under any random-effects structure (see below), we fell back to
-a two-way interaction model (<span class="math inline">\(\text{in\_research} \times \text{if\_visible} +
-\text{impact\_factor\_z}\)</span>) and reported both attempts.</p>
+<span class="math inline">\(\text{in_research} \times \text{if_visible}
+\times \text{impact_factor_z}\)</span> was the term of primary
+theoretical interest: it tested whether the effect of the impact factor
+on participants’ predictions depended on (a) whether the impact factor
+was actually shown and (b) whether the participant had research
+experience. If the three-way interaction model failed to converge under
+any random-effects structure (see below), we fell back to a two-way
+interaction model (<span class="math inline">\(\text{in_research} \times
+\text{if_visible} + \text{impact_factor_z}\)</span>) and reported both
+attempts.</p>
 </div>
 <div id="random-effects-structure-and-preregistered-fallback-chain" class="section level3">
 <h3>Random-Effects Structure and Preregistered Fallback Chain</h3>
@@ -796,17 +767,17 @@ estimated at or near zero, assessed via <code>isSingular()</code> with a
 tolerance of <span class="math inline">\(10^{-4}\)</span>). The chain
 proceeded as follows:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Correlated random slopes:</strong> <span class="math inline">\((1 + \text{if\_visible} + \text{if\_visible}
-\times \text{impact\_factor\_z} + \text{true\_outcome} \mid
-\text{personal\_code})\)</span></li>
+<li><strong>Correlated random slopes:</strong> <span class="math inline">\((1 + \text{if_visible} + \text{if_visible} \times
+\text{impact_factor_z} + \text{true_outcome} \mid
+\text{personal_code})\)</span></li>
 <li><strong>Uncorrelated random slopes:</strong> same terms with <span class="math inline">\(\|\)</span> instead of <span class="math inline">\(\mid\)</span> (diagonal covariance matrix)</li>
-<li><strong>Drop true_outcome from random part:</strong> <span class="math inline">\((1 + \text{if\_visible} + \text{if\_visible}
-\times \text{impact\_factor\_z} \| \text{personal\_code})\)</span></li>
-<li><strong>Replace interaction with main effect:</strong> <span class="math inline">\((1 + \text{if\_visible} + \text{impact\_factor\_z}
-\| \text{personal\_code})\)</span></li>
-<li><strong>Random slope for visibility only:</strong> <span class="math inline">\((1 + \text{if\_visible} \|
-\text{personal\_code})\)</span></li>
-<li><strong>Random intercept only:</strong> <span class="math inline">\((1 \mid \text{personal\_code})\)</span></li>
+<li><strong>Drop true_outcome from random part:</strong> <span class="math inline">\((1 + \text{if_visible} + \text{if_visible} \times
+\text{impact_factor_z} \| \text{personal_code})\)</span></li>
+<li><strong>Replace interaction with main effect:</strong> <span class="math inline">\((1 + \text{if_visible} + \text{impact_factor_z} \|
+\text{personal_code})\)</span></li>
+<li><strong>Random slope for visibility only:</strong> <span class="math inline">\((1 + \text{if_visible} \|
+\text{personal_code})\)</span></li>
+<li><strong>Random intercept only:</strong> <span class="math inline">\((1 \mid \text{personal_code})\)</span></li>
 <li><strong>No random effects (fallback):</strong> ordinary logistic
 regression via <code>glm()</code></li>
 </ol>
@@ -838,11 +809,10 @@ exceeding 10 were flagged.</li>
 estimated random effects (BLUPs) for each random-effects term.</li>
 <li><em>Linearity on the logit scale:</em> We compared the GLMM with a
 GAM that replaced linear terms with penalized splines. Effective degrees
-of freedom near 1 indicated linearity; values substantially above 1
-indicated potential nonlinearity.</li>
+of freedom near 1 indicated linearity; significant values substantially
+above 2 indicated potential nonlinearity.</li>
 <li><em>Residual diagnostics:</em> We used simulation-based residual
-diagnostics via the <code>DHARMa</code> package <span class="citation">[@R-DHARMa]</span>, including tests for overdispersion
-and outliers.</li>
+diagnostics via the <code>DHARMa</code> package <span class="citation">[@R-DHARMa]</span>, including tests for outliers.</li>
 </ol>
 </div>
 <div id="model-comparison-and-fit-indices" class="section level3">
