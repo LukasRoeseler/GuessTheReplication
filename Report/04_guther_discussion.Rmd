@@ -4,7 +4,7 @@
 
 ```
 
-# Discussion
+## Discussion
 
 *Note: This document is part of the preregistration of the study. No
 data has been collected for this project yet.*
@@ -16,39 +16,45 @@ estimate the usage of this metric in predicting replication outcomes.
 JIF and replicability were [unrelated / positively correlated /
 negatively correlated]. Overall, participants [did not give higher or
 lower / gave higher / gave lower] replicability scores to studies with a
-high JIF. How JIF affected replicabiltiy ratings [differed / did not
+high JIF. How JIF affected replicability ratings [differed / did not
 differ] between different groups of participants. [explain difference if
 present]
 
-## Limitations
+### Limitations
 
 **Pseudo-prediction**: The most serious limitation of our study is that
 participants did not predict replication outcome because outcomes were
-already publicly available. Participants who new about replication
+already publicly available. Participants who knew about replication
 studies could thus simply remember the outcomes. With over [400] studies
 from various fields and replications sometimes being less visible less
 cited than traditional research [@Hardwicke2021], we believe that this
 problem is negligible overall.
 
-**Selective sample**: For the simplicity of the design, we excluded many
-studies such as those that did not have singular outcome statements
-(e.g., studies from [REF large scale project]) and those that had mixed
-findings, which were about 20% of the sample.
+**Selective sample**: For the simplicity of the design, we excluded
+studies that had mixed findings, which were about 20% of the sample.
 
-**Manipulation of JIF**: Hiding JIF may not have prevented researchers
-from relying on them if they knew the study or if the journal that
-published the original study was already known to them.
+**Manipulation of OMC**: Hiding the journals' OMCs may not have
+prevented researchers from relying on them if they knew the study or if
+the journal that published the original study was already known to them.
 
-**Open Source Impact Factor**: The impact factors that we presented -
-though likely highly correlated with the Clarivate JIF and more
+**Open Source Alternative to Journal Impact Factor**: The values that we
+presented - though highly correlated with the Clarivate JIF and more
 transparent due to reliance on openly accessible data and reproducible -
 may not be those that authors actually use though this is secondary to
 the study's purpose.
+
+**Hidden OMC does not prevent inference about OMC**: Researchers may
+have been able to infer the journal or its OMC or JIF from the topic or
+the quality.
 
 **The limitations of FLoRA:** FLoRA limitations were inherited in this
 project. For example, not all replications are indexed, replication
 authors' success judgments are sometimes difficult to categorize when
 authors could replicate one part but not another less important part.
+
+**Survivorship bias**: The lives-mechanic introduces a survivorship
+bias, wherein participants who make better predictions provide more
+predictions.
 
 **Deviations from the Preregistration**.
 
@@ -60,14 +66,14 @@ Table X lists how and why we deviated from the preregistration.
 |           |               |                       |
 |           |               |                       |
 
-## Conclusion
+### Conclusion
 
 -   [recommendation for research assessment]
 
 ## Acknowledgements
 
-We thank XXX for valuable feedback during the creation of Guess the
-Correlation.
+We thank participants from the Making Replications Count May Hackathon
+2026 for valuable feedback during the creation of Guess the Correlation.
 
 ## Conflict of Interest and Funding
 
@@ -80,16 +86,25 @@ open research techniques.
 
 The authors report no financial support for this work.
 
+## Ethics Statement
+
+This study was approved by the Ethics Committee of the Department of
+Psychology, University of Münster on 9 April 2026, protocol number
+2026-22-LR.
+
 ## Data Availability
 
-The datasets (i.e., FLoRA data as of [XXX date] excerpt and newly
-collected data) used for this study is available on the OSF [LINK]. The
-up p-to-date version of FLoRA is available at [XXX Link].
+The datasets (i.e., FLoRA data as of 24 April, 2026) used for this study
+are available on the OSF (<https://osf.io/ku8xm/overview>). The
+up-to-date version of FLoRA is available at
+<https://github.com/forrtproject/FReD-data/blob/main/output/flora.csv>.
 
 ## Declaration of AI Use
 
-Gemini 3.1 Pro Preview was used to create Guess the Replication and to
-complement a manual literature search on prediction markets.
+Gemini 3.1 Pro Preview, Claude 4.6 Sonnett, and Claude 4.7 Opus were
+used to create Guess the Replication, to complement a manual literature
+search on prediction markets, to revise r-scripts, and to proof-read
+written texts.
 
 # References
 

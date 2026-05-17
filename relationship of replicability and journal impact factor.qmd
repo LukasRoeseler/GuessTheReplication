@@ -1,10 +1,11 @@
 ---
 title: "Replicability and Journal Impact Factor"
 author: "Jessica Röseler"
-format: html
+format:
+  html:
+    embed-resources: true
 editor: visual
 ---
-
 
 ```{r}
 #| label: setup
@@ -46,7 +47,7 @@ GutheR_studies <- read.csv("Game/dataset.csv")
 
 #study data base available over FlorA (including studies that are actually excluded e.g. mixed replication outcome)
 flora_studies <- read.csv("Game/flora_with_if.csv")
-``` 
+```
 
 ```{r}
 ###############################################################################
@@ -363,9 +364,18 @@ testDispersion(sim_res)
 testOutliers(sim_res)
 ```
 
-
-Although impact factor emerged as a statistically significant predictor of replication success, its practical relevance is negligible. Both logistic regression and the more flexible GAM yielded AUC values barely above chance level (0.56 and 0.58, respectively), with McFadden's pseudo-R² below .02 across all models. Multilevel modeling further revealed that impact factor and scientific discipline are partially confounded (ICC = .046), yet impact factor retained a small but significant independent effect after accounting for disciplinary clustering. Taken together, while the effect is statistically detectable, its explanatory power is too limited for impact factor to serve as a meaningful heuristic for judging the replicability of individual studies.
-
+Although impact factor emerged as a statistically significant predictor
+of replication success, its practical relevance is negligible. Both
+logistic regression and the more flexible GAM yielded AUC values barely
+above chance level (0.56 and 0.58, respectively), with McFadden's
+pseudo-R² below .02 across all models. Multilevel modeling further
+revealed that impact factor and scientific discipline are partially
+confounded (ICC = .046), yet impact factor retained a small but
+significant independent effect after accounting for disciplinary
+clustering. Taken together, while the effect is statistically
+detectable, its explanatory power is too limited for impact factor to
+serve as a meaningful heuristic for judging the replicability of
+individual studies.
 
 ```{r}
 ###############################################################################
@@ -721,7 +731,28 @@ testOutliers(sim_res)
 
 ```
 
-Although impact factor emerged as a statistically significant predictor of replication success over different models like logistic regression, GAM and restricted cubic splines logistic regression, its practical relevance is negligible. The Box-Tidwell test indicated a violation of the linearity assumption for logistic regression even after log-transformation, favoring more flexible approaches. Nonetheless, GAM and Restricted Cubic Splines yielded no meaningful improvement over simple logistic regression, with AUC values across all three models hovering around 0.56 and McFadden's pseudo-R² ranging from .008 to .013. The RCS model identified a threshold of P(success) = 0.5 at an impact factor of approximately 3.1, though the wide confidence intervals and negligible model fit limit the interpretability of this estimate. Multilevel modeling revealed that scientific discipline accounts for a small but non-trivial share of variance in replication success (ICC = .052), and impact factor and discipline are partially confounded. Nevertheless, impact factor retained a small independent effect after accounting for disciplinary clustering (β = −0.40, p < .001). Model diagnostics indicated no issues with overdispersion, outliers, or separation. Taken together, while the effect of impact factor is statistically detectable and robust across model specifications, its explanatory power is too limited to serve as a meaningful heuristic for judging the replicability of individual studies.
+Although impact factor emerged as a statistically significant predictor
+of replication success over different models like logistic regression,
+GAM and restricted cubic splines logistic regression, its practical
+relevance is negligible. The Box-Tidwell test indicated a violation of
+the linearity assumption for logistic regression even after
+log-transformation, favoring more flexible approaches. Nonetheless, GAM
+and Restricted Cubic Splines yielded no meaningful improvement over
+simple logistic regression, with AUC values across all three models
+hovering around 0.56 and McFadden's pseudo-R² ranging from .008 to .013.
+The RCS model identified a threshold of P(success) = 0.5 at an impact
+factor of approximately 3.1, though the wide confidence intervals and
+negligible model fit limit the interpretability of this estimate.
+Multilevel modeling revealed that scientific discipline accounts for a
+small but non-trivial share of variance in replication success (ICC =
+.052), and impact factor and discipline are partially confounded.
+Nevertheless, impact factor retained a small independent effect after
+accounting for disciplinary clustering (β = −0.40, p \< .001). Model
+diagnostics indicated no issues with overdispersion, outliers, or
+separation. Taken together, while the effect of impact factor is
+statistically detectable and robust across model specifications, its
+explanatory power is too limited to serve as a meaningful heuristic for
+judging the replicability of individual studies.
 
 ```{r}
 

@@ -1,6 +1,5 @@
 ------------------------------------------------------------------------
 
-
 ```{r methods, include=FALSE}
 
 # This file only contains the methods
@@ -11,21 +10,39 @@
 
 # Create a bib-file for R citations
 # grateful::cite_packages(output = "file", bib.file = "r-references.bib")
-papaja::r_refs(file = "r-references.bib")
-r_citations <- papaja::cite_r(file = "r-references.bib")
+# papaja::r_refs(file = "r-references.bib", append = FALSE)
 
+knitr::write_bib(
+  x = c(
+    "base", "papaja", "tidyverse", "dplyr", "ggplot2", "readr",
+    "purrr", "stringr", "tibble", "tidyr", "forcats",
+    "car", "effectsize", "patchwork", "openxlsx", "prmisc",
+    "grateful", "psych", "zcurve", "beepr", "flextable",
+    "kableExtra", "cowplot", "ggpubr", "lubridate",
+    # packages added by the new OMC section:
+    "mgcv", "pROC", "lme4", "DHARMa", "detectseparation", "rms",
+    "scales", "lme4"
+  ),
+  file = "r-references.bib"
+)
+
+r_citations <- papaja::cite_r(file = "r-references.bib")
 ```
 
+# Guess the Replication (GutheR): A Gamified Pedagogical Approach
 
-# Methods
-
-We collected predictions of replication success using an existing community resource that includes pairs of replications and original studies. Participants did not actually predict success since all of the replication outcomes were publicly known. The primary purpose was not to investigate how well researchers could predict replication outcomes but if they relied on journal impact factors for this.
+We collected predictions of replication success using an existing
+community resource that includes pairs of replications and original
+studies. Participants did not actually predict success since all of the
+replication outcomes were publicly known. The primary purpose was not to
+investigate how well researchers could predict replication outcomes but
+if they relied on journal's citation numbers for this.
 
 ## Predicting Replicability
 
 Past studies have used prediction markets with monetary rewards and
-often before the replication success was known. Table \@ref(tab:prediction-studies) provides an
-overview of past studies.
+often before the replication success was known. Table
+\@ref(tab:prediction-studies) provides an overview of past studies.
 
 ```{r prediction-studies, echo=FALSE}
 
@@ -55,26 +72,61 @@ kable(prediction_data,
       caption = "Overview of past studies predicting replication outcomes.",
       col.names = c("Reference", "Number of Studies", "Field",
                      "Number of Transactions", "Accuracy and Metric"))
+
+
+
+# # Markdown table backup
+# | Reference | Number of Studies | Field | Number of Transactions | Accuracy and Metric |
+# |---------------|---------------|---------------|---------------|---------------|
+# | @Dreber2015 | 44 | Psychology (RPP) | 2,496 | 39% actual success rate versus 55% predicted success rate |
+# | @Camerer2016 | 18 | Economics (EERP) | NA | 61.1% actual success rate versus 75.2% predicted success |
+# | @Camerer2018 | 21 | Social sciences | NA | 62% actual success rate versus 63.4% predicted success |
+# | @Gordon2021 | 103 | Social and behavioural sciences | NA | 73% accuracy |
+# | @Forsell2019 | 28 | Many Labs 2 | NA | 75% correct predictions |
+# | @Altmejd2019 | 144 | Combination of RPP, EERP, ML1 | None (AI models were used) | 70% accuracy (AUC =0.77) |
 ```
 
-| Reference | Number of Studies | Field | Number of Transactions | Accuracy and Metric |
-|---------------|---------------|---------------|---------------|---------------|
-| @Dreber2015 | 44 | Psychology (RPP) | 2,496 | 39% actual success rate versus 55% predicted success rate |
-| @Camerer2016 | 18 | Economics (EERP) | NA | 61.1% actual success rate versus 75.2% predicted success |
-| @Camerer2018 | 21 | Social sciences | NA | 62% actual success rate versus 63.4% predicted success |
-| @Gordon2021 | 103 | Social and behavioural sciences | NA | 73% accuracy |
-| @Forsell2019 | 28 | Many Labs 2 | NA | 75% correct predictions |
-| @Altmejd2019 | 144 | Combination of RPP, EERP, ML1 | None (AI models were used) | 70% accuracy (AUC =0.77) |
+## Method
 
-## Guess the Replication (GutheR): A Gamified Pedagogical Approach
+To collect data on people's predictions of replicability and to drive
+attention towards replication studies, we created a browser game that
+resembles the popular guessthecorrelation.com [@Wagih2015]. That is, the
+style is pixelated, there are sounds for correct and wrong answers,
+players' score will be ranked on a leaderboard, players get a
+certificate that they can share with others on social media, and it can
+be played with keyboard, mouse, or on smartphones.
 
-To collect data on people's predictions of replicability and to drive attention towards replication studies, we created a browser game that resembles the popular guessthecorrelation.com. That is, the style is pixelated, there are sounds for correct and wrong answers, players' score will be ranked on a leaderboard, players get a certificate that they can share with others on social media, and it can be played with keyboard, mouse, or on smartphones.
-
-The aim of Guess the Replication (GutheR) is to correctly predict replication success based on only the title, abstract, study number (if applicable) and - for 50% of the trials - the impact factor of the original publication's journal. We used the FORRT Library of Reproduction and Replication Attempts as the database from which trials were created.
+The aim of Guess the Replication (GutheR) is to correctly predict
+replication success based on only the title, abstract, study number (if
+applicable) and - for approximately 50% of the trials - the OMC of the
+original publication's journal. We used the *FORRT Library of
+Reproduction and Replication Attempts* (FLoRA) as the database from
+which trials were created.
 
 ### Database: FLoRA
 
-The FLoRA version from March 24, 2026 [@wallrich2026flora] was used to create trials and enriched with data from OpenAlex [@priem2022openalexfullyopenindexscholarly] and Crossref [@Hendricks2020]. This database consist of over 1,500 pairs of reproduction or replication studies including their coded result (e.g., success, failure, mixed) and an outcome quote. Thus, participants did not actually predict the outcome. We filtered out all reproductions and replications for which there was no informative outcome, such as studies that were included in multi-replication articles and only said "success rating = 1", "no", or other uninformative phrases. Furthermore, we excluded specific large-scale multi-lab projects (e.g., Open Science Collaboration, 2015). Finally, to allow the game to be less complex, we excluded all studies for which the outcome rating was not "successful" or "failed" and dropped any studies for which a sufficiently long abstract could not be automatically retrieved via the Crossref or OpenAlex APIs. The final sample consisted of [XXX] replication studies. The dataset creation script is available online: [LINK]. We computed the relationship between the journals' impact factors (defined as the 2-year mean citedness via OpenAlex) and replication rate based on this subset of the database.
+The FLoRA version from April 24, 2026 [@wallrich2026flora] was used to
+create trials and enriched with data from OpenAlex
+[@priem2022openalexfullyopenindexscholarly] and Crossref
+[@Hendricks2020]. This database now consists of over 2,000 pairs of
+reproduction or replication studies including their coded result (e.g.,
+success, failure, mixed) and an outcome quote. The database is updated
+daily and available at <https://github.com/forrtproject/FReD-data>.
+Thus, participants did not actually predict the outcome. We filtered out
+all reproductions (e.g., repeated tests that used the same data as the
+original study). Finally, to allow the game to be less complex, we
+excluded all studies for which the outcome rating was not "successful"
+or "failed" and dropped any studies for which a sufficiently long
+abstract could not be automatically retrieved via the Crossref or
+OpenAlex APIs. The final sample consisted of 1,234 pairs of original and
+replication studies (565 failures, 670 successes). The dataset creation
+script is available online:
+<https://github.com/LukasRoeseler/GuessTheReplication/blob/main/Game/dataset.csv>
+(long-term archival via the Open Science Framework is planned alongside
+the preregistration). We computed the relationship between the journals'
+impact factors (defined as the 2-year mean citedness via OpenAlex) and
+replication rate based on this subset of the database. Note that newer
+versions of FLoRA do not include the study number anymore.
 
 ### Informed Consent
 
@@ -120,22 +172,28 @@ responses), and lives (5 at the beginning, losing one for every false
 prediction, and gaining one bonus life for every level-up, i.e., every
 five correct responses). For each trial, we presented the original
 study's title (e.g., "Turning the hands of time") and the corresponding
-abstract. For half of the trials, we presented the journal's impact
-factor as computed based on OpenAlex. Players had to predict
-"replicates" or "fails" by a mouse click or button press. After their
-prediction, their guess, the actual replication outcome, and whether
-they were correct or wrong, accompanied by a high- versus low-pitched
-sound was presented. They had the option to disable the sound. Moreover,
-we provided the quote from the replication authors' about the success
-(e.g., "the data were 10.76 times more likely under the null hypothesis
-than under the alternative hypothesis") and provided links to the
-original and replication study [for this example @Topolinski2011 and
+abstract. For half of the trials, we presented the two-year OpenAlex
+Mean Citedness (OMC). Players had to predict "replicates" or "fails" by
+a mouse click or button press. After their prediction, their guess, the
+actual replication outcome, and whether they were correct or wrong,
+accompanied by a high- versus low-pitched sound was presented. They had
+the option to disable the sound. Moreover, we provided the quote from
+the replication authors' about the success (e.g., "the data were 10.76
+times more likely under the null hypothesis than under the alternative
+hypothesis") where applicable and provided links to the original and
+replication study [for this example @Topolinski2011 and
 @Wagenmakers2015]. Players initiated the subsequent trial by pressing
 space or clicking the respective button. Trials were drawn without
 replacement per user and manipulated so that they had a forced 50%
 chance of being a study that had successfully replicated versus failed.
 
-Apart from the data that participants actively provided, we recorded time spend on each of the trials so that we could filter out cases of trials where players randomly pressed a button as well as whether they switched browser tabs during a trial: Since the FLoRA is publicly available and some replication attempts have already gained much attention, players could otherwise look up the results. They could also already know the results.
+Apart from the data that participants actively provided, we recorded
+time spent on each of the trials so that we could filter out cases of
+trials where players randomly pressed a button as well as whether they
+switched browser tabs during a trial: Since the FLoRA is publicly
+available and some replication attempts have already gained much
+attention, players could otherwise look up the results. They could also
+already know the results.
 
 When a player's score crossed a level threshold (every five correct
 predictions), a level-up screen was displayed showing their new rank
@@ -171,17 +229,41 @@ that players could play was unlimited.
 
 ## Analysis Plan
 
-*Note: This section is written in past tense for consistency with the final manuscript. The analysis plan, including the complete R code, was preregistered prior to data collection and analysis [OSF LINK].*
+*Note: This section is written in past tense for consistency with the
+final manuscript. The analysis plan, including the complete R code, was
+preregistered prior to data collection and analysis on the OSF
+[@*Roseler2026osf*]**. In the case of discrepancies between this
+narrative analysis plan and the analysis script, the analysis script has
+higher authority.*
 
-All analyses were conducted in `r r_citations`. We followed the LEVEL reporting guidelines for multilevel analyses [@Monsalves2020].
+All analyses were conducted in `r r_citations`. We followed the LEVEL
+reporting guidelines for multilevel analyses [@monsalves2020level].
 
 ### Data Exclusion Criteria
 
-We applied exclusion criteria at two levels. At the session level, we flagged and removed sessions with fewer than five completed trials, sessions exhibiting bot-like behavior (coefficient of variation of reaction times below 0.10), and sessions showing straightlining (10 or more identical consecutive responses with a median reaction time below 3,000 ms). At the trial level, we excluded individual trials in which the participant switched browser tabs (indicating possible look-up of the replication outcome), trials with reaction times below 2,000 ms (insufficient time to read the abstract), and trials with reaction times exceeding 900,000 ms (15 minutes, indicating abandonment).
+We applied exclusion criteria at two levels. At the session level, we
+flagged and removed sessions with fewer than five completed trials,
+sessions exhibiting bot-like behavior (coefficient of variation of
+reaction times below 0.10), and sessions showing straightlining (10 or
+more identical consecutive responses with a median reaction time below
+3,000 ms). At the trial level, we excluded individual trials in which
+the participant switched browser tabs (indicating possible look-up of
+the replication outcome), trials with reaction times below 2,000 ms
+(insufficient time to read the abstract), and trials with reaction times
+exceeding 900,000 ms (15 minutes, indicating abandonment).
 
 ### Multilevel Data Structure
 
-The data had a hierarchical structure: individual trials (Level 1) were nested within participants (Level 2), identified by their anonymous personal code. Because multiple participants could judge the same replication–original study pair, and each participant judged multiple studies, study identity and participant identity were crossed rather than nested. We included a crossed random effect for study identity only if the final analytic sample exceeded 5,000 observations; otherwise, we retained a two-level model with participants as the sole grouping factor. Table \@ref(tab:multilevel-diagram) presents the multilevel diagram.
+The data had a hierarchical structure: individual trials (Level 1) were
+nested within participants (Level 2), identified by their anonymous
+personal code. Because multiple participants could judge the same
+replication–original study pair, and each participant judged multiple
+studies, study identity and participant identity were crossed rather
+than nested. We included a crossed random effect for study identity only
+if the final analytic sample exceeded 5,000 observations; otherwise, we
+retained a two-level model with participants as the sole grouping
+factor. Table \@ref(tab:multilevel-diagram) presents the multilevel
+diagram.
 
 ```{r multilevel-diagram, echo=FALSE, results='asis'}
 mlm_diagram <- data.frame(
@@ -190,7 +272,7 @@ mlm_diagram <- data.frame(
   Variables = c(
     "Between-subject: in\\_research (research experience: yes/no)",
     paste0(
-      "Within-subject: if\\_visible (impact factor shown: yes/no), ",
+      "Within-subject: if\\_visible (OMC shown: yes/no), ",
       "impact\\_factor (journal mean citedness), ",
       "true\\_outcome (replication success/failure), ",
       "reaction\\_time (ms), abstract\\_length (characters)"
@@ -216,54 +298,119 @@ knitr::kable(
 )
 ```
 
-The dependent variable, the participant's binary prediction of replication success, was measured at Level 1. Because the outcome was at a lower level than the grouping variable, a multilevel analysis was required. The within-subject manipulation of impact factor visibility and the between-subject variation in research experience motivated the inclusion of both fixed and random effects to account for the correlated structure of trials within participants.
+The dependent variable, the participant's binary prediction of
+replication success, was measured at Level 1. A multilevel analysis was
+required because the outcome was at a lower level than the grouping
+variable. The within-subject manipulation of OMC visibility and the
+between-subject variation in research experience motivated the inclusion
+of both fixed and random effects to account for the correlated structure
+of trials within participants [@monsalves2020level].
 
 ### Variable Definitions
 
-*Dependent variable.* `player_guess` was coded 1 if the participant predicted "success" (i.e., the original study replicates) and 0 if they predicted "failure."
+*Dependent variable.* `player_guess` was coded 1 if the participant
+predicted "success" (i.e., the original study replicates) and 0 if they
+predicted "failure."
 
-*Primary predictors.* `if_visible` was a within-subject binary indicator of whether the journal's impact factor was displayed on a given trial. `in_research` was a between-subject binary indicator coded 1 if the participant reported being a PhD student, postdoc, or professor, or held a PhD, and 0 otherwise. `impact_factor` was the 2-year mean citedness of the original study's journal as obtained from OpenAlex; this value was present in the data for every trial regardless of whether it was shown to the participant, allowing us to model its influence on guessing behavior as a function of its visibility.
+*Primary predictors.* `if_visible` was a within-subject binary indicator
+of whether the journal's OMC was displayed on a given trial.
+`in_research` was a between-subject binary indicator coded 1 if the
+participant reported being a PhD student, postdoc, or professor, or held
+a PhD, and 0 otherwise. `impact_factor` was the 2-year mean citedness of
+the original study's journal as obtained from OpenAlex; this value was
+present in the data for every trial regardless of whether it was shown
+to the participant, allowing us to model its influence on guessing
+behavior as a function of its visibility.
 
-*Control variables.* `true_outcome` indicated whether the original study actually replicated successfully. `reaction_time` was the time in milliseconds from trial onset to the participant's response. `abstract_length` was the character count of the original study's abstract.
+*Control variables.* `true_outcome` indicated whether the original study
+actually replicated successfully. `reaction_time` was the time in
+milliseconds from trial onset to the participant's response.
+`abstract_length` was the character count of the original study's
+abstract.
 
-*Grouping variables.* `personal_code` identified participants. `study_id` identified unique replication–original study pairings.
+*Grouping variables.* `personal_code` identified participants.
+`study_id` identified unique replication–original study pairings.
 
 ### Feature Engineering and Preregistered Transformation Rule
 
-For each continuous predictor (`impact_factor`, `reaction_time`, `abstract_length`), we computed the skewness. If the absolute skewness exceeded 1, we applied a $\log(1+x)$ transformation prior to $z$-standardization; otherwise, we only $z$-standardized. This data-driven transformation rule was preregistered to ensure that the decision was transparent and reproducible.
+For each continuous predictor (`impact_factor`, `reaction_time`,
+`abstract_length`), we computed the skewness. If the absolute skewness
+exceeded 1, we applied a $\log(1+x)$ transformation prior to
+$z$-standardization; otherwise, we only $z$-standardized. This
+data-driven transformation rule was preregistered to ensure that the
+decision was transparent and reproducible.
 
-We additionally assessed the linearity of each continuous predictor on the logit scale by fitting a generalized additive model (GAM) with penalized splines using the `mgcv` package [@R-mgcv]. If the smooth term for `abstract_length` was statistically significant at $\alpha = .05$ and exhibited meaningful nonlinearity, operationalzed as estimated degrees of freedom \>2, we included a quadratic term $(\text{abstract_length}_{z})^{2}$ in the final model.
+We additionally assessed the linearity of each continuous predictor on
+the logit scale by fitting a generalized additive model (GAM) with
+penalized splines using the `mgcv` package [@R-mgcv]. If the smooth term
+for `abstract_length` was statistically significant at $\alpha = .05$
+and exhibited meaningful nonlinearity, operationalized as estimated
+degrees of freedom \>2, we included a quadratic term
+$(\text{abstract_length}_{z})^{2}$ in the final model.
 
 ### Descriptive Analyses
 
 We conducted descriptive statistics at each level of the data hierarchy.
 
-At Level 1 (trial level), we reported the proportion of "success" predictions, the proportion of trials in which the impact factor was visible, the proportion of trials with a successful true outcome, and means and standard deviations for reaction time, impact factor, and abstract length. Standard errors and 95% confidence intervals for these statistics were adjusted for the clustering of trials within participants using a survey design framework [the `survey` package; @R-survey].
+At Level 1 (trial level), we reported the proportion of "success"
+predictions, the proportion of trials in which the OMC was visible, the
+proportion of trials with a successful true outcome, and means and
+standard deviations for reaction time, OMC, and abstract length.
+Standard errors and 95% confidence intervals for these statistics were
+adjusted for the clustering of trials within participants using a survey
+design framework [the `survey` package; @R-survey].
 
-At Level 2 (participant level), we reported the number of participants, the distribution of trials per participant (median and range), and the distribution of research experience. We presented participant-level means of the dependent variable, broken down by research experience and impact factor visibility (spaghetti plots showing within-subject changes across conditions). Bivariate plots of continuous predictors against the dependent variable identified cluster membership by color or faceting.
+At Level 2 (participant level), we reported the number of participants,
+the distribution of trials per participant (median and range), and the
+distribution of research experience. We presented participant-level
+means of the dependent variable, broken down by research experience and
+OMC visibility (spaghetti plots showing within-subject changes across
+conditions). Bivariate plots of continuous predictors against the
+dependent variable identified cluster membership by color or faceting.
 
-We also presented correlation matrices separately for Level 1 (trial-level variables) and Level 2 (participant-aggregated variables).
+We also presented correlation matrices separately for Level 1
+(trial-level variables) and Level 2 (participant-aggregated variables).
 
 ### Model Specification
 
-We estimated three generalized linear mixed models (GLMMs) with a binomial distribution and logit link function, using maximum likelihood estimation via the Laplace approximation as implemented in `lme4::glmer` [@R-lme4]. All models used the `bobyqa` optimizer with a maximum of 100,000 function evaluations. Following the LEVEL recommendations, we report null model and intermediate model, so that the impact of explanatory variables on variance components can be easily identified.
+We estimated three generalized linear mixed models (GLMMs) with a
+binomial distribution and logit link function, using maximum likelihood
+estimation via the Laplace approximation as implemented in `lme4::glmer`
+[@R-lme4]. All models used the `bobyqa` optimizer with a maximum of
+100,000 function evaluations. Following the LEVEL recommendations, we
+report null model and intermediate model, so that the impact of
+explanatory variables on variance components can be easily identified.
 
-*Null model.* The null model contained no predictors and included only a random intercept for participants:
+*Null model.* The null model contained no predictors and included only a
+random intercept for participants:
 
 $$\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + u_{0j}$$
 
-where $Y_{ij}$ was the binary prediction of participant $j$ on trial $i$, $\beta_0$ was the fixed intercept, and $u_{0j} \sim N(0, \sigma^2_{u0})$ was the random intercept for participant $j$. This model served to estimate the baseline variance partition coefficient (VPC), quantifying how much of the total variance in predictions was attributable to between-participant differences.
+where $Y_{ij}$ was the binary prediction of participant $j$ on trial
+$i$, $\beta_0$ was the fixed intercept, and
+$u_{0j} \sim N(0, \sigma^2_{u0})$ was the random intercept for
+participant $j$. This model served to estimate the baseline variance
+partition coefficient (VPC), quantifying how much of the total variance
+in predictions was attributable to between-participant differences.
 
-*Intermediate model.* The intermediate model added the between-subject predictor (research experience), the within-subject experimental manipulation (impact factor visibility), their interaction, and the true replication outcome as a control, with a random intercept for participants:
+*Intermediate model.* The intermediate model added the between-subject
+predictor (research experience), the within-subject experimental
+manipulation (OMC visibility), their interaction, and the true
+replication outcome as a control, with a random intercept for
+participants:
 
 $$\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + \beta_1 \cdot
 \text{in_research}_j + \beta_2 \cdot \text{if_visible}_{ij} + \beta_3
 \cdot \text{in_research}_j \times \text{if_visible}_{ij} + \beta_4
 \cdot \text{true_outcome}_{ij} + u_{0j}$$
 
-This model tested whether the experimental manipulation and research experience affected predictions before introducing continuous covariates.
+This model tested whether the experimental manipulation and research
+experience affected predictions before introducing continuous
+covariates.
 
-*Final model.* The final model extended the intermediate model with the three-way interaction between research experience, impact factor visibility, and the (standardized) impact factor value, plus continuous control variables:
+*Final model.* The final model extended the intermediate model with the
+three-way interaction between research experience, OMC visibility, and
+the (standardized) OMC value, plus continuous control variables:
 
 $$\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + (\beta_1 \cdot
 \text{in_research}_j \times \text{if_visible}_{ij} \times
@@ -272,43 +419,128 @@ $$\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + (\beta_1 \cdot
 \text{reaction_time_z}_{ij} + \beta_4 \cdot
 \text{abstract_length_z}_{ij} + \mathbf{u}_j$$
 
-where $\mathbf{u}_j$ denoted the vector of participant-level random effects. The three-way interaction $\text{in_research} \times \text{if_visible} \times \text{impact_factor_z}$ was the term of primary theoretical interest: it tested whether the effect of the impact factor on participants' predictions depended on (a) whether the impact factor was actually shown and (b) whether the participant had research experience. If the three-way interaction model failed to converge under any random-effects structure (see below), we fell back to a two-way interaction model ($\text{in_research} \times \text{if_visible} + \text{impact_factor_z}$) and reported both attempts.
+where $\mathbf{u}_j$ denoted the vector of participant-level random
+effects. The three-way interaction
+$\text{in_research} \times \text{if_visible} \times \text{impact_factor_z}$
+was the term of primary theoretical interest: it tested whether the
+effect of the OMC on participants' predictions depended on (a) whether
+the OMC was actually shown and (b) whether the participant had research
+experience. If the three-way interaction model failed to converge under
+any random-effects structure (see below), we fell back to a two-way
+interaction model
+($\text{in_research} \times \text{if_visible} + \text{impact_factor_z}$)
+and reported both attempts.
 
 ### Random-Effects Structure and Preregistered Fallback Chain
 
-Specifying the random-effects structure of GLMMs involved a trade-off between theoretical fidelity and empirical estimability. We preregistered a sequential fallback chain, attempting the most complex theoretically justified structure first and simplifying only upon convergence failure or singular fit (defined as any variance component estimated at or near zero, assessed via `isSingular()` with a tolerance of $10^{-4}$). The chain proceeded as follows:
+Specifying the random-effects structure of GLMMs involved a trade-off
+between theoretical fidelity and empirical estimability. We
+preregistered a sequential fallback chain, attempting the most complex
+theoretically justified structure first and simplifying only upon
+convergence failure or singular fit (defined as any variance component
+estimated at or near zero, assessed via `isSingular()` with a tolerance
+of $10^{-4}$). The chain proceeded as follows:
 
-1.  **Correlated random slopes:** $(1 + \text{if_visible} + \text{if_visible} \times \text{impact_factor_z} + \text{true_outcome} \mid \text{personal_code})$
-2.  **Uncorrelated random slopes:** same terms with $\|$ instead of $\mid$ (diagonal covariance matrix)
-3.  **Drop true_outcome from random part:** $(1 + \text{if_visible} + \text{if_visible} \times \text{impact_factor_z} \| \text{personal_code})$
-4.  **Replace interaction with main effect:** $(1 + \text{if_visible} + \text{impact_factor_z} \| \text{personal_code})$
-5.  **Random slope for visibility only:** $(1 + \text{if_visible} \| \text{personal_code})$
+1.  **Correlated random slopes:**
+    $(1 + \text{if_visible} + \text{if_visible} \times \text{impact_factor_z} + \text{true_outcome} \mid \text{personal_code})$
+2.  **Uncorrelated random slopes:** same terms with $\|$ instead of
+    $\mid$ (diagonal covariance matrix)
+3.  **Drop true_outcome from random part:**
+    $(1 + \text{if_visible} + \text{if_visible} \times \text{impact_factor_z} \| \text{personal_code})$
+4.  **Replace interaction with main effect:**
+    $(1 + \text{if_visible} + \text{impact_factor_z} \| \text{personal_code})$
+5.  **Random slope for visibility only:**
+    $(1 + \text{if_visible} \| \text{personal_code})$
 6.  **Random intercept only:** $(1 \mid \text{personal_code})$
-7.  **No random effects (fallback):** ordinary logistic regression via `glm()`
+7.  **No random effects (fallback):** ordinary logistic regression via
+    `glm()`
 
-We reported which step of the chain was used and the corresponding model formula. If the final model included correlated random effects (Step 1), we reported the estimated correlation structure among the random effects. If the analytic sample exceeded 5,000 observations, we additionally included a crossed random intercept for study identity at each step: $(1 \mid \text{study_id})$.
+We reported which step of the chain was used and the corresponding model
+formula. If the final model included correlated random effects (Step 1),
+we reported the estimated correlation structure among the random
+effects. If the analytic sample exceeded 5,000 observations, we
+additionally included a crossed random intercept for study identity at
+each step: $(1 \mid \text{study_id})$.
 
 ### Assumption and Diagnostic Checks
 
 We conducted the following checks on the final model:
 
-1.  *Convergence and singularity:* We verified that the optimizer converged without warnings and that the model was not singular.
-2.  *Complete or quasi-complete separation:* We tested for perfect separation in the fixed-effects design matrix using the `detectseparation` package [@R-detectseparation]. If separation was detected, coefficient estimates and standard errors were considered unreliable, and we would have considered penalized estimation (e.g., Firth's correction).
-3.  *Multicollinearity:* We computed generalized variance inflation factors (GVIFs) for all non-interaction fixed effects using `car::vif` [@R-car]. Values exceeding 10 were flagged.
-4.  *Random-effects normality:* We inspected QQ plots of the estimated random effects (BLUPs) for each random-effects term.
-5.  *Linearity on the logit scale:* We compared the GLMM with a GAM that replaced linear terms with penalized splines. Effective degrees of freedom near 1 indicated linearity; significant values substantially above 2 indicated potential nonlinearity.
-6.  *Residual diagnostics:* We used simulation-based residual diagnostics via the `DHARMa` package [@R-DHARMa], including tests for outliers.
+1.  *Convergence and singularity:* We verified that the optimizer
+    converged without warnings and that the model was not singular.
+2.  *Complete or quasi-complete separation:* We tested for perfect
+    separation in the fixed-effects design matrix using the
+    `detectseparation` package [@R-detectseparation]. If separation was
+    detected, coefficient estimates and standard errors were considered
+    unreliable, and we would have considered penalized estimation (e.g.,
+    Firth's correction).
+3.  *Multicollinearity:* We computed generalized variance inflation
+    factors (GVIFs) for all non-interaction fixed effects using
+    `car::vif` [@R-car]. Values exceeding 10 were flagged.
+4.  *Random-effects normality:* We inspected QQ plots of the estimated
+    random effects (BLUPs) for each random-effects term.
+5.  *Linearity on the logit scale:* We compared the GLMM with a GAM that
+    replaced linear terms with penalized splines. Effective degrees of
+    freedom near 1 indicated linearity; significant values substantially
+    above 2 indicated potential nonlinearity.
+6.  *Residual diagnostics:* We used simulation-based residual
+    diagnostics via the `DHARMa` package [@R-DHARMa], including tests
+    for outliers.
 
 ### Model Comparison and Fit Indices
 
-We compared the null, intermediate, and final models using the following criteria:
+We compared the null, intermediate, and final models using the following
+criteria:
 
-- *Variance partition coefficient (VPC):* The proportion of total variance attributable to between-participant differences, computed from the variance components of each model. We reported VPCs for each model to show how the inclusion of predictors explained between-participant variation.
-- *Akaike Information Criterion (AIC)* and *Bayesian Information Criterion (BIC):* Lower values indicated better model fit with parsimony penalties.
-- *Area Under the Receiver Operating Characteristic Curve (AUC):* Computed from in-sample predicted probabilities using the `pROC` package [@R-pROC]. The AUC quantified the model's discriminative ability, that is, how well predicted probabilities distinguished between "success" and "failure" predictions.
+-   *Variance partition coefficient (VPC):* The proportion of total
+    variance attributable to between-participant differences, computed
+    from the variance components of each model. We reported VPCs for
+    each model to show how the inclusion of predictors explained
+    between-participant variation.
+-   *Akaike Information Criterion (AIC)* and *Bayesian Information
+    Criterion (BIC):* Lower values indicated better model fit with
+    parsimony penalties.
+-   *Area Under the Receiver Operating Characteristic Curve (AUC):*
+    Computed from in-sample predicted probabilities using the `pROC`
+    package [@R-pROC]. The AUC quantified the model's discriminative
+    ability, that is, how well predicted probabilities distinguished
+    between "success" and "failure" predictions.
 
-Fixed effects were reported as odds ratios (ORs) with Wald-based 95% confidence intervals and $p$-values. A summary table presented these estimates alongside VPCs, AIC, BIC, and AUC for all three models, following the tabular format recommended by the LEVEL guidelines [@Monsalves2020].
+Fixed effects were reported as odds ratios (ORs) with Wald-based 95%
+confidence intervals and $p$-values. A summary table presented these
+estimates alongside VPCs, AIC, BIC, and AUC for all three models,
+following the tabular format recommended by the LEVEL guidelines
+[@monsalves2020level].
+
+### Interpretation of Possible Outcomes
+
+The following table includes different possible outcomes and our
+respective interpretation.
+
+| OMC and Replicability Hypothesis | OMC and Prediction Hypothesis | Researchers vs. Non-Researchers hypothesis | Interpretation |
+|:----------------|:----------------|:----------------|:--------------------|
+| OMC unrelated to replicability | Participants rely on IF | Researchers rely more | Researchers use a heuristic that lacks validity |
+| OMC unrelated to replicability | Participants do not rely on IF | — | OMC is neither valid nor used; no misalignment |
+| OMC positively predicts replicability | Participants rely on IF | Researchers rely more | Researchers use a partially valid heuristic |
+| OMC negatively predicts replicability | Participants rely on IF | Researchers rely more | Researchers use a counter-valid heuristic |
 
 ### Sample Size Considerations
 
-Because participant recruitment occurred through voluntary engagement with an online game, the sample size was not predetermined by a formal power analysis. Instead, we reported the final number of participants and trials at each level after applying all exclusion criteria. We reported the median and range of trials per participant, as the number of trials varied across participants depending on their game performance (i.e., how many lives they retained). The VPCs estimated from the null model were used to compute post-hoc variance inflation factors ($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, where $\bar{n}_j$ was the average number of trials per participant) to contextualize the effective sample size.
+Because participant recruitment occurred through voluntary engagement
+with an online game, the sample size was not fully predetermined by
+traditional laboratory scheduling. However, we set a minimum recruitment
+target of 100 researchers (defined as PhD students, postdocs, or
+professors, or participants holding a PhD) and 100 non-researchers, each
+completing at least five valid trials. Data collection will remain open
+for two months after the game's public launch, that is, from May 20
+until July 20.
+
+We reported the final number of participants and trials at each level
+after applying all exclusion criteria. We reported the median and range
+of trials per participant, as the number of trials varied across
+participants depending on their game performance (i.e., how many lives
+they retained). The VPCs estimated from the null model were used to
+compute post-hoc variance inflation factors
+($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, wherWe
+$\bar{n}_j$ was the average number of trials per participant) to
+contextualize the effective sample size.

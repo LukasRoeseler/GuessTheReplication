@@ -353,7 +353,6 @@ display: none;
 
 
 <hr />
-<pre><code></code></pre>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
 <p>We collected predictions of replication success using an existing
@@ -365,8 +364,75 @@ if they relied on journal impact factors for this.</p>
 <div id="predicting-replicability" class="section level2">
 <h2>Predicting Replicability</h2>
 <p>Past studies have used prediction markets with monetary rewards and
-often before the replication success was known. Table X provides an
-overview of past studies.</p>
+often before the replication success was known. Table
+@ref(tab:prediction-studies) provides an overview of past studies.</p>
+<table>
+<caption>Overview of past studies predicting replication
+outcomes.</caption>
+<colgroup>
+<col width="8%" />
+<col width="12%" />
+<col width="21%" />
+<col width="18%" />
+<col width="39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Reference</th>
+<th align="right">Number of Studies</th>
+<th align="left">Field</th>
+<th align="left">Number of Transactions</th>
+<th align="left">Accuracy and Metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="citation">@Dreber2015</span></td>
+<td align="right">44</td>
+<td align="left">Psychology (RPP)</td>
+<td align="left">2,496</td>
+<td align="left">39% actual success rate versus 55% predicted success
+rate</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="citation">@Camerer2016</span></td>
+<td align="right">18</td>
+<td align="left">Economics (EERP)</td>
+<td align="left">NA</td>
+<td align="left">61.1% actual success rate versus 75.2% predicted
+success</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="citation">@Camerer2018</span></td>
+<td align="right">21</td>
+<td align="left">Social sciences</td>
+<td align="left">NA</td>
+<td align="left">62% actual success rate versus 63.4% predicted
+success</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="citation">@Gordon2021</span></td>
+<td align="right">103</td>
+<td align="left">Social and behavioural sciences</td>
+<td align="left">NA</td>
+<td align="left">73% accuracy</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="citation">@Forsell2019</span></td>
+<td align="right">28</td>
+<td align="left">Many Labs 2</td>
+<td align="left">NA</td>
+<td align="left">75% correct predictions</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="citation">@Altmejd2019</span></td>
+<td align="right">144</td>
+<td align="left">Combination of RPP, EERP, ML1</td>
+<td align="left">None (AI models were used)</td>
+<td align="left">70% accuracy (AUC = 0.77)</td>
+</tr>
+</tbody>
+</table>
 <table>
 <colgroup>
 <col width="20%" />
@@ -467,6 +533,18 @@ script is available online: [LINK]. We computed the relationship between
 the journals’ impact factors (defined as the 2-year mean citedness via
 OpenAlex) and replication rate based on this subset of the database.</p>
 </div>
+<div id="informed-consent" class="section level3">
+<h3>Informed Consent</h3>
+<p>Before accessing the game, participants were presented with a consent
+modal. They were informed that participation was voluntary, that they
+must be at least 18 years old, that data would be stored via Supabase
+and published on Zenodo or OSF under a CC-BY license for at least ten
+years, and that they could request deletion of their data by contacting
+the research team with their personal code. Participants had to check a
+box confirming they had read and understood the privacy policy before
+they could proceed. Consent status was stored locally in the browser so
+that returning players were not asked again.</p>
+</div>
 <div id="procedure" class="section level3">
 <h3>Procedure</h3>
 <p>Players of Guther had the option to read a tutorial describing the
@@ -476,40 +554,42 @@ replications, FLoRA, data sharing, and credits/citation. When they
 played the game for the first time, they had to choose a nickname that
 would be presented on the leaderboard and create an anonymous personal
 code made out of the first two letters of their city of birth, the last
-wto letters of their father’s first name, the last two digits of their
+two letters of their father’s first name, the last two digits of their
 birth year, and the day of the month they were born. This would allow us
 to link players if they played on different devices at different times
 without having to collect sensitive data such as IP addresses.</p>
-<p>Subsequently, we asked players three questions: What is your current
-professional status (e.g., working outside of academia or being a PhD
-student), what is your highest level of education (e.g., no formal
-education, PhD), and how familiar are you with social research (e.g.,
-unfamiliar, publishing social science research). Familiarity was
-assessed using a multiple-choice format where participants could select
-all statements that applied to them. Demographic inputs were cached
-locally in the browser to prevent players from having to re-enter them
-during subsequent sessions.</p>
+<p>Subsequently, we asked players three questions: (1) What is your
+current professional status? (response options: student at university,
+PhD student, postdoc, professor, working outside of research,
+unemployed, other), (2) What is your highest level of education?
+(response options: no formal qualification, high school diploma,
+apprenticeship, bachelor’s degree, master’s degree, PhD), and (3) If you
+do research, what discipline are you most familiar with? (optional
+free-text field, e.g., Psychology, Economics). Demographic inputs were
+cached locally in the browser to prevent players from having to re-enter
+them during subsequent sessions.</p>
 <p>During the game, players saw their nickname, current score (+1 for
 every correct response), their level (from “Junior Reviewer” to
 “Editor-in-Chief” with level increases for every five correct
-responses), and lives (3 at the beginning, losing one for every false
-prediction). For each trial, we presented the original study’s title
-(e.g., “Turning the hands of time”) and the corresponding abstract. For
-half of the trials, we presented the journal’s impact factor as computed
-based on OpenAlex. Players had to predict “replicates” or “fails” by a
-mouse click or button press. After their prediction, their guess, the
-actual replication outcome, and whether they were correct or wrong,
-accompanied by a high- versus low-pitched sound was presented. They had
-the option to disable the sound. Moreover, we provided the quote from
-the replication authors’ about the success (e.g., “the data were 10.76
-times more likely under the null hypothesis than under the alternative
-hypothesis”) and provided links to the original and replication study
-<span class="citation">[for this example @Topolinski2011 and
-@Wagenmakers2015]</span>. Players initiated the subsequent trial by
-pressing space or clicking the respective button. Trials were drawn
-without replacement per user and manipulated so that they had a forced
-50% chance of being a study that had successfully replicated versus
-failed.</p>
+responses), and lives (5 at the beginning, losing one for every false
+prediction, and gaining one bonus life for every level-up, i.e., every
+five correct responses). For each trial, we presented the original
+study’s title (e.g., “Turning the hands of time”) and the corresponding
+abstract. For half of the trials, we presented the journal’s impact
+factor as computed based on OpenAlex. Players had to predict
+“replicates” or “fails” by a mouse click or button press. After their
+prediction, their guess, the actual replication outcome, and whether
+they were correct or wrong, accompanied by a high- versus low-pitched
+sound was presented. They had the option to disable the sound. Moreover,
+we provided the quote from the replication authors’ about the success
+(e.g., “the data were 10.76 times more likely under the null hypothesis
+than under the alternative hypothesis”) and provided links to the
+original and replication study <span class="citation">[for this example
+@Topolinski2011 and @Wagenmakers2015]</span>. Players initiated the
+subsequent trial by pressing space or clicking the respective button.
+Trials were drawn without replacement per user and manipulated so that
+they had a forced 50% chance of being a study that had successfully
+replicated versus failed.</p>
 <p>Apart from the data that participants actively provided, we recorded
 time spend on each of the trials so that we could filter out cases of
 trials where players randomly pressed a button as well as whether they
@@ -517,11 +597,26 @@ switched browser tabs during a trial: Since the FLoRA is publicly
 available and some replication attempts have already gained much
 attention, players could otherwise look up the results. They could also
 already know the results.</p>
-<p>When losing all lives, a descending series of tones was played and
-players could proceed to viewing the final results. At the top of the
-page was an auto-generated Guther certificate of achievement, presenting
-them a badge for the level that they achieved similar to the Open
-Science Badges (for an example see <a href="#id_0">https://www.cos.io/initiatives/badges</a>) including how
+<p>When a player’s score crossed a level threshold (every five correct
+predictions), a level-up screen was displayed showing their new rank
+badge, rank name, and a notification that one bonus life had been
+awarded, accompanied by a distinct ascending jingle. Players then
+continued to the next trial.</p>
+<p>When losing all lives (or when all available studies had been
+exhausted), a descending series of tones was played on the feedback
+screen. Before viewing their final results, players were presented with
+a data integrity check. They were asked to indicate whether they had
+looked up any of the studies before making a prediction or had randomly
+pressed buttons without paying attention. They were informed that their
+response would not affect their leaderboard position or certificate but
+that their data would be excluded from the research analysis if they
+indicated that they had looked up responses or clicked randomly. This
+self-report was stored as a boolean variable
+(<code>data_integrity_keep</code>) alongside each session’s score
+data.</p>
+<p>At the top of the page was an auto-generated Guther certificate of
+achievement, presenting them a badge for the level that they achieved
+similar to the Open Science Badges (for an example see <a href="#id_0">https://www.cos.io/initiatives/badges</a>) including how
 many replication outcomes they predicted correctly. They could download
 the certificate as a .png-file or share a text on Bluesky or Mastodon.
 Below, we advertised replication-related projects from the FORRT
@@ -540,30 +635,36 @@ the final manuscript. The analysis plan, including the complete R code,
 was preregistered prior to data collection and analysis [OSF
 LINK].</em></p>
 <p>All analyses were conducted in R <span class="citation">[Version
-4.5.3\; @R-base]</span> and the R-packages <em>apaTables</em> <span class="citation">[@R-apaTables]</span>, <em>beepr</em> <span class="citation">[@R-beepr]</span>, <em>car</em> <span class="citation">[Version 3.1.5\; @R-car; @R-carData]</span>,
+4.5.0\; @R-base]</span> and the R-packages <em>apaTables</em> <span class="citation">[Version 2.0.8\; @R-apaTables]</span>, <em>beepr</em>
+<span class="citation">[@R-beepr]</span>, <em>car</em> <span class="citation">[Version 3.1.5\; @R-car; @R-carData]</span>,
 <em>carData</em> <span class="citation">[Version 3.0.6\;
 @R-carData]</span>, <em>citr</em> <span class="citation">[@R-citr]</span>, <em>cowplot</em> <span class="citation">[Version 1.2.0\; @R-cowplot]</span>, <em>devtools</em>
-<span class="citation">[@R-devtools]</span>, <em>dplyr</em> <span class="citation">[Version 1.2.0\; @R-dplyr]</span>, <em>effectsize</em>
-<span class="citation">[Version 1.0.2\; @R-effectsize]</span>,
-<em>flextable</em> <span class="citation">[@R-flextable]</span>,
+<span class="citation">[Version 2.4.5\; @R-devtools]</span>,
+<em>dplyr</em> <span class="citation">[Version 1.2.1\; @R-dplyr]</span>,
+<em>effectsize</em> <span class="citation">[Version 1.0.2\;
+@R-effectsize]</span>, <em>flextable</em> <span class="citation">[Version 0.9.10\; @R-flextable]</span>,
 <em>forcats</em> <span class="citation">[Version 1.0.1\;
-@R-forcats]</span>, <em>FReD</em> <span class="citation">[@R-FReD]</span>, <em>ggplot2</em> <span class="citation">[Version 4.0.2\; @R-ggplot2]</span>, <em>ggpubr</em>
+@R-forcats]</span>, <em>FReD</em> <span class="citation">[Version
+0.0.0.9001\; @R-FReD]</span>, <em>ggplot2</em> <span class="citation">[Version 4.0.3\; @R-ggplot2]</span>, <em>ggpubr</em>
 <span class="citation">[@R-ggpubr]</span>, <em>grateful</em> <span class="citation">[Version 0.3.0\; @R-grateful]</span>,
-<em>kableExtra</em> <span class="citation">[@R-kableExtra]</span>,
-<em>lubridate</em> <span class="citation">[Version 1.9.5\;
-@R-lubridate]</span>, <em>openxlsx</em> <span class="citation">[Version
-4.2.8.1\; @R-openxlsx]</span>, <em>papaja</em> <span class="citation">[Version 0.1.4\; @R-papaja]</span>, <em>patchwork</em>
-<span class="citation">[Version 1.3.2\; @R-patchwork]</span>,
-<em>prmisc</em> <span class="citation">[Version 0.0.3\;
-@R-prmisc]</span>, <em>psych</em> <span class="citation">[@R-psych]</span>, <em>purrr</em> <span class="citation">[Version 1.2.1\; @R-purrr]</span>, <em>readr</em> <span class="citation">[Version 2.2.0\; @R-readr]</span>, <em>rticles</em>
-<span class="citation">[@R-rticles]</span>, <em>stringr</em> <span class="citation">[Version 1.6.0\; @R-stringr]</span>, <em>tibble</em>
-<span class="citation">[Version 3.3.1\; @R-tibble]</span>,
-<em>tidyr</em> <span class="citation">[Version 1.3.2\; @R-tidyr]</span>,
-<em>tidyverse</em> <span class="citation">[Version 2.0.0\;
-@R-tidyverse]</span>, <em>tinylabels</em> <span class="citation">[Version 0.2.5\; @R-tinylabels]</span>,
-<em>usethis</em> <span class="citation">[@R-usethis]</span>, and
-<em>zcurve</em> <span class="citation">[@R-zcurve]</span>. We followed
-the LEVEL reporting guidelines for multilevel analyses <span class="citation">[@Monsalves2020]</span>.</p>
+<em>kableExtra</em> <span class="citation">[Version 1.4.0\;
+@R-kableExtra]</span>, <em>lubridate</em> <span class="citation">[Version 1.9.5\; @R-lubridate]</span>,
+<em>openxlsx</em> <span class="citation">[Version 4.2.8.1\;
+@R-openxlsx]</span>, <em>papaja</em> <span class="citation">[Version
+0.1.4\; @R-papaja]</span>, <em>patchwork</em> <span class="citation">[Version 1.3.2\; @R-patchwork]</span>, <em>prmisc</em>
+<span class="citation">[Version 0.0.3\; @R-prmisc]</span>,
+<em>psych</em> <span class="citation">[Version 2.5.6\; @R-psych]</span>,
+<em>purrr</em> <span class="citation">[Version 1.2.2\; @R-purrr]</span>,
+<em>readr</em> <span class="citation">[Version 2.2.0\; @R-readr]</span>,
+<em>rticles</em> <span class="citation">[@R-rticles]</span>,
+<em>stringr</em> <span class="citation">[Version 1.6.0\;
+@R-stringr]</span>, <em>tibble</em> <span class="citation">[Version
+3.3.1\; @R-tibble]</span>, <em>tidyr</em> <span class="citation">[Version 1.3.2\; @R-tidyr]</span>, <em>tidyverse</em>
+<span class="citation">[Version 2.0.0\; @R-tidyverse]</span>,
+<em>tinylabels</em> <span class="citation">[Version 0.2.5\;
+@R-tinylabels]</span>, <em>usethis</em> <span class="citation">[Version
+3.1.0\; @R-usethis]</span>, and <em>zcurve</em> <span class="citation">[Version 2.4.3\; @R-zcurve]</span>. We followed the
+LEVEL reporting guidelines for multilevel analyses <span class="citation">[@Monsalves2020]</span>.</p>
 <div id="data-exclusion-criteria" class="section level3">
 <h3>Data Exclusion Criteria</h3>
 <p>We applied exclusion criteria at two levels. At the session level, we
@@ -787,7 +888,7 @@ model formula. If the final model included correlated random effects
 random effects. If the analytic sample exceeded 5,000 observations, we
 additionally included a crossed random intercept for study identity at
 each step: <span class="math inline">\((1 \mid
-\text{study\_id})\)</span>.</p>
+\text{study_id})\)</span>.</p>
 </div>
 <div id="assumption-and-diagnostic-checks" class="section level3">
 <h3>Assumption and Diagnostic Checks</h3>

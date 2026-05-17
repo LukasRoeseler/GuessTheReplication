@@ -1,0 +1,495 @@
+---
+bibliography: references.bib
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r impactfactor}
+
+# This file only contains the introduction
+
+```
+
+# Journal-Level Citation Metrics and Replicability
+
+```{r omc-load-data, include=FALSE}
+# ── Data paths are relative to /Report/; data lives one level up in the root ──
+FLoRA_studies  <- read.csv("../Game/FLoRA_with_if.csv")
+GutheR_studies <- read.csv("../Game/dataset.csv")
+```
+
+```{r omc-filter, include=FALSE}
+# ── 1. Filter to binary outcomes and remove extreme OMC values (> 35) ─────────
+
+FLoRA_studies <- FLoRA_studies[FLoRA_studies$outcome %in% c("successful", "failed"), ]
+FLoRA_studies <- FLoRA_studies[FLoRA_studies$impact_factor < 35, ]
+
+GutheR_studies <- GutheR_studies[GutheR_studies$outcome %in% c("success", "failure"), ]
+GutheR_studies <- GutheR_studies[GutheR_studies$impact_factor < 35, ]
+
+# Binary outcome (0 = failure, 1 = success)
+FLoRA_studies$outcome_binary <- ifelse(
+  FLoRA_studies$outcome == "failed", 0,
+  ifelse(FLoRA_studies$outcome == "successful", 1, NA)
+)
+GutheR_studies$outcome_binary <- ifelse(
+  GutheR_studies$outcome == "failure", 0,
+  ifelse(GutheR_studies$outcome == "success", 1, NA)
+)
+
+# Log-transformed OMC (impact_factor column contains the OpenAlex mean citedness)
+FLoRA_studies$omc_log  <- log(FLoRA_studies$impact_factor  + 1)
+GutheR_studies$omc_log <- log(GutheR_studies$impact_factor + 1)
+
+# Ordered factor for plotting
+FLoRA_studies$outcome_fac <- factor(
+  FLoRA_studies$outcome, levels = c("failed", "successful")
+)
+GutheR_studies$outcome_fac <- factor(
+  GutheR_studies$outcome, levels = c("failure", "success")
+)
+
+# ── Discipline lookup ──────────────────────────────────────────────────────────
+DISCIPLINES <- readRDS("../disciplines.rds")
+
+normalize <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9 ]", " ", x)
+  x <- gsub("\\s+", " ", x)
+  trimws(x)
+}
+
+lookup <- data.frame(
+  journal_norm = normalize(unlist(DISCIPLINES)),
+  discipline   = rep(names(DISCIPLINES), lengths(DISCIPLINES)),
+  stringsAsFactors = FALSE
+)
+
+FLoRA_studies$journal_norm <- normalize(FLoRA_studies$journal_o)
+FLoRA_studies$discipline   <- lookup$discipline[
+  match(FLoRA_studies$journal_norm, lookup$journal_norm)
+]
+
+GutheR_studies$journal_norm <- normalize(GutheR_studies$journal)
+GutheR_studies$discipline   <- lookup$discipline[
+  match(GutheR_studies$journal_norm, lookup$journal_norm)
+]
+
+FLoRA_studies$discipline  <- as.factor(FLoRA_studies$discipline)
+GutheR_studies$discipline <- as.factor(GutheR_studies$discipline)
+```
+
+```{r omc-bt-check, include=FALSE}
+# ── 2. Box–Tidwell tests: is log-transformation of OMC necessary? ─────────────
+
+# FLoRA — raw OMC
+FLoRA_bt_raw        <- FLoRA_studies[FLoRA_studies$impact_factor > 0, ]
+FLoRA_bt_raw$bt_raw <- FLoRA_bt_raw$impact_factor * log(FLoRA_bt_raw$impact_factor)
+bt_raw_FLoRA <- glm(
+  outcome_binary ~ impact_factor + bt_raw,
+  family = binomial, data = FLoRA_bt_raw
+)
+# p < .05 → log-transformation needed
+
+# FLoRA — log OMC
+FLoRA_bt        <- FLoRA_studies[FLoRA_studies$omc_log > 0, ]
+FLoRA_bt$bt_log <- FLoRA_bt$omc_log * log(FLoRA_bt$omc_log)
+bt_log_FLoRA <- glm(
+  outcome_binary ~ omc_log + bt_log,
+  family = binomial, data = FLoRA_bt
+)
+bt_FLoRA_sig <- summary(bt_log_FLoRA)$coefficients["bt_log", "Pr(>|z|)"] < 0.05
+# not significant → linearity assumption met for FLoRA after log-transformation
+
+# GutheR — raw OMC
+guther_bt_raw        <- GutheR_studies[GutheR_studies$impact_factor > 0, ]
+guther_bt_raw$bt_raw <- guther_bt_raw$impact_factor * log(guther_bt_raw$impact_factor)
+bt_raw_guther <- glm(
+  outcome_binary ~ impact_factor + bt_raw,
+  family = binomial, data = guther_bt_raw
+)
+
+# GutheR — log OMC
+guther_bt        <- GutheR_studies[GutheR_studies$omc_log > 0, ]
+guther_bt$bt_log <- guther_bt$omc_log * log(guther_bt$omc_log)
+bt_log_guther <- glm(
+  outcome_binary ~ omc_log + bt_log,
+  family = binomial, data = guther_bt
+)
+bt_guther_sig <- summary(bt_log_guther)$coefficients["bt_log", "Pr(>|z|)"] < 0.05
+# significant → linearity assumption still violated → GAM / RCS preferred for GutheR
+```
+
+```{r omc-models-FLoRA, include=FALSE}
+# ── 3a. FLoRA: logistic regression and GAM ────────────────────────────────────
+library(mgcv)
+library(pROC)
+
+# Logistic regression (log OMC)
+lr_FLoRA <- glm(
+  outcome_binary ~ omc_log,
+  family = binomial(link = "logit"), data = FLoRA_studies
+)
+
+# Omnibus chi-square test
+chi_FLoRA   <- lr_FLoRA$null.deviance - lr_FLoRA$deviance
+chidf_FLoRA <- lr_FLoRA$df.null - lr_FLoRA$df.residual
+chip_FLoRA  <- 1 - pchisq(chi_FLoRA, chidf_FLoRA)
+
+# Odds ratios and 95% CIs
+or_FLoRA <- exp(cbind(OR = coef(lr_FLoRA), confint(lr_FLoRA)))
+
+# GAM
+gam_FLoRA <- gam(
+  outcome_binary ~ s(omc_log),
+  family = binomial, data = FLoRA_studies
+)
+
+# Model fit indices
+null_FLoRA    <- glm(outcome_binary ~ 1, family = binomial, data = FLoRA_studies)
+r2_lr_FLoRA   <- as.numeric(1 - logLik(lr_FLoRA)  / logLik(null_FLoRA))
+r2_gam_FLoRA  <- as.numeric(1 - logLik(gam_FLoRA) / logLik(null_FLoRA))
+auc_lr_FLoRA  <- as.numeric(auc(roc(lr_FLoRA$y,  fitted(lr_FLoRA),  quiet = TRUE)))
+auc_gam_FLoRA <- as.numeric(auc(roc(gam_FLoRA$y, predict(gam_FLoRA, type = "response"), quiet = TRUE)))
+aic_FLoRA     <- AIC(lr_FLoRA, gam_FLoRA)
+
+# P(success) = 0.5 threshold (logistic)
+b0_f      <- coef(lr_FLoRA)[1]
+b1_f      <- coef(lr_FLoRA)[2]
+thr_FLoRA <- exp(-b0_f / b1_f) - 1
+```
+
+```{r omc-models-guther, include=FALSE}
+# ── 3b. GutheR: logistic regression, GAM, and RCS ────────────────────────────
+library(rms)
+
+# Logistic regression (log OMC)
+lr_guther <- glm(
+  outcome_binary ~ omc_log,
+  family = binomial(link = "logit"), data = GutheR_studies
+)
+
+# Omnibus chi-square test
+chi_guther   <- lr_guther$null.deviance - lr_guther$deviance
+chidf_guther <- lr_guther$df.null - lr_guther$df.residual
+chip_guther  <- 1 - pchisq(chi_guther, chidf_guther)
+
+# Odds ratios and 95% CIs
+or_guther <- exp(cbind(OR = coef(lr_guther), confint(lr_guther)))
+
+# GAM
+gam_guther <- gam(
+  outcome_binary ~ s(omc_log),
+  family = binomial, data = GutheR_studies
+)
+
+# Restricted Cubic Splines (BT test significant even after log-transformation)
+rcs_data <- GutheR_studies[
+  !is.na(GutheR_studies$outcome_binary) & !is.na(GutheR_studies$omc_log), 
+]
+dd <- datadist(rcs_data)
+options(datadist = "dd")
+lr_rcs <- lrm(outcome_binary ~ rcs(omc_log, 4), data = rcs_data)
+
+# Model fit indices
+null_guther <- glm(outcome_binary ~ 1, family = binomial, data = GutheR_studies)
+r2_lr_g     <- as.numeric(1 - logLik(lr_guther)  / logLik(null_guther))
+r2_gam_g    <- as.numeric(1 - logLik(gam_guther) / logLik(null_guther))
+r2_rcs_g    <- as.numeric(1 - logLik(lr_rcs)     / logLik(null_guther))
+auc_lr_g    <- as.numeric(auc(roc(lr_guther$y,  fitted(lr_guther),  quiet = TRUE)))
+auc_gam_g   <- as.numeric(auc(roc(gam_guther$y, predict(gam_guther, type = "response"), quiet = TRUE)))
+auc_rcs_g   <- as.numeric(auc(roc(rcs_data$outcome_binary, plogis(lr_rcs$linear.predictors), quiet = TRUE)))
+
+# P(success) = 0.5 threshold — logistic
+b0_g       <- coef(lr_guther)[1]
+b1_g       <- coef(lr_guther)[2]
+thr_guther <- exp(-b0_g / b1_g) - 1
+
+# P(success) = 0.5 threshold — RCS (numerical search)
+pred_seq          <- data.frame(
+  impact_factor = seq(min(GutheR_studies$impact_factor, na.rm = TRUE),
+                      max(GutheR_studies$impact_factor, na.rm = TRUE),
+                      length.out = 1000)
+)
+pred_seq$omc_log  <- log(pred_seq$impact_factor + 1)
+rcs_probs         <- plogis(predict(lr_rcs, newdata = pred_seq, type = "lp"))
+crossings         <- which(diff(sign(rcs_probs - 0.5)) != 0)
+thr_rcs           <- pred_seq$impact_factor[crossings[1]]
+```
+
+```{r omc-multilevel, include=FALSE}
+# ── 4. Multilevel models: does discipline confound the OMC–replicability link? ─
+library(lme4)
+library(DHARMa)
+library(detectseparation)
+
+# FLoRA
+ml_null_FLoRA <- glmer(outcome_binary ~ 1 + (1 | discipline),
+                       family = binomial, data = FLoRA_studies)
+ml_if_FLoRA   <- glmer(outcome_binary ~ omc_log + (1 | discipline),
+                       family = binomial, data = FLoRA_studies)
+
+tau2_f <- as.numeric(VarCorr(ml_if_FLoRA)$discipline)
+icc_f  <- tau2_f / (tau2_f + (pi^2 / 3))
+beta_f <- fixef(ml_if_FLoRA)["omc_log"]
+pval_f <- summary(ml_if_FLoRA)$coefficients["omc_log", "Pr(>|z|)"]
+lrt_f  <- anova(ml_null_FLoRA, ml_if_FLoRA)
+
+# GutheR
+ml_null_guther <- glmer(outcome_binary ~ 1 + (1 | discipline),
+                        family = binomial, data = GutheR_studies)
+ml_if_guther   <- glmer(outcome_binary ~ omc_log + (1 | discipline),
+                        family = binomial, data = GutheR_studies)
+
+tau2_g <- as.numeric(VarCorr(ml_if_guther)$discipline)
+icc_g  <- tau2_g / (tau2_g + (pi^2 / 3))
+beta_g <- fixef(ml_if_guther)["omc_log"]
+pval_g <- summary(ml_if_guther)$coefficients["omc_log", "Pr(>|z|)"]
+lrt_g  <- anova(ml_null_guther, ml_if_guther)
+
+# Assumption checks — separation
+sep_FLoRA  <- glm(outcome_binary ~ omc_log, data = FLoRA_studies,
+                  family = binomial, method = "detect_separation")
+sep_guther <- glm(outcome_binary ~ omc_log, data = GutheR_studies,
+                  family = binomial, method = "detect_separation")
+
+# DHARMa residuals (run silently; results summarised in text)
+sim_FLoRA  <- simulateResiduals(ml_if_FLoRA,  n = 500)
+sim_guther <- simulateResiduals(ml_if_guther, n = 500)
+```
+
+To examine whether journal-level citation impact (OpenAlex Mean Citedness, OMC) is associated with replication success, we conducted an exploratory study of secondary data.
+We modelled replication outcome as a binary variable (0 = failure, 1 = success) and used the log-transformed OMC as the predictor.
+Analyses were conducted separately for the most recent full FLoRA database and the GutheR subsample.
+For each dataset we (a) verified the logistic regression linearity-in-log-odds assumption via the Box–Tidwell test, (b) fitted a logistic regression with log-transformed OMC, (c) fitted a Generalized Additive Model (GAM) to capture potential non-linear effects, and (d) tested whether scientific discipline confounds the OMC–replicability relationship using mixed-effects logistic regression with a random intercept for discipline.
+Because the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation in the GutheR subsample, we additionally fitted a Restricted Cubic Splines (RCS) logistic regression for that dataset.
+The analyses were not preregistered.
+
+## Descriptive Overview
+
+The distributions of OMC values were similar across both datasets, with the majority of studies falling in the range 0 < OMC < 8 (see Figure \@ref(fig:omc-plot-hist)).
+
+```{r omc-plot-hist, echo=FALSE, include=TRUE, fig.cap="Absolute count of replication outcomes by OMC in the FLoRA database (left) and the GutheR subsample (right). Studies with OMC > 35 are excluded."}
+library(ggplot2)
+library(patchwork)
+library(scales)
+
+p_hist_f <- ggplot(FLoRA_studies,
+                   aes(x = impact_factor, fill = outcome_fac)) +
+  geom_histogram(position = "stack", binwidth = 0.5,
+                 alpha = 0.8, color = "white", linewidth = 0.1) +
+  scale_fill_manual(
+    values = c("failed" = "#e41a1c", "successful" = "#4daf4a"),
+    labels = c("failed" = "Failed", "successful" = "Successful"),
+    name   = "Replication Outcome"
+  ) +
+  coord_cartesian(xlim = c(0, 20)) +
+  labs(title = "FLoRA",
+       x = NULL, y = "Study Count") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "right")
+
+p_hist_g <- ggplot(GutheR_studies,
+                   aes(x = impact_factor, fill = outcome_fac)) +
+  geom_histogram(position = "stack", binwidth = 0.5,
+                 alpha = 0.8, color = "white", linewidth = 0.1) +
+  scale_fill_manual(
+    values = c("failure" = "#e41a1c", "success" = "#4daf4a"),
+    labels = c("failure" = "Failed", "success" = "Successful"),
+    name   = "Replication Outcome"
+  ) +
+  coord_cartesian(xlim = c(0, 20)) +
+  labs(title = "GutheR",
+       x = "OpenAlex Mean Citedness (OMC)", y = "Study Count") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "right")
+
+(p_hist_f / p_hist_g) +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "right")
+```
+
+## Results
+
+Across both datasets, higher OMC was negatively associated with replication success: studies published in journals with higher mean citedness were somewhat *less* likely to be successfully replicated.
+
+**FLoRA.**
+In the FLoRA database (*N* = `r nrow(FLoRA_studies)`; `r sum(FLoRA_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(FLoRA_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test confirmed that the log-transformation was sufficient to satisfy the linearity-in-log-odds assumption.
+Logistic regression with log-transformed OMC yielded a statistically significant overall model fit ($\chi^2$(`r chidf_FLoRA`) = `r round(chi_FLoRA, 2)`, *p* `r ifelse(chip_FLoRA < .001, "< .001", paste0("= ", round(chip_FLoRA, 3)))`).
+Model performance was, however, negligible: McFadden's $R^2$ = `r round(r2_lr_FLoRA, 3)` (logistic regression) and `r round(r2_gam_FLoRA, 3)` (GAM); AUC = `r round(auc_lr_FLoRA, 2)` and `r round(auc_gam_FLoRA, 2)`, respectively.
+The predicted curves are shown in Figure \@ref(fig:omc-plot-lr-FLoRA); the OMC threshold at which predicted replication success equalled 50% was `r round(thr_FLoRA, 2)`.
+
+```{r omc-plot-lr-FLoRA, echo=FALSE, include=TRUE, fig.cap="Predicted probability of successful replication as a function of OMC in the FLoRA database. Left: logistic regression with log-transformed OMC. Right: GAM. Shaded bands represent 95% confidence intervals. The dashed red vertical line marks the OMC value at which P(success) = 0.50 (logistic model only)."}
+# Prediction grid
+pred_f        <- data.frame(
+  impact_factor = seq(min(FLoRA_studies$impact_factor, na.rm = TRUE),
+                      max(FLoRA_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_f$omc_log <- log(pred_f$impact_factor + 1)
+
+# Logistic
+lp_f         <- predict(lr_FLoRA, newdata = pred_f, type = "link", se.fit = TRUE)
+pred_f$p_lr  <- plogis(lp_f$fit)
+pred_f$lo_lr <- plogis(lp_f$fit - 1.96 * lp_f$se.fit)
+pred_f$hi_lr <- plogis(lp_f$fit + 1.96 * lp_f$se.fit)
+
+# GAM
+gp_f          <- predict(gam_FLoRA, newdata = pred_f, type = "link", se.fit = TRUE)
+pred_f$p_gam  <- plogis(gp_f$fit)
+pred_f$lo_gam <- plogis(gp_f$fit - 1.96 * gp_f$se.fit)
+pred_f$hi_gam <- plogis(gp_f$fit + 1.96 * gp_f$se.fit)
+
+jitter_f <- geom_jitter(
+  data = FLoRA_studies, aes(x = impact_factor, y = outcome_binary),
+  alpha = 0.12, height = 0.03, width = 0, inherit.aes = FALSE
+)
+
+plr_f <- ggplot(pred_f, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lo_lr, ymax = hi_lr), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = p_lr), color = "blue", linewidth = 1) +
+  jitter_f +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = thr_FLoRA, linetype = "dashed",
+             color = "red", linewidth = 0.8) +
+  annotate("text", x = thr_FLoRA + 0.4, y = 0.43,
+           label = paste0("OMC = ", round(thr_FLoRA, 2)),
+           color = "red", hjust = 0, size = 3) +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "Logistic Regression (FLoRA)",
+       x = "OMC", y = "P(successful replication)",
+       caption = "shaded: 95% CI") +
+  theme_minimal(base_size = 11)
+
+pgam_f <- ggplot(pred_f, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lo_gam, ymax = hi_gam), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = p_gam), color = "blue", linewidth = 1) +
+  jitter_f +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "GAM (FLoRA)",
+       x = "OMC", y = NULL,
+       caption = "shaded: 95% CI") +
+  theme_minimal(base_size = 11)
+
+plr_f | pgam_f
+```
+
+**GutheR.**
+In the GutheR subsample (*N* = `r nrow(GutheR_studies)`; `r sum(GutheR_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(GutheR_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation, motivating the additional RCS model.
+Overall logistic regression fit was again statistically significant ($\chi^2$(`r chidf_guther`) = `r round(chi_guther, 2)`, *p* `r ifelse(chip_guther < .001, "< .001", paste0("= ", round(chip_guther, 3)))`).
+Across all three model specifications, performance remained negligible (McFadden's $R^2$: logistic = `r round(r2_lr_g, 3)`, GAM = `r round(r2_gam_g, 3)`, RCS = `r round(r2_rcs_g, 3)`; AUC: logistic = `r round(auc_lr_g, 2)`, GAM = `r round(auc_gam_g, 2)`, RCS = `r round(auc_rcs_g, 2)`), as shown in Figure \@ref(fig:omc-plot-guther).
+The RCS model located the P(success) = 0.50 threshold at an OMC of `r round(thr_rcs, 2)`, though wide confidence intervals limit the precision of this estimate.
+
+```{r omc-plot-guther, echo=FALSE, include=TRUE, fig.cap="Predicted probability of successful replication as a function of OMC in the GutheR subsample. From left to right: logistic regression, GAM, and Restricted Cubic Splines (RCS). The RCS model was added because the Box–Tidwell test indicated a remaining non-linearity after log-transformation. Shaded bands represent 95% confidence intervals; dashed red vertical lines indicate OMC values at which P(success) = 0.50."}
+pred_g        <- data.frame(
+  impact_factor = seq(min(GutheR_studies$impact_factor, na.rm = TRUE),
+                      max(GutheR_studies$impact_factor, na.rm = TRUE),
+                      length.out = 500)
+)
+pred_g$omc_log <- log(pred_g$impact_factor + 1)
+
+# Logistic
+lp_g         <- predict(lr_guther, newdata = pred_g, type = "link", se.fit = TRUE)
+pred_g$p_lr  <- plogis(lp_g$fit)
+pred_g$lo_lr <- plogis(lp_g$fit - 1.96 * lp_g$se.fit)
+pred_g$hi_lr <- plogis(lp_g$fit + 1.96 * lp_g$se.fit)
+
+# GAM
+gp_g          <- predict(gam_guther, newdata = pred_g, type = "link", se.fit = TRUE)
+pred_g$p_gam  <- plogis(gp_g$fit)
+pred_g$lo_gam <- plogis(gp_g$fit - 1.96 * gp_g$se.fit)
+pred_g$hi_gam <- plogis(gp_g$fit + 1.96 * gp_g$se.fit)
+
+# RCS
+rp_g          <- predict(lr_rcs, newdata = pred_g, type = "lp", se.fit = TRUE)
+pred_g$p_rcs  <- plogis(rp_g$linear.predictors)
+pred_g$lo_rcs <- plogis(rp_g$linear.predictors - 1.96 * rp_g$se.fit)
+pred_g$hi_rcs <- plogis(rp_g$linear.predictors + 1.96 * rp_g$se.fit)
+
+jitter_g <- geom_jitter(
+  data = GutheR_studies, aes(x = impact_factor, y = outcome_binary),
+  alpha = 0.12, height = 0.03, width = 0, inherit.aes = FALSE
+)
+
+mk_g <- function(y, lo, hi, ttl, thr = NULL, show_y = TRUE) {
+  p <- ggplot(pred_g, aes(x = impact_factor)) +
+    geom_ribbon(aes_string(ymin = lo, ymax = hi), fill = "blue", alpha = 0.15) +
+    geom_line(aes_string(y = y), color = "blue", linewidth = 1) +
+    jitter_g +
+    geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+    scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+    labs(title = ttl, x = "OMC",
+         y = if (show_y) "P(successful replication)" else NULL,
+         caption = "shaded: 95% CI") +
+    theme_minimal(base_size = 10) +
+    theme(
+      plot.title = element_text(size = 9, hjust = 0.5),
+      axis.title.y = if (show_y) element_text() else element_blank()
+    )
+  if (!is.null(thr) && !is.na(thr)) {
+    p <- p +
+      geom_vline(xintercept = thr, linetype = "dashed",
+                 color = "red", linewidth = 0.8) +
+      annotate("text", x = thr + 0.3, y = 0.43,
+               label = paste0("OMC = ", round(thr, 2)),
+               color = "red", hjust = 0, size = 2.8)
+  }
+  p
+}
+
+mk_g("p_lr",  "lo_lr",  "hi_lr",  "Logistic\nRegression",     thr_guther, show_y = TRUE)  |
+mk_g("p_gam", "lo_gam", "hi_gam", "GAM",                       show_y = FALSE)             |
+mk_g("p_rcs", "lo_rcs", "hi_rcs", "Restricted\nCubic Splines", thr_rcs,   show_y = FALSE)
+```
+
+**Role of scientific discipline.**
+Multilevel logistic regression with a random intercept for scientific discipline revealed that discipline accounts for a small share of variance in replication outcomes in both datasets (ICC~FLoRA~ = `r round(icc_f, 3)`, ICC~GutheR~ = `r round(icc_g, 3)`), indicating that OMC and discipline are partially confounded.
+Nevertheless, OMC retained a small but statistically significant independent effect in both datasets after accounting for disciplinary clustering (FLoRA: $\hat\beta$ = `r round(beta_f, 2)`, *p* `r ifelse(pval_f < .001, "< .001", paste0("= ", round(pval_f, 3)))`; GutheR: $\hat\beta$ = `r round(beta_g, 2)`, *p* `r ifelse(pval_g < .001, "< .001", paste0("= ", round(pval_g, 3)))`).
+The overlap between the two datasets and the distribution of OMC values are shown in Figure \@ref(fig:omc-plot-compare).
+Model diagnostics, including DHARMa residual simulations, overdispersion tests, outlier tests, and perfect-separation checks, indicated no violations of modelling assumptions in either dataset.
+
+```{r omc-plot-compare, echo=FALSE, include=TRUE, fig.cap="Top: GAM prediction curve for the FLoRA database, with individual studies colour-coded by whether they are also included in the GutheR subsample (grey) or appear only in FLoRA (orange). Bottom: distribution of log-transformed OMC values for both datasets."}
+# Flag FLoRA studies also present in GutheR
+FLoRA_studies$in_guther <- paste(FLoRA_studies$doi_o,  FLoRA_studies$doi_r) %in%
+                           paste(GutheR_studies$doi_o, GutheR_studies$doi_r)
+
+p_overlap <- ggplot(pred_f, aes(x = impact_factor)) +
+  geom_ribbon(aes(ymin = lo_gam, ymax = hi_gam), fill = "blue", alpha = 0.15) +
+  geom_line(aes(y = p_gam), color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "gray40") +
+  geom_jitter(
+    data = FLoRA_studies,
+    aes(x = impact_factor, y = outcome_binary, color = in_guther),
+    alpha = 0.45, height = 0.2, width = 0
+  ) +
+  scale_color_manual(
+    values = c("TRUE" = "gray40", "FALSE" = "orange"),
+    labels = c("TRUE" = "In GutheR", "FALSE" = "FLoRA only"),
+    name = ""
+  ) +
+  scale_y_continuous(limits = c(0, 1), labels = percent_format()) +
+  labs(title = "GAM (FLoRA): Overlap with GutheR Subsample",
+       x = "OpenAlex Mean Citedness (OMC)",
+       y = "P(successful replication)",
+       caption = "shaded: 95% CI; dashed: P = 0.50") +
+  theme_minimal(base_size = 11)
+
+p_dens_cmp <- ggplot() +
+  geom_density(data = GutheR_studies,
+               aes(x = omc_log, color = "GutheR"), linewidth = 0.9) +
+  geom_density(data = FLoRA_studies,
+               aes(x = omc_log, color = "FLoRA"),   linewidth = 0.9) +
+  scale_color_manual(values = c("GutheR" = "#377eb8", "FLoRA" = "#e41a1c"),
+                     name = "Dataset") +
+  labs(title = "Distribution of log(OMC + 1) by Dataset",
+       x = "log(OMC + 1)", y = "Density") +
+  theme_minimal(base_size = 11)
+
+p_overlap / p_dens_cmp
+```
+
+## Discussion
+
+Taken together, while the negative effect of OMC on replication success is statistically detectable and robust across model specifications and datasets, its explanatory power is too limited for journal-level citation metrics to serve as a meaningful heuristic for judging the replicability of individual studies.

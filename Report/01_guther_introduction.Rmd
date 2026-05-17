@@ -20,8 +20,7 @@ assessment often uses shortcuts such as the number and type of
 publications, the prestige of the country that they are living in, the
 prestige of the institution that they work at, or the number of
 citations of their research or the journals that they published their
-research in. The most prominent assessment tool is probably one of the
-worst tools: The Journal Impact Factor of an academic journal is a
+research in. The most prominent assessment tool is the Journal Impact Factor (JIF). The JIF of an academic journal is a
 proprietary value owned by the data analytics business Clarivate and
 based on their literature database "Web of Science". It is not openly
 available but has to be purchased (the costs for a university to access
@@ -53,7 +52,7 @@ arises how citation metrics and replicability are related and how
 researchers believe them to be related. Note that with replicability, we
 mean the repeated testing of a previously published claim with
 *different data*. We refer to repeated tests with *the same data* as
-reproductions. Only some of our arguments also work for reproductions.
+reproductions. Only some of our arguments also work for reproductions and they should be revisited once there is a more comprehensive database of reproduction attempts.
 
 ## Should Replicability be a Measure of Research Quality?
 
@@ -88,8 +87,7 @@ much. The citation culture in several areas is to provide supportive
 (often selective) evidence and with contradictory results in many areas
 [e.g., @Friese2018] and cases of citation of a null finding as
 supportive [e.g., @Hussey2026], we do not expect researchers to assess
-the replicability before choosing to cite an article. This is why we
-expect hypothesis 1.
+the replicability before choosing to cite an article. This is why have investigated the relationship between replicability and a journal-level citation metric.
 
 Note that while the Clarivate Journal Impact Factor is the most widely
 known citation metric, it is proprietary and not openly accessible.
@@ -99,28 +97,35 @@ citation impact using the 2-year mean citedness provided by OpenAlex
 index. This metric is conceptually analogous to the Journal Impact
 Factor (i.e., the average number of citations received by articles
 published in a journal over the preceding two years) but is computed
-from an open database. We refer to this metric as the journal's
-impact factor throughout this paper. Our hypotheses and conclusions
-apply to journal-level citation metrics in general, not exclusively
-to the Clarivate Journal Impact Factor.
+from the openly available database OpenAlex (OMC). We refered to this metric as the journal's
+impact factor in our study and  refer to it as OMC in this report. Due to the high correlation between different citation metrics, we expect our findings to be generalizable to journal-level citation metrics.
 
-**Hypothesis 1**: Replicability is unrelated to journal-level citation impact (operationalized as the 2-year mean citedness via OpenAlex).
+**Replicability Hypothesis**: Journal-level citation metrics are unrelated to replicability of the studies published in the respective journals.
 
 ## Is Replicability *being used as* a Measure of Research Quality?
 
-Since misuse of impact factors is a well-documented phenomenon, we
+Since misuse of citation metrics is a well-documented phenomenon, we
 believe that this extends to the assessment of replicability. In our
-study, we will explore how strongly this is the case for different
-groups of researchers and non-researchers. In our study, we will explore how strongly this is the case for different groups of participants, including researchers at various
-career stages and non-researchers.
+study, we explored how strongly this is the case for different
+groups of researchers and non-researchers. We tested how strongly this is the case for different groups of participants, including researchers at various career stages and non-researchers.
 
-**Hypothesis 2**: Participants rely on journal-level citation impact
+**General Prediction Hypothesis**: Participants rely on journal-level citation impact
 to predict replicability, and this reliance varies by career stage and
 educational background.
 
+**Prediction Hypothesis 1:** When the OMC is visible, participants will 
+be more likely to predict "success" for studies published in 
+higher-OMC journals (positive coefficient for the 
+if_visible × impact_factor_z interaction).
+
+**Prediction Hypothesis 2:** This reliance on OMC will be stronger among 
+participants with research experience than among those without 
+(positive coefficient for the in_research × if_visible × impact_factor_z 
+three-way interaction).
+
 Beyond testing these hypotheses, a secondary aim of the present study
 was to create a pedagogical tool that raises awareness of replication
-research and the difficulty to infer replication results based on original studies. The game was designed to be used in teaching (e.g., via CC0-licensed teaching slides, https://zenodo.org/records/19854040), exposing players to the concept of
+research and the difficulty to infer replication results based on original studies. The game was designed to be used in teaching [e.g., via CC0-licensed teaching slides, @roseler2026gutherslides], exposing players to the concept of
 replicability and to the diversity of replication outcomes across
 disciplines.
 
