@@ -69,11 +69,17 @@ options(scipen = 9999)
 trials <- read_csv("Study/trials_rows.csv", show_col_types = FALSE)
 scores <- read_csv("Study/scores_rows.csv", show_col_types = FALSE)
 
-#filter setup test trials
+#filter setup test trials and participants that cheated
+invalid_sessions <- scores %>% 
+  filter(data_integrity_keep == FALSE) %>% #cheating people
+  pull(session_id)
+
 trials <- trials %>% 
-  filter(ymd_hms(timestamp) > ymd_hms("2026-05-04 08:15:00"))
+  filter(ymd_hms(timestamp) > ymd_hms("2026-05-04 08:15:00")) %>% 
+  filter(!session_id %in% invalid_sessions)
 scores <- scores %>% 
-  filter(ymd_hms(timestamp) > ymd_hms("2026-05-04 08:15:00"))
+  filter(ymd_hms(timestamp) > ymd_hms("2026-05-04 08:15:00")) %>% 
+  filter(scores$data_integrity_keep == TRUE)
 
 # ==============================================================================
 # 3. DATA INSPECTION AND FEATURE ENGINEERING ----
