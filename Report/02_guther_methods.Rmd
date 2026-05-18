@@ -138,7 +138,7 @@ original study). Finally, to allow the game to be less complex, we
 excluded all studies for which the outcome rating was not "successful"
 or "failed" and dropped any studies for which a sufficiently long
 abstract could not be automatically retrieved via the Crossref or
-OpenAlex APIs. The final sample consisted of 1,234 pairs of original and
+OpenAlex APIs. The final sample consisted of 1,235 pairs of original and
 replication studies (565 failures, 670 successes). The dataset creation
 script is available online:
 <https://github.com/LukasRoeseler/GuessTheReplication/blob/main/Game/dataset.csv>
