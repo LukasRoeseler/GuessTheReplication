@@ -206,6 +206,7 @@ b0_g       <- coef(lr_guther)[1]
 b1_g       <- coef(lr_guther)[2]
 thr_guther <- exp(-b0_g / b1_g) - 1
 
+
 # P(success) = 0.5 threshold — RCS (numerical search)
 pred_seq          <- data.frame(
   impact_factor = seq(min(GutheR_studies$impact_factor, na.rm = TRUE),
@@ -264,7 +265,13 @@ We modelled replication outcome as a binary variable (0 = failure, 1 = success) 
 Analyses were conducted separately for the most recent full FLoRA database and the GutheR subsample.
 For each dataset we (a) verified the logistic regression linearity-in-log-odds assumption via the Box–Tidwell test, (b) fitted a logistic regression with log-transformed OMC, (c) fitted a Generalized Additive Model (GAM) to capture potential non-linear effects, and (d) tested whether scientific discipline confounds the OMC–replicability relationship using mixed-effects logistic regression with a random intercept for discipline.
 Because the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation in the GutheR subsample, we additionally fitted a Restricted Cubic Splines (RCS) logistic regression for that dataset.
+
 The analyses were not preregistered.
+Data were imported with `readr` [@R-readr] and processed with `dplyr` [@R-dplyr].
+Text features were computed with `quanteda` [@R-quanteda] and `quanteda.textstats` [@R-quanteda.textstats].
+Generalized additive models were estimated with `mgcv` [@R-mgcv] and `gamm4` [@R-gamm4], generalized linear mixed-effects models with `lme4` [@R-lme4], and additional regression diagnostics were performed with `rms` [@R-rms], `DHARMa` [@R-DHARMa], and `detectseparation` [@R-detectseparation].
+Classification performance was evaluated with `pROC` [@R-pROC].
+Figures were produced with `ggplot2` [@R-ggplot2], `patchwork` [@R-patchwork], and `scales` [@R-scales].
 
 ## Descriptive Overview
 
@@ -314,7 +321,7 @@ p_hist_g <- ggplot(GutheR_studies,
 
 Across both datasets, higher OMC was negatively associated with replication success: studies published in journals with higher mean citedness were somewhat *less* likely to be successfully replicated.
 
-**FLoRA.** In the FLoRA database (*N* = `r nrow(FLoRA_studies)`; `r sum(FLoRA_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(FLoRA_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test confirmed that the log-transformation was sufficient to satisfy the linearity-in-log-odds assumption.
+**FLoRA.** In the FLoRA database (*N* = `r nrow(FLoRA_studies)`; `r sum(FLoRA_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(FLoRA_studies$outcome_binary == 0, na.rm = TRUE)` failures; uninformative and mixed studies were excluded), the Box–Tidwell test confirmed that the log-transformation was sufficient to satisfy the linearity-in-log-odds assumption.
 Logistic regression with log-transformed OMC yielded a statistically significant overall model fit ($\chi^2$(`r chidf_FLoRA`) = `r round(chi_FLoRA, 2)`, *p* `r ifelse(chip_FLoRA < .001, "< .001", paste0("= ", round(chip_FLoRA, 3)))`).
 Model performance was, however, negligible: McFadden's $R^2$ = `r round(r2_lr_FLoRA, 3)` (logistic regression) and `r round(r2_gam_FLoRA, 3)` (GAM); AUC = `r round(auc_lr_FLoRA, 2)` and `r round(auc_gam_FLoRA, 2)`, respectively.
 The predicted curves are shown in Figure \@ref(fig:omc-plot-lr-FLoRA); the OMC threshold at which predicted replication success equalled 50% was `r round(thr_FLoRA, 2)`.
@@ -375,7 +382,7 @@ pgam_f <- ggplot(pred_f, aes(x = impact_factor)) +
 plr_f | pgam_f
 ```
 
-**GutheR.** In the GutheR subsample (*N* = `r nrow(GutheR_studies)`; `r sum(GutheR_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(GutheR_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation, motivating the additional RCS model.
+**GutheR.** In the GutheR subsample (*N* = `r nrow(GutheR_studies)`; `r sum(GutheR_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(GutheR_studies$outcome_binary == 0, na.rm = TRUE)` failures; uninformative and mixed studies were excluded), the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation, motivating the additional RCS model.
 Overall logistic regression fit was again statistically significant ($\chi^2$(`r chidf_guther`) = `r round(chi_guther, 2)`, *p* `r ifelse(chip_guther < .001, "< .001", paste0("= ", round(chip_guther, 3)))`).
 Across all three model specifications, performance remained negligible (McFadden's $R^2$: logistic = `r round(r2_lr_g, 3)`, GAM = `r round(r2_gam_g, 3)`, RCS = `r round(r2_rcs_g, 3)`; AUC: logistic = `r round(auc_lr_g, 2)`, GAM = `r round(auc_gam_g, 2)`, RCS = `r round(auc_rcs_g, 2)`), as shown in Figure \@ref(fig:omc-plot-guther).
 The RCS model located the P(success) = 0.50 threshold at an OMC of `r round(thr_rcs, 2)`, though wide confidence intervals limit the precision of this estimate.
@@ -399,6 +406,13 @@ gp_g          <- predict(gam_guther, newdata = pred_g, type = "link", se.fit = T
 pred_g$p_gam  <- plogis(gp_g$fit)
 pred_g$lo_gam <- plogis(gp_g$fit - 1.96 * gp_g$se.fit)
 pred_g$hi_gam <- plogis(gp_g$fit + 1.96 * gp_g$se.fit)
+# P=0.5 Threshold for GAM
+crossings_gam   <- which(diff(sign(pred_g$p_gam - 0.5)) != 0)
+threshold_IF_gam <- if (length(crossings_gam) > 0) {
+  pred_g$impact_factor[crossings_gam[1]]
+} else {
+  NA_real_
+}
 
 # RCS
 rp_g          <- predict(lr_rcs, newdata = pred_g, type = "lp", se.fit = TRUE)
@@ -438,14 +452,20 @@ mk_g <- function(y, lo, hi, ttl, thr = NULL, show_y = TRUE) {
 }
 
 mk_g("p_lr",  "lo_lr",  "hi_lr",  "Logistic\nRegression",     thr_guther, show_y = TRUE)  |
-mk_g("p_gam", "lo_gam", "hi_gam", "GAM",                       show_y = FALSE)             |
+mk_g("p_gam", "lo_gam", "hi_gam", "GAM",                       threshold_IF_gam, show_y = FALSE)             |
 mk_g("p_rcs", "lo_rcs", "hi_rcs", "Restricted\nCubic Splines", thr_rcs,   show_y = FALSE)
 ```
 
 **Role of scientific discipline.** Multilevel logistic regression with a random intercept for scientific discipline revealed that discipline accounts for a small share of variance in replication outcomes in both datasets (ICC~FLoRA~ = `r round(icc_f, 3)`, ICC~GutheR~ = `r round(icc_g, 3)`), indicating that OMC and discipline are partially confounded.
 Nevertheless, OMC retained a small but statistically significant independent effect in both datasets after accounting for disciplinary clustering (FLoRA: $\hat\beta$ = `r round(beta_f, 2)`, *p* `r ifelse(pval_f < .001, "< .001", paste0("= ", round(pval_f, 3)))`; GutheR: $\hat\beta$ = `r round(beta_g, 2)`, *p* `r ifelse(pval_g < .001, "< .001", paste0("= ", round(pval_g, 3)))`).
 The overlap between the two datasets and the distribution of OMC values are shown in Figure \@ref(fig:omc-plot-compare).
-Model diagnostics, including DHARMa residual simulations, overdispersion tests, outlier tests, and perfect-separation checks, indicated no violations of modelling assumptions in either dataset.
+
+Model assumptions were assessed prior to inference: absence of singularity, convergence, and complete separation were confirmed.
+Linearity of the log-odds was evaluated via GAM comparison (edf = 1.82), suggesting mild non-linearity.
+To assess the linearity assumption and provide a non-linear robustness check, a generalized additive mixed model (GAMM) was estimated using the gamm4 package, incorporating an identical random intercept structure.
+The smooth term for impact_factor_log yielded edf = 1.00, indicating that the relationship is linear once the multilevel structure is properly accounted for.
+The previously observed mild non-linearity (edf = 1.82 in the GAM check) thus appears attributable to omission of the clustering structure rather than a true non-linear effect.
+The fixed effect remained significant and directionally consistent across both models, supporting the robustness of the linear mixed model specification.
 
 ```{r omc-plot-compare, echo=FALSE, include=TRUE, fig.cap="Top: GAM prediction curve for the FLoRA database, with individual studies colour-coded by whether they are also included in the GutheR subsample (grey) or appear only in FLoRA (orange). Bottom: distribution of log-transformed OMC values for both datasets."}
 # Flag FLoRA studies also present in GutheR

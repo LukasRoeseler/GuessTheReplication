@@ -12,19 +12,6 @@
 # grateful::cite_packages(output = "file", bib.file = "r-references.bib")
 # papaja::r_refs(file = "r-references.bib", append = FALSE)
 
-knitr::write_bib(
-  x = c(
-    "base", "papaja", "tidyverse", "dplyr", "ggplot2", "readr",
-    "purrr", "stringr", "tibble", "tidyr", "forcats",
-    "car", "effectsize", "patchwork", "openxlsx", "prmisc",
-    "grateful", "psych", "zcurve", "beepr", "flextable",
-    "kableExtra", "cowplot", "ggpubr", "lubridate",
-    # packages added by the new OMC section:
-    "mgcv", "pROC", "lme4", "DHARMa", "detectseparation", "rms",
-    "scales", "lme4"
-  ),
-  file = "r-references.bib"
-)
 
 r_citations <- papaja::cite_r(file = "r-references.bib")
 ```
@@ -44,7 +31,7 @@ Past studies have used prediction markets with monetary rewards and
 often before the replication success was known. Table
 \@ref(tab:prediction-studies) provides an overview of past studies.
 
-```{r prediction-studies, echo=FALSE}
+```{r prediction-studies, echo=FALSE, include=TRUE}
 
 library(knitr)
 
@@ -68,7 +55,7 @@ prediction_data <- data.frame(
   check.names = FALSE
 )
 
-kable(prediction_data,
+kable(prediction_data, format = "latex", booktabs = TRUE,
       caption = "Overview of past studies predicting replication outcomes.",
       col.names = c("Reference", "Number of Studies", "Field",
                      "Number of Transactions", "Accuracy and Metric"))
@@ -86,13 +73,25 @@ kable(prediction_data,
 # | @Altmejd2019 | 144 | Combination of RPP, EERP, ML1 | None (AI models were used) | 70% accuracy (AUC =0.77) |
 ```
 
+(#tab:prediction-studies) Predictions of replication outcomes in past
+studies.
+
+| Reference | Number of Studies | Field | Accuracy and Metric |
+|------------------|------------------|------------------|------------------|
+| @Dreber2015 | 44 | Psychology (RPP) | 39% actual success rate versus 55% predicted success rate |
+| @Camerer2016 | 18 | Economics (EERP) | 61.1% actual success rate versus 75.2% predicted success |
+| @Camerer2018 | 21 | Social sciences | 62% actual success rate versus 63.4% predicted success |
+| @Gordon2021 | 103 | Social and behavioural sciences | 73% accuracy |
+| @Forsell2019 | 28 | Many Labs 2 | 75% correct predictions |
+| @Altmejd2019 | 144 | Combination of RPP, EERP, ML1 | 70% accuracy (AUC =0.77) |
+
 ## Method
 
 To collect data on people's predictions of replicability and to drive
 attention towards replication studies, we created a browser game that
 resembles the popular guessthecorrelation.com [@Wagih2015]. That is, the
 style is pixelated, there are sounds for correct and wrong answers,
-players' score will be ranked on a leaderboard, players get a
+players' scores will be ranked on a leaderboard, players get a
 certificate that they can share with others on social media, and it can
 be played with keyboard, mouse, or on smartphones.
 
@@ -102,6 +101,27 @@ applicable) and - for approximately 50% of the trials - the OMC of the
 original publication's journal. We used the *FORRT Library of
 Reproduction and Replication Attempts* (FLoRA) as the database from
 which trials were created.
+
+All analyses were conducted in R version `r getRversion()` [@R-base].
+The manuscript was prepared with `rmarkdown` [@R-rmarkdown], `knitr`
+[@R-knitr], and `papaja` [@R-papaja]; package citations were managed
+with `grateful` [@R-grateful]. Data wrangling relied on the `tidyverse`
+[@R-tidyverse], including `dplyr` [@R-dplyr], `tidyr` [@R-tidyr],
+`readr` [@R-readr], `purrr` [@R-purrr], `stringr` [@R-stringr], `tibble`
+[@R-tibble], `forcats` [@R-forcats], and `lubridate` [@R-lubridate].
+Descriptive statistics were computed with `psych` [@R-psych],
+inferential tests with `car` [@R-car], effect sizes with `effectsize`
+[@R-effectsize], and *z*-curve analyses with `zcurve` [@R-zcurve].
+Numeric values were formatted with `prmisc` [@R-prmisc]. Figures were
+produced with `ggplot2` [@R-ggplot2] and combined using `patchwork`
+[@R-patchwork], `cowplot` [@R-cowplot], with axis scales formatted via
+`scales` [@R-scales]. Tables and spreadsheets were prepared with
+`flextable` [@R-flextable], `kableExtra` [@R-kableExtra], and `openxlsx`
+[@R-openxlsx]. Additional modeling described in the OpenAlex mean
+citedness section used `mgcv` [@R-mgcv], `lme4` [@R-lme4], `rms`
+[@R-rms], `pROC` [@R-pROC], `DHARMa` [@R-DHARMa], and `detectseparation`
+[@R-detectseparation]. To ensure computational reproducibility, project
+dependencies were managed with `renv` [@R-renv].
 
 ### Database: FLoRA
 
@@ -125,8 +145,7 @@ script is available online:
 (long-term archival via the Open Science Framework is planned alongside
 the preregistration). We computed the relationship between the journals'
 impact factors (defined as the 2-year mean citedness via OpenAlex) and
-replication rate based on this subset of the database. Note that newer
-versions of FLoRA do not include the study number anymore.
+replication rate based on this subset of the database.
 
 ### Informed Consent
 
@@ -142,7 +161,7 @@ that returning players were not asked again.
 
 ### Procedure
 
-Players of Guther had the option to read a tutorial describing the
+Players of GutheR had the option to read a tutorial describing the
 procedure and options to use mouse or keyboard or start right away. An
 "About" button on the starting screen provided information about
 replications, FLoRA, data sharing, and credits/citation. When they
@@ -213,7 +232,7 @@ indicated that they had looked up responses or clicked randomly. This
 self-report was stored as a boolean variable (`data_integrity_keep`)
 alongside each session's score data.
 
-At the top of the page was an auto-generated Guther certificate of
+At the top of the page was an auto-generated GutheR certificate of
 achievement, presenting them a badge for the level that they achieved
 similar to the Open Science Badges (for an example see
 [https://www.cos.io/initiatives/badges](#0)) including how many
@@ -232,9 +251,9 @@ that players could play was unlimited.
 \*Note: This section is written in past tense for consistency with the
 final manuscript. The analysis plan, including the complete R code, was
 preregistered prior to data collection and analysis on the OSF
-[@*Roseler2026osf\*]\*\*. In the case of discrepancies between this
-narrative analysis plan and the analysis script, the analysis script has
-higher authority.\*
+[@Roseler2026osf]. In the case of discrepancies between this narrative
+analysis plan and the analysis script, the analysis script has higher
+authority.\*
 
 All analyses were conducted in `r r_citations`. We followed the LEVEL
 reporting guidelines for multilevel analyses [@monsalves2020level].
@@ -262,10 +281,13 @@ studies, study identity and participant identity were crossed rather
 than nested. We included a crossed random effect for study identity only
 if the final analytic sample exceeded 5,000 observations; otherwise, we
 retained a two-level model with participants as the sole grouping
-factor. Table \@ref(tab:multilevel-diagram) presents the multilevel
-diagram.
+factor. Table \@ref(tab:multilevel-diagram) presents the nesting
+structure.
 
-```{r multilevel-diagram, echo=FALSE, results='asis'}
+(#tab:multilevel-diagram) Table of the nesting structure.
+
+```{r multilevel-diagram, echo=FALSE, include=TRUE}
+
 mlm_diagram <- data.frame(
   Level = c("Person (Level 2)", "Trial (Level 1)"),
   Index = c("$$j = 1, \\ldots, J$$", "$$i = 1, \\ldots, n_j$$"),
@@ -404,7 +426,7 @@ $$\text{logit}\bigl(P(Y_{ij} = 1)\bigr) = \beta_0 + \beta_1 \cdot
 \cdot \text{in_research}_j \times \text{if_visible}_{ij} + \beta_4
 \cdot \text{true_outcome}_{ij} + u_{0j}$$
 
-This model tested whether the experimental manipulation and research
+This model tested whether experimental manipulation and research
 experience affected predictions before introducing continuous
 covariates.
 
@@ -434,7 +456,7 @@ and reported both attempts.
 ### Random-Effects Structure and Preregistered Fallback Chain
 
 Specifying the random-effects structure of GLMMs involved a trade-off
-between theoretical fidelity and empirical estimability. We
+between theoretical fidelity and empirical estimation quality. We
 preregistered a sequential fallback chain, attempting the most complex
 theoretically justified structure first and simplifying only upon
 convergence failure or singular fit (defined as any variance component
@@ -514,11 +536,14 @@ following the tabular format recommended by the LEVEL guidelines
 
 ### Interpretation of Possible Outcomes
 
-The following table includes different possible outcomes and our
-respective interpretation.
+Different possible outcomes and our respective interpretation are
+presented in \@ref(tab:possible-outcomes). Given the current data, OMC
+positively and negatively predicting replicability is not the case.
+
+(#tab:possible-outcomes) Possible outcomes and their interpretations.
 
 | OMC and Replicability Hypothesis | OMC and Prediction Hypothesis | Researchers vs. Non-Researchers hypothesis | Interpretation |
-|:----------------|:----------------|:----------------|:-------------------|
+|:-----------------|:-----------------|:-----------------|:------------------|
 | OMC unrelated to replicability | Participants rely on IF | Researchers rely more | Researchers use a heuristic that lacks validity |
 | OMC unrelated to replicability | Participants do not rely on IF | — | OMC is neither valid nor used; no misalignment |
 | OMC positively predicts replicability | Participants rely on IF | Researchers rely more | Researchers use a partially valid heuristic |
@@ -532,8 +557,8 @@ traditional laboratory scheduling. However, we set a minimum recruitment
 target of 100 researchers (defined as PhD students, postdocs, or
 professors, or participants holding a PhD) and 100 non-researchers, each
 completing at least five valid trials. Data collection will remain open
-for two months after the game's public launch, that is, from May 20
-until July 20.
+for at least two months after the game's public launch, that is, from
+May 20 until July 20.
 
 We reported the final number of participants and trials at each level
 after applying all exclusion criteria. We reported the median and range
@@ -541,6 +566,6 @@ of trials per participant, as the number of trials varied across
 participants depending on their game performance (i.e., how many lives
 they retained). The VPCs estimated from the null model were used to
 compute post-hoc variance inflation factors
-($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, wherWe
-$\bar{n}_j$ was the average number of trials per participant) to
-contextualize the effective sample size.
+($\text{VIF} = 1 + (\bar{n}_j - 1) \times \text{VPC}$, wher $\bar{n}_j$
+was the average number of trials per participant) to contextualize the
+effective sample size.

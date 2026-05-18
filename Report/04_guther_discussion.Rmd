@@ -11,12 +11,12 @@ data has been collected for this project yet.*
 
 Using an excerpt from the FORRT Library of Reproduction and Replication
 Attempts, we measured the relationship between an open and reproducible
-version of the journals' impact factor (JIF) and collected data to
+version of the OMC and collected data to
 estimate the usage of this metric in predicting replication outcomes.
-JIF and replicability were [unrelated / positively correlated /
+OMC and replicability were [unrelated / positively correlated /
 negatively correlated]. Overall, participants [did not give higher or
 lower / gave higher / gave lower] replicability scores to studies with a
-high JIF. How JIF affected replicability ratings [differed / did not
+high OMC. How OMC affected replicability ratings [differed / did not
 differ] between different groups of participants. [explain difference if
 present]
 

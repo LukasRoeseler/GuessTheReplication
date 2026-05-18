@@ -11,7 +11,7 @@ We first tested whether OpenAlex's mean citedness can serve as a reliable proxy 
 If OpenAlex mean citedness tracks traditional metrics closely, it can be used with confidence in place of these proprietary indicators.
 This study was exploratory and not preregistered.
 
-```{r setup, include=FALSE}
+```{r setup omc, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
@@ -20,15 +20,9 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 We compared OpenAlex mean citedness against two established journal-level metrics: the Scimago Journal Rank (SJR), an openly available indicator conceptually similar to the JIF, and the Scimago "Citations per Document (2 years)" measure, which mirrors the JIF's two-year citation window.
 Journal-level OpenAlex mean citedness values were merged with the 2024 Scimago dataset by journal title, retaining only journals for which both sources provided data.
 Because the distributions of all three metrics are highly skewed, we assessed associations using Spearman rank correlations.
+Figures were produced using `ggplot2` [@R-ggplot2] and arranged with `patchwork` [@R-patchwork].
 
-## Results
-
-Of the `r n_openalex` journals in the OpenAlex sample, `r n_matched` could be matched to entries in the Scimago database and were retained for the analyses.
-OpenAlex mean citedness was strongly and positively correlated with the Scimago Journal Rank (`r apa_sjr`) as well as with Scimago's two-year citations-per-document metric (`r apa_mc2`).
-As shown in the figure below, the relationships are close to monotonic, with most journals clustering near the identity line for the two-year citation measure, indicating that OpenAlex mean citedness produces values on a comparable scale to the JIF-like metric.
-
-
-```{r openalex-analysis}
+```{r openalex-analysis, echo=FALSE, include=TRUE, fig.cap="Relationship between Open Alex Mean Citedness (OMC), Scimago Journal Rank (SJR) and Citation per Docs from Scimago."}
 # Compare OpenAlex Mean Citedness with Scimago indicators
 library(ggplot2)
 library(patchwork)
@@ -100,6 +94,11 @@ p2 <- ggplot(mcjr, aes(x = mc2, y = mc)) +
 p1 + p2
 ```
 
+## Results
+
+Of the `r n_openalex` journals in the OpenAlex sample, `r n_matched` could be matched to entries in the Scimago database and were retained for the analyses.
+OpenAlex mean citedness was strongly and positively correlated with the Scimago Journal Rank (`r apa_sjr`) as well as with Scimago's two-year citations-per-document metric (`r apa_mc2`).
+As shown in the figure below, the relationships are close to monotonic, with most journals clustering near the identity line for the two-year citation measure, indicating that OpenAlex mean citedness produces values on a comparable scale to the JIF-like metric.
 
 ## Discussion
 

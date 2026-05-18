@@ -8,7 +8,7 @@ author:
     corresponding : no    # Define only one corresponding author
     address       : ""
 
-    - name          : "Lukas Röseler"
+  - name          : "Lukas Röseler"
     affiliation   : "2"
     corresponding : yes    # Define only one corresponding author
     address       : "Fliednerstraße 21, 48149 Münster, Germany"
@@ -69,6 +69,34 @@ set.seed(42)
 
 ```{r load-packages-data}
 
+all_packages <- c(
+  # Core / writing
+  "base", "rmarkdown", "knitr", "papaja", "grateful",
+  
+  # Tidyverse & data wrangling
+  "tidyverse", "dplyr", "tidyr", "readr", "purrr",
+  "stringr", "tibble", "forcats", "lubridate",
+  
+  # Visualization
+  "ggplot2", "patchwork", "scales", "cowplot", "ggpubr",
+  
+  # Tables / output
+  "openxlsx", "flextable", "kableExtra", "prmisc", "beepr",
+  
+  # Statistics & modeling
+  "car", "effectsize", "psych", "zcurve",
+  "mgcv", "gamm4", "lme4", "lmerTest", "rms",
+  "pROC", "DHARMa", "detectseparation",
+  
+  # Text analysis
+  "quanteda", "quanteda.textstats",
+  
+  # Version control
+  "renv"
+)
+
+
+
 # Load packages
 library(papaja)       # for generating the APA manuscript
 library(tidyverse)    # for data analysis (and beautiful plots -> ggplot2)
@@ -77,15 +105,21 @@ library(grateful)       # for citing r packages
 library(openxlsx)       # to open Excel files
 library(ggplot2)        # for plots
 library(patchwork)      # to combine plots
+library(knitr)     
 # library(effectsize)   # for calculating effect sizes
 # library(car)          # for calculating Levene's Test
 
-# Load the data
-# load("data/dataSCR.RData")
+
+
+
+knitr::write_bib(
+  x = all_packages,
+  file = "r-references.bib"
+)
 
 ```
 
-```{r child = c("01_guther_introduction.Rmd", "01a_guther_openalex", "01b_guther_impactandreplicability.Rmd", "02_guther_methods.Rmd","03_guther_results.Rmd","04_guther_discussion.Rmd"), echo = FALSE}
+```{r child = c("01_guther_introduction.Rmd", "01a_guther_openalex.Rmd", "01b_guther_impactandreplicability.Rmd", "02_guther_methods.Rmd","03_guther_results.Rmd","04_guther_discussion.Rmd"), echo = FALSE}
 
 
 ```
