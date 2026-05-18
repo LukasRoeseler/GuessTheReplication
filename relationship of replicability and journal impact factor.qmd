@@ -25,6 +25,7 @@ if(!require(lme4)) install.packages("lme4")
 if(!require(DHARMa)) install.packages("DHARMa")
 if(!require(detectseparation)) install.packages("detectseparation")
 if(!require(rms)) install.packages("rms")
+if(!require(gamm4)) install.packages("gamm4")
 
 library(readr)
 library(dplyr)
@@ -38,6 +39,7 @@ library(lme4)
 library(DHARMa)
 library(detectseparation)
 library(rms)
+library(gamm4)
 
 set.seed(123)
 options(scipen = 999)
@@ -584,6 +586,11 @@ pred_gam$prob  <- plogis(pred$fit)
 pred_gam$lower <- plogis(pred$fit - 1.96 * pred$se.fit)
 pred_gam$upper <- plogis(pred$fit + 1.96 * pred$se.fit)
 
+# P=0.5 Threshold for GAM
+crossings_gam <- which(diff(sign(pred_gam$prob - 0.5)) != 0)
+threshold_IF_gam <- pred_gam$impact_factor[crossings_gam[1]]
+cat("P(success) = 0.5 | Impact Factor:", round(threshold_IF_gam, 2), "\n")
+
 ggplot(pred_gam, aes(x = impact_factor)) +
   geom_ribbon(aes(ymin = lower, ymax = upper), fill = "blue", alpha = 0.15) +
   geom_line(aes(y = prob), color = "blue", linewidth = 1) +
@@ -596,6 +603,11 @@ ggplot(pred_gam, aes(x = impact_factor)) +
        x = "Impact Factor",
        y = "P(success replication)",
        caption = "grey: 95%-CI; dashed: P = 0.5 threshold") +
+  geom_vline(xintercept = threshold_IF_gam, linetype = "dashed", color = "red",
+           linewidth = 0.8) +
+  annotate("text", x = threshold_IF_gam + 0.5, y = 0.45,
+         label = paste0("IF = ", round(threshold_IF_gam, 2)),
+         color = "red", hjust = 0) +
   theme_minimal()
 
 # Comparison of Models
@@ -728,7 +740,15 @@ plot(sim_res)
 testDispersion(sim_res)
 testOutliers(sim_res)
 
+modell_gamm4 <- gamm4(
+  outcome_binary ~ s(impact_factor_log),
+  random = ~ (1 | discipline),
+  data = GutheR_studies,
+  family = binomial
+)
 
+summary(modell_gamm4$gam)   # smooth term / edf
+summary(modell_gamm4$mer)
 ```
 
 Although impact factor emerged as a statistically significant predictor
