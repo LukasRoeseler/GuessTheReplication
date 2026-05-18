@@ -7,11 +7,11 @@ editor_options:
 
 ```{r impactfactor}
 
-# This file only contains the introduction
+# This file contains the study on impact factor and replicability
 
 ```
 
-# Journal-Level Citation Metrics and Replicability
+# Study 2: Journal-Level Citation Metrics and Replicability
 
 ```{r omc-load-data, include=FALSE}
 # ── Data paths are relative to /Report/; data lives one level up in the root ──
@@ -268,7 +268,7 @@ The analyses were not preregistered.
 
 ## Descriptive Overview
 
-The distributions of OMC values were similar across both datasets, with the majority of studies falling in the range 0 < OMC < 8 (see Figure \@ref(fig:omc-plot-hist)).
+The distributions of OMC values were similar across both datasets, with the majority of studies falling in the range 0 \< OMC \< 8 (see Figure \@ref(fig:omc-plot-hist)).
 
 ```{r omc-plot-hist, echo=FALSE, include=TRUE, fig.cap="Absolute count of replication outcomes by OMC in the FLoRA database (left) and the GutheR subsample (right). Studies with OMC > 35 are excluded."}
 library(ggplot2)
@@ -314,8 +314,7 @@ p_hist_g <- ggplot(GutheR_studies,
 
 Across both datasets, higher OMC was negatively associated with replication success: studies published in journals with higher mean citedness were somewhat *less* likely to be successfully replicated.
 
-**FLoRA.**
-In the FLoRA database (*N* = `r nrow(FLoRA_studies)`; `r sum(FLoRA_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(FLoRA_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test confirmed that the log-transformation was sufficient to satisfy the linearity-in-log-odds assumption.
+**FLoRA.** In the FLoRA database (*N* = `r nrow(FLoRA_studies)`; `r sum(FLoRA_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(FLoRA_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test confirmed that the log-transformation was sufficient to satisfy the linearity-in-log-odds assumption.
 Logistic regression with log-transformed OMC yielded a statistically significant overall model fit ($\chi^2$(`r chidf_FLoRA`) = `r round(chi_FLoRA, 2)`, *p* `r ifelse(chip_FLoRA < .001, "< .001", paste0("= ", round(chip_FLoRA, 3)))`).
 Model performance was, however, negligible: McFadden's $R^2$ = `r round(r2_lr_FLoRA, 3)` (logistic regression) and `r round(r2_gam_FLoRA, 3)` (GAM); AUC = `r round(auc_lr_FLoRA, 2)` and `r round(auc_gam_FLoRA, 2)`, respectively.
 The predicted curves are shown in Figure \@ref(fig:omc-plot-lr-FLoRA); the OMC threshold at which predicted replication success equalled 50% was `r round(thr_FLoRA, 2)`.
@@ -376,8 +375,7 @@ pgam_f <- ggplot(pred_f, aes(x = impact_factor)) +
 plr_f | pgam_f
 ```
 
-**GutheR.**
-In the GutheR subsample (*N* = `r nrow(GutheR_studies)`; `r sum(GutheR_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(GutheR_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation, motivating the additional RCS model.
+**GutheR.** In the GutheR subsample (*N* = `r nrow(GutheR_studies)`; `r sum(GutheR_studies$outcome_binary == 1, na.rm = TRUE)` successes, `r sum(GutheR_studies$outcome_binary == 0, na.rm = TRUE)` failures), the Box–Tidwell test indicated a remaining violation of the linearity assumption even after log-transformation, motivating the additional RCS model.
 Overall logistic regression fit was again statistically significant ($\chi^2$(`r chidf_guther`) = `r round(chi_guther, 2)`, *p* `r ifelse(chip_guther < .001, "< .001", paste0("= ", round(chip_guther, 3)))`).
 Across all three model specifications, performance remained negligible (McFadden's $R^2$: logistic = `r round(r2_lr_g, 3)`, GAM = `r round(r2_gam_g, 3)`, RCS = `r round(r2_rcs_g, 3)`; AUC: logistic = `r round(auc_lr_g, 2)`, GAM = `r round(auc_gam_g, 2)`, RCS = `r round(auc_rcs_g, 2)`), as shown in Figure \@ref(fig:omc-plot-guther).
 The RCS model located the P(success) = 0.50 threshold at an OMC of `r round(thr_rcs, 2)`, though wide confidence intervals limit the precision of this estimate.
@@ -444,8 +442,7 @@ mk_g("p_gam", "lo_gam", "hi_gam", "GAM",                       show_y = FALSE)  
 mk_g("p_rcs", "lo_rcs", "hi_rcs", "Restricted\nCubic Splines", thr_rcs,   show_y = FALSE)
 ```
 
-**Role of scientific discipline.**
-Multilevel logistic regression with a random intercept for scientific discipline revealed that discipline accounts for a small share of variance in replication outcomes in both datasets (ICC~FLoRA~ = `r round(icc_f, 3)`, ICC~GutheR~ = `r round(icc_g, 3)`), indicating that OMC and discipline are partially confounded.
+**Role of scientific discipline.** Multilevel logistic regression with a random intercept for scientific discipline revealed that discipline accounts for a small share of variance in replication outcomes in both datasets (ICC~FLoRA~ = `r round(icc_f, 3)`, ICC~GutheR~ = `r round(icc_g, 3)`), indicating that OMC and discipline are partially confounded.
 Nevertheless, OMC retained a small but statistically significant independent effect in both datasets after accounting for disciplinary clustering (FLoRA: $\hat\beta$ = `r round(beta_f, 2)`, *p* `r ifelse(pval_f < .001, "< .001", paste0("= ", round(pval_f, 3)))`; GutheR: $\hat\beta$ = `r round(beta_g, 2)`, *p* `r ifelse(pval_g < .001, "< .001", paste0("= ", round(pval_g, 3)))`).
 The overlap between the two datasets and the distribution of OMC values are shown in Figure \@ref(fig:omc-plot-compare).
 Model diagnostics, including DHARMa residual simulations, overdispersion tests, outlier tests, and perfect-separation checks, indicated no violations of modelling assumptions in either dataset.

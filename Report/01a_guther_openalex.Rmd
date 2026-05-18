@@ -1,0 +1,108 @@
+---
+bibliography: references.bib
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+# Study 1: OpenAlex Mean Citedness as a Proxy for Traditional Journal Metrics
+
+We first tested whether OpenAlex's mean citedness can serve as a reliable proxy for more established journal-level impact metrics since we wanted to rely on openly available and non-commercial data.
+If OpenAlex mean citedness tracks traditional metrics closely, it can be used with confidence in place of these proprietary indicators.
+This study was exploratory and not preregistered.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+## Method
+
+We compared OpenAlex mean citedness against two established journal-level metrics: the Scimago Journal Rank (SJR), an openly available indicator conceptually similar to the JIF, and the Scimago "Citations per Document (2 years)" measure, which mirrors the JIF's two-year citation window.
+Journal-level OpenAlex mean citedness values were merged with the 2024 Scimago dataset by journal title, retaining only journals for which both sources provided data.
+Because the distributions of all three metrics are highly skewed, we assessed associations using Spearman rank correlations.
+
+## Results
+
+Of the `r n_openalex` journals in the OpenAlex sample, `r n_matched` could be matched to entries in the Scimago database and were retained for the analyses.
+OpenAlex mean citedness was strongly and positively correlated with the Scimago Journal Rank (`r apa_sjr`) as well as with Scimago's two-year citations-per-document metric (`r apa_mc2`).
+As shown in the figure below, the relationships are close to monotonic, with most journals clustering near the identity line for the two-year citation measure, indicating that OpenAlex mean citedness produces values on a comparable scale to the JIF-like metric.
+
+
+```{r openalex-analysis}
+# Compare OpenAlex Mean Citedness with Scimago indicators
+library(ggplot2)
+library(patchwork)
+
+# Journal Data (OpenAlex mean citedness)
+mc <- read.csv("../Game/journaldata.csv")
+names(mc) <- c("Title", "mc")
+mc$mc <- as.numeric(sub(",", ".", mc$mc, fixed = TRUE))
+
+# Scimago Journal Rank
+jr <- read.csv("../Study/scimagojr 2024.csv", sep = ";")
+jr$SJR <- as.numeric(sub(",", ".", jr$SJR, fixed = TRUE))
+jr$mc2 <- as.numeric(sub(",", ".", jr$Citations...Doc...2years., fixed = TRUE))
+
+# Merge datasets by journal name
+mcjr <- merge(mc, jr, by = "Title")
+
+# Number of journals
+n_openalex <- nrow(mc)
+n_matched  <- nrow(mcjr)
+
+# Spearman correlations
+ct_sjr <- suppressWarnings(cor.test(mcjr$SJR, mcjr$mc, method = "spearman"))
+ct_mc2 <- suppressWarnings(cor.test(mcjr$mc2, mcjr$mc, method = "spearman"))
+
+# APA 7 formatting helpers
+fmt_p <- function(p) {
+  if (p < .001) "< .001" else paste0("= ", sub("0\\.", ".", sprintf("%.3f", p)))
+}
+fmt_r <- function(r) sub("0\\.", ".", sprintf("%.2f", r))
+
+rho_sjr <- as.numeric(ct_sjr$estimate)
+p_sjr   <- ct_sjr$p.value
+rho_mc2 <- as.numeric(ct_mc2$estimate)
+p_mc2   <- ct_mc2$p.value
+
+# Inline text strings (APA 7 / JARS)
+apa_sjr <- paste0("*r*~s~ = ", fmt_r(rho_sjr),
+                  ", *p* ", fmt_p(p_sjr),
+                  ", *N* = ", n_matched)
+apa_mc2 <- paste0("*r*~s~ = ", fmt_r(rho_mc2),
+                  ", *p* ", fmt_p(p_mc2),
+                  ", *N* = ", n_matched)
+
+# Plot subtitles (plotmath)
+sub_sjr <- bquote(italic(r)[s] == .(fmt_r(rho_sjr)) *
+                  "," ~ italic(p) ~ .(fmt_p(p_sjr)) *
+                  "," ~ italic(N) == .(n_matched))
+sub_mc2 <- bquote(italic(r)[s] == .(fmt_r(rho_mc2)) *
+                  "," ~ italic(p) ~ .(fmt_p(p_mc2)) *
+                  "," ~ italic(N) == .(n_matched))
+
+p1 <- ggplot(mcjr, aes(x = SJR, y = mc)) +
+  geom_point() +
+  xlab("Scimago Journal Rank") +
+  ylab("OpenAlex Mean Citedness") +
+  labs(subtitle = sub_sjr) +
+  theme_bw() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed")
+
+p2 <- ggplot(mcjr, aes(x = mc2, y = mc)) +
+  geom_point() +
+  xlab("Citations per Docs (2 years)") +
+  ylab("OpenAlex Mean Citedness") +
+  labs(subtitle = sub_mc2) +
+  theme_bw() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed")
+
+p1 + p2
+```
+
+
+## Discussion
+
+To summarize, OpenAlex mean citedness aligns closely with established journal-level impact indicators, showing strong rank-order agreement with both the Scimago Journal Rank and Scimago's two-year citations-per-document measure.
+This supports the use of OpenAlex mean citedness as an open, freely accessible proxy for traditional metrics such as the JIF.
+Given this correspondence, we rely on OpenAlex mean citedness in the following study, where openness and reproducibility of the data source are essential.

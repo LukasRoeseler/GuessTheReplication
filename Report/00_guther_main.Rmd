@@ -3,23 +3,24 @@ title             : "How Journal Prestige affects Predicted and Actual Replicati
 shorttitle        : "PREDICTING REPLICABILITY"
 
 author: 
-  - name          : "Lukas Röseler"
+  - name          : "Jessica Röseler"
     affiliation   : "1"
+    corresponding : no    # Define only one corresponding author
+    address       : ""
+
+    - name          : "Lukas Röseler"
+    affiliation   : "2"
     corresponding : yes    # Define only one corresponding author
     address       : "Fliednerstraße 21, 48149 Münster, Germany"
     email         : "lukas.roeseler@uni-muenster.de"
     
-  - name          : "Jessica Röseler"
-    affiliation   : "2"
-    corresponding : no    # Define only one corresponding author
-    address       : ""
 
 
 affiliation:
   - id            : "1"
-    institution   : "Münster Center for Open Science, University of Münster, Germany"
-  - id            : "2"
     institution   : "Independent Researcher"
+  - id            : "2"
+    institution   : "Münster Center for Open Science, University of Münster, Germany"
 
 authornote: |
   This is a non-peer reviewed preprint. Data has not yet been collected and all results are place-holders. Both authors contributed equally. The order of the authors was determined by a game of Guess The Replication.
@@ -84,7 +85,7 @@ library(patchwork)      # to combine plots
 
 ```
 
-```{r child = c("01_guther_introduction.Rmd", "01b_guther_impactandreplicability.Rmd", "02_guther_methods.Rmd","03_guther_results.Rmd","04_guther_discussion.Rmd"), echo = FALSE}
+```{r child = c("01_guther_introduction.Rmd", "01a_guther_openalex", "01b_guther_impactandreplicability.Rmd", "02_guther_methods.Rmd","03_guther_results.Rmd","04_guther_discussion.Rmd"), echo = FALSE}
 
 
 ```

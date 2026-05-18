@@ -29,7 +29,7 @@ knitr::write_bib(
 r_citations <- papaja::cite_r(file = "r-references.bib")
 ```
 
-# Guess the Replication (GutheR): A Gamified Pedagogical Approach
+# Study 3: Guess the Replication (GutheR) - A Gamified Pedagogical Approach
 
 We collected predictions of replication success using an existing
 community resource that includes pairs of replications and original
@@ -229,12 +229,12 @@ that players could play was unlimited.
 
 ## Analysis Plan
 
-*Note: This section is written in past tense for consistency with the
+\*Note: This section is written in past tense for consistency with the
 final manuscript. The analysis plan, including the complete R code, was
 preregistered prior to data collection and analysis on the OSF
-[@*Roseler2026osf*]**. In the case of discrepancies between this
+[@*Roseler2026osf\*]\*\*. In the case of discrepancies between this
 narrative analysis plan and the analysis script, the analysis script has
-higher authority.*
+higher authority.\*
 
 All analyses were conducted in `r r_citations`. We followed the LEVEL
 reporting guidelines for multilevel analyses [@monsalves2020level].
@@ -518,7 +518,7 @@ The following table includes different possible outcomes and our
 respective interpretation.
 
 | OMC and Replicability Hypothesis | OMC and Prediction Hypothesis | Researchers vs. Non-Researchers hypothesis | Interpretation |
-|:----------------|:----------------|:----------------|:--------------------|
+|:----------------|:----------------|:----------------|:-------------------|
 | OMC unrelated to replicability | Participants rely on IF | Researchers rely more | Researchers use a heuristic that lacks validity |
 | OMC unrelated to replicability | Participants do not rely on IF | — | OMC is neither valid nor used; no misalignment |
 | OMC positively predicts replicability | Participants rely on IF | Researchers rely more | Researchers use a partially valid heuristic |
