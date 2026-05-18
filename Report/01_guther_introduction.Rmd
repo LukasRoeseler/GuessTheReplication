@@ -27,7 +27,7 @@ available but has to be purchased (the costs for a university to access
 the Web of Science are around EUR 100,000 per year), and most
 importantly, its computation violates basic statistical assumptions
 (since it is the arithmetic mean for a heavily skewed distribution) and
-it not suited as a proxy of quality [@Simons2008]. Past studies could
+it not suited as a proxy for quality [@Simons2008]. Past studies could
 show that, if anything, it is negatively related to objective criteria
 of quality [@Brembs2018] and even its inventor has lamented its frequent
 misuse [@Hecht1998]. In recent years, researchers have been trying to
@@ -54,7 +54,7 @@ mean the repeated testing of a previously published claim with
 *different data*. We refer to repeated tests with *the same data* as
 reproductions. Only some of our arguments also work for reproductions and they should be revisited once there is a more comprehensive database of reproduction attempts.
 
-## Should Replicability be a Measure of Research Quality?
+## Should Replicability Indicate Research Quality? (Normative View)
 
 A replication does not necessarily corroborate an original study's
 quality. @handbook discuss a phenomenon-focused and a theory-focused
@@ -74,7 +74,7 @@ nature" may be more static than regularities in animal and human
 behavior, indicating that perfect replicability might even be an
 unrealistic goal.
 
-## Is Replicability a Measure of Research Quality?
+## Does Replicability Track Research Quality Empirically? (Descriptive View)
 
 So far, there have been no systematic tests that correlate research
 quality and replicability. Researchers could predict replication

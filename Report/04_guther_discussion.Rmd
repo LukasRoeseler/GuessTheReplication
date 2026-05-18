@@ -73,7 +73,7 @@ Table X lists how and why we deviated from the preregistration.
 ## Acknowledgements
 
 We thank participants from the Making Replications Count May Hackathon
-2026 for valuable feedback during the creation of Guess the Correlation.
+2026 for valuable feedback during the creation of Guess the Replication
 
 ## Conflict of Interest and Funding
 
