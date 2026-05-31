@@ -77,7 +77,7 @@ kable(prediction_data, format = "latex", booktabs = TRUE,
 studies.
 
 | Reference | Number of Studies | Field | Accuracy and Metric |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | @Dreber2015 | 44 | Psychology (RPP) | 39% actual success rate versus 55% predicted success rate |
 | @Camerer2016 | 18 | Economics (EERP) | 61.1% actual success rate versus 75.2% predicted success |
 | @Camerer2018 | 21 | Social sciences | 62% actual success rate versus 63.4% predicted success |
@@ -543,7 +543,7 @@ positively and negatively predicting replicability is not the case.
 (#tab:possible-outcomes) Possible outcomes and their interpretations.
 
 | OMC and Replicability Hypothesis | OMC and Prediction Hypothesis | Researchers vs. Non-Researchers hypothesis | Interpretation |
-|:-----------------|:-----------------|:-----------------|:------------------|
+|:---|:---|:---|:---|
 | OMC unrelated to replicability | Participants rely on IF | Researchers rely more | Researchers use a heuristic that lacks validity |
 | OMC unrelated to replicability | Participants do not rely on IF | — | OMC is neither valid nor used; no misalignment |
 | OMC positively predicts replicability | Participants rely on IF | Researchers rely more | Researchers use a partially valid heuristic |

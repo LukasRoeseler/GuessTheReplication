@@ -58,6 +58,8 @@ predictions.
 
 **Deviations from the Preregistration**.
 
+During the data collection, we noticed an error for one of the studies. On May 31, 8:57, we corrected it. Replication https://doi.org/10.17605/OSF.IO/2BE7N was coded as a failure but was changed to success.
+
 Table X lists how and why we deviated from the preregistration.
 
 | Deviation | Justification | Effect on the Results |
